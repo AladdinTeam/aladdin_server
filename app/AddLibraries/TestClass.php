@@ -11,7 +11,10 @@ namespace App\AddLibraries;
 
 class TestClass
 {
+    public function backendFunction() {
+
+    }
     public function index(){
-        
+
     }
 }
