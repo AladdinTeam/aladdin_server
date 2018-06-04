@@ -11,5 +11,7 @@ namespace App\AddLibraries;
 
 class TestClass
 {
+    public function backendFunction() {
 
+    }
 }
