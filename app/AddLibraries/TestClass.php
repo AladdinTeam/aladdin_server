@@ -23,4 +23,7 @@ class TestClass
     public function bla() {
         
     }
+    public function ff() {
+
+    }
 }
