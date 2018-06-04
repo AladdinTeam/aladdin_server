@@ -20,4 +20,7 @@ class TestClass
     public function testBack() {
         
     }
+    public function bla() {
+        
+    }
 }
