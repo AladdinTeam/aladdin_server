@@ -11,7 +11,5 @@ namespace App\AddLibraries;
 
 class TestClass
 {
-    public function index(){
-        return 'siski';
-    }
+
 }
