@@ -14,11 +14,10 @@ class TestClass
     public function backendFunction() {
 
     }
-
-    public  function testBack() {
-
-    }
     public function index(){
 
+    }
+    public function testBack() {
+        
     }
 }
