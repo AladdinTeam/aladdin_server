@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^(.*)$ public/$1 [L]
+	RewriteCond %{SERVER_PORT} ^443$ [OR]
+    RewriteCond %{HTTPS} =on
+    RewriteRule ^(.*)$ http://aladdin.dev/$1 [R=301,L]
+</IfModule>

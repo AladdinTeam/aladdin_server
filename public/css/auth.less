@@ -1,0 +1,72 @@
+@phone_m: 481px;
+@tablet: 576px;
+@sm_scr: 769px;
+@lg-scr: 1200px;
+
+.background {
+  margin: 5%;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  padding: 3% 5%;
+}
+
+.header {
+  margin: 0 auto;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-bottom: 5%;
+}
+
+.parag{
+  padding: 0 5%;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 2%;
+
+  @media only screen and (min-width: @tablet){
+    font-size: 0.9rem;
+  }
+}
+
+.form {
+  width: 100%;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.user-type {
+  margin-top: 5%;
+  margin-bottom: 1%;
+
+  @media only screen and (min-width: @tablet) {
+    margin-top: 3%;
+  }
+}
+
+.input_field_auth {
+  border: 1px solid #2195f3;
+  border-radius: 5px;
+   width: 100%;
+  padding: 2%;
+  margin: 1.5% auto;
+  outline: none;
+
+  @media only screen and (min-width: @tablet) {
+    padding: 1.4%;
+  }
+}
+
+.button {
+  background: white;
+  border: 1px solid #2195f3;
+  border-radius: 5px;
+  padding: 2% 5%;
+  margin: 3% auto;
+
+  @media only screen and (min-width: @tablet) {
+    padding: 1.3% 3%;
+  }
+}
