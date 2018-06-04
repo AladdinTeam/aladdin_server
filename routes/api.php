@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::group(["prefix" => "auth", "namespace" => "Mobile"], function () {
+    //HELLOHELLOO
     Route::post('/register', 'AuthorizationController@register');
     Route::post('/confirm_sms', 'AuthorizationController@confirm');
     Route::post('/login', 'AuthorizationController@login');
