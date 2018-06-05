@@ -25,16 +25,8 @@ class Master extends Model implements AuthenticatableContract
         return $this->hasOne(Master_Info::class);
     }
 
-    public function filters() {
-        return $this->belongsToMany(Filter::class, 'masters_filter');
-    }
-
     public function subcategories() {
         return $this->belongsToMany(Subcategory::class);
-    }
-
-    public function reports() {
-        return $this->hasMany(Report::class);
     }
 
     public function photos() {

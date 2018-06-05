@@ -8,10 +8,6 @@ class Order extends Model
 {
     protected $guarded = ['id', 'master_id'];
 
-    public function info_order() {
-        return $this->hasOne(Info_Order::class);
-    }
-
     public function client() {
         return $this->belongsTo(Client::class);
     }
