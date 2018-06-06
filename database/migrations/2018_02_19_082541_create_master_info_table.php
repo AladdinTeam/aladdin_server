@@ -26,6 +26,7 @@ class CreateMasterInfoTable extends Migration
             $table->text('education')->nullable();
             $table->text('about')->nullable();
             $table->text('sale')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
 
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
