@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->integer('amount')->unsigned();
             $table->tinyInteger('safety');
             $table->tinyInteger('free');
+            $table->tinyInteger('status');
             $table->timestamps();
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("client_id")->references("id")->on("clients")->onDelete("cascade")->onUpdate("cascade");
