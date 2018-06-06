@@ -27,4 +27,8 @@ class Order extends Model
     public function subcategories() {
         return $this->belongsToMany(Subcategory::class);
     }
+
+    public function additional_service(){
+        return $this->hasMany(Additional_Service::class);
+    }
 }
