@@ -31,4 +31,8 @@ class Order extends Model
     public function additional_service(){
         return $this->hasMany(Additional_Service::class);
     }
+
+    public function gg(){
+        
+    }
 }
