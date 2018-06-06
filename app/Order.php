@@ -33,6 +33,6 @@ class Order extends Model
     }
 
     public function gg(){
-        
+        return 'gg';
     }
 }
