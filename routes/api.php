@@ -19,11 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(["prefix" => "order", "namespace" => "Mobile/Master"], function () {
+Route::group(["prefix" => "order", "namespace" => "Mobile\Master"], function () {
     Route::post('/list_orders', 'OrderController@getOrders')->middleware('master_auth_api');
-    Route::post('/order', 'OrderController@getOrderInfo')->middleware('master_auth_api');
+    Route::post('/order', 'OrderController@getOrderInfo');
     Route::post('/response', 'OrderController@makeOffer')->middleware('master_auth_api');
-    Route::post('/add_service', 'OrderController@addOffer')->middleware('master_auth_api');
+    Route::post('/add_service', 'OrderController@addService')->middleware('master_auth_api');
     Route::post('/complete_order', 'OrderController@completeOrder')->middleware('master_auth_api');
 });
 
