@@ -100,8 +100,14 @@ class SearchController extends Controller
     public function saveOrder(){
         $data = unserialize(session()->get('login_data'));
         session()->forget("login_data");
+        if(isset($data['master_id'])){
+            $master_id = $data['master_id'];
+        } else {
+            $master_id = null;
+        }
         Order::create(
             [
+                "master_id" => $master_id,
                 "client_id" => Crypt::decryptString(session()->get("id")),
                 "category_id" => $data["categories"],
                 "subcategory_id" => $data["subcategories"],
