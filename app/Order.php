@@ -20,10 +20,6 @@ class Order extends Model
         return $this->belongsTo(Subway::class);
     }
 
-//    public function subways() {
-//        return $this->belongsToMany(Subway::class);
-//    }
-
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
@@ -32,7 +28,7 @@ class Order extends Model
         return $this->belongsToMany(Subcategory::class);
     }
 
-    public function additional_service(){
+    public function additional_services(){
         return $this->hasMany(Additional_Service::class);
     }
 }

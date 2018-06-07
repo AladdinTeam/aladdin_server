@@ -18,9 +18,9 @@ class CreateAdditionalServicesTable extends Migration
             $table->integer('order_id')->index()->unsigned();
             $table->string('name');
             $table->integer('price');
-            $table->tinyInteger('cheched')->default(0);
+            $table->string('units');
+            $table->tinyInteger('confirmed')->default(0);
             $table->timestamps();
-
             $table->foreign('order_id')->references('id')->on('orders')->
                 onUpdate('cascade')->onDelete('cascade');
         });

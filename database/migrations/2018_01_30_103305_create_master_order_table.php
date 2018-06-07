@@ -17,6 +17,9 @@ class CreateMasterOrderTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->unsigned()->index();
             $table->integer('master_id')->unsigned()->index();
+            $table->string('commentary');
+            $table->integer('price');
+            $table->string('units');
             $table->timestamps();
             $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
