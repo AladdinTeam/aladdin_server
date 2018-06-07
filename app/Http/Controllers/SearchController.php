@@ -111,7 +111,7 @@ class SearchController extends Controller
                 "description" => $data["description"],
                 "amount" => $data["amount"],
                 "safety" => (isset($data["safety"])) ? 1 : 0,
-                "free" => (isset($data["free"])) ? 1 : 0,
+                //"free" => (isset($data["free"])) ? 1 : 0,
             ]);
         return redirect('/lk/orders');
     }
