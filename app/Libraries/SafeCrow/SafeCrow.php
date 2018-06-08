@@ -67,13 +67,13 @@ class SafeCrow
         return $body;
     }
 
-    public static function createDeal($consumer_id, $supplier_id, $price, $description, $service_cost_payer){
+    public static function createDeal($consumer_id, $supplier_id, $price, $description){
         $json = [
             'consumer_id' => $consumer_id,
             'supplier_id' => $supplier_id,
             'price' => $price,
             'description' => $description,
-            'service_cost_payer' => $service_cost_payer
+            'service_cost_payer' => 'consumer'
         ];
 
         $endpoint = '/orders';
@@ -112,6 +112,28 @@ class SafeCrow
         }
 
         $body = self::sendGetCurl($endpoint);
+        return $body;
+    }
+
+    public static function payOrder($order_id, $redirect_url){
+        $json = [
+            'redirect_url' => $redirect_url
+        ];
+
+        $endpoint = '/orders/'.$order_id.'/pay';
+
+        $body = self::sendPostCurl($json, $endpoint);
+        return $body;
+    }
+
+    public static function closeOrder($order_id){
+        $json = [
+            'reason' => 'good'
+        ];
+
+        $endpoint = '/orders/'.$order_id.'/close';
+
+        $body = self::sendPostCurl($json, $endpoint);
         return $body;
     }
 
