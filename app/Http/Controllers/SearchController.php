@@ -107,6 +107,7 @@ class SearchController extends Controller
         }
         Order::create(
             [
+                'master_id' => $master_id,
                 "client_id" => Crypt::decryptString(session()->get("id")),
                 "category_id" => $data["categories"],
                 "subcategory_id" => $data["subcategories"],

@@ -65,7 +65,16 @@ class OrderController extends Controller
         if($order->safety == 0){
             $order->update(['status', 1]);
         } else {
-            //$deal = SafeCrow::createDeal($order->client->sc_id, $order->master->sc_id, )
+            $deal = SafeCrow::createDeal(
+                //$order->client->sc_id,
+                //$order->master->sc_id,
+                2541,
+                2542,
+                $order->masters()->where('master_id', $request->master_id)->first()->pivot->price,
+                $order->header
+            );
+
+           print_r(json_decode($deal));
         }
     }
 }

@@ -13,7 +13,7 @@ class Order extends Model
     }
 
     public function masters() {
-        return $this->belongsToMany(Master::class);
+        return $this->belongsToMany(Master::class)->withPivot('price');
     }
 
     public function subway() {

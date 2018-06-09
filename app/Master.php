@@ -38,7 +38,7 @@ class Master extends Model implements AuthenticatableContract
     }
 
     public function orders() {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot('price');
     }
 
     public function subways() {
