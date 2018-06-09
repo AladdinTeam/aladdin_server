@@ -107,7 +107,6 @@ class SearchController extends Controller
         }
         Order::create(
             [
-                "master_id" => $master_id,
                 "client_id" => Crypt::decryptString(session()->get("id")),
                 "category_id" => $data["categories"],
                 "subcategory_id" => $data["subcategories"],
@@ -117,7 +116,8 @@ class SearchController extends Controller
                 "description" => $data["description"],
                 "amount" => $data["amount"],
                 "safety" => (isset($data["safety"])) ? 1 : 0,
-                //"free" => (isset($data["free"])) ? 1 : 0,
+                "status" => 0
+//                "free" => (isset($data["free"])) ? 1 : 0,
             ]);
         return redirect('/lk/orders');
     }

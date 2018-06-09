@@ -29,6 +29,9 @@ class ErrorCode
     const CODE_14 = ["code" => 14, "message" => "Not all fields filled"];
     const CODE_15 = ["code" => 15, "message" => "Services not found"];
     const CODE_16 = ["code" => 16, "message" => "Passport photo empty"]; //Нет фото пасспорта
+    const CODE_17 = ["code" => 17, "message" => "Order with this id not found"]; //Отсутствует заказ с таким id
+    const CODE_18 = ["code" => 18, "message" => "Incorrect order status"]; //Некорректный статус заказа
+
     /*const CODE_2 = "User already register";
     const CODE_3 = "Invalid phone";
     const CODE_4 = "Invalid token";
