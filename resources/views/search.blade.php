@@ -1,3 +1,6 @@
+<?php
+    use Illuminate\Support\Facades\Request;
+?>
 @extends('layouts.app')
 @section('title', 'Поиск')
 @section('styles')
@@ -16,17 +19,38 @@
         </div>
     </div>
     <div id="search">
-        <form class="form form--border-bottom" action="/test_master">
+        <div style="background-color: #eceff1; height: 50px;@if(Request::is('*_token*')) display:block; @endif"></div>
+        <form style="@if(Request::is('*_token*')) display:none; @endif" class="form form--border-bottom" method="GET" action="/search">
             {{csrf_field()}}
-            <select id="categories1" class="form__input-field form__select">
+            <select id="categories" name="cat" class="form__input-field form__select">
+            @if(isset($subcategory))
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}" @if($subcategory->category->id == $category->id) selected @endif>{{$category->name}}</option>
+                @endforeach
+            @else
+                <option value="0" disabled selected>Выберите категорию</option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+            @endif
             </select>
-            <select id="subcategories1" class="form__input-field form__select">
-                <option value="0">Подкатегория</option>
+            <select id="subcategories" name="subcat" class="form__input-field form__select">
+            @if(isset($subcategory))
+                @foreach($subcategories as $sub)
+                    <option value="{{$sub->id}}" @if($sub->id == $subcategory->id) selected @endif>{{$sub->name}}</option>
+                @endforeach
+            @else
+                <option value="0">Выбор подкатегории</option>
+            @endif
             </select>
-            <select id="subways1" class="form__input-field form__select">
+            <select id="subways" name="sub" class="form__input-field form__select">
+            <option value="0">Выберите метро</option>
+            @foreach($subways as $subway)
+                <option value="{{$subway->id}}">{{$subway->name}}</option>
+            @endforeach
             </select>
             <label class="form__container">Работа через безопасную сделку
-                <input type="checkbox">
+                <input type="checkbox" name="safety">
                 <span class="form__checkmark"></span>
             </label>
             <button type="submit" class="button button--blue button--center">Найти</button>

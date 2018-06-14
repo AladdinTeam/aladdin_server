@@ -13,16 +13,66 @@ use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
 {
+    private $subcategory;
+
     public function __construct()
     {
-        $this->middleware("client_auth")->only("saveOrder");
+          $this->middleware("client_auth")->only("saveOrder");
     }
 
-    public function index(){
-        return view("search");
+    public function index(Request $request){
+        $categories = Category::get();
+        $subways = Subway::get();
+        if(isset($request->subcategory)){
+            $subcategory = Subcategory::find($request->subcategory);
+            $subcategories = $subcategory->category->subcategories;
+            return view("search", ['categories' => $categories, "subways" => $subways, 'subcategories' => $subcategories, 'subcategory' => $subcategory]);
+        }
+        if(isset($request->_token) or (isset($request->page))) {
+            if(isset($request->subcat)) {
+                $this->subcategory = $request->subcat;
+            }
+            if(true) {
+                $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
+                    $query->where('subways.id', '<', 67);
+                })->whereHas("subcategories", function ($query) {
+                    $query->where('subcategories.id', 1);
+                })->whereHas('master_info', function ($query) {
+                    $query->where('status', 1);
+                })->simplePaginate(5);
+            } else{
+                $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
+                    $query->where('subways.id', 1);
+                })->whereHas("subcategories", function ($query) {
+                    $query->where('subcategories.id', 1);
+                })->has('master_info')->simplePaginate(5);
+            }
+
+            foreach ($masters as $master){
+                $count = $master->work_orders()->where('status', 3)->count();
+                $master->count = $count;
+                if($master->master_info->card_id != null){
+                    $master->safety = 1;
+                } else{
+                    $master->safety = 0;
+                }
+                $master->about = $master->master_info->about;
+            }
+            $subcategory = Subcategory::find($this->subcategory);
+            $subcategories = $subcategory->category->subcategories;
+            return view("search")->with([
+                "masters" => $masters,
+                "categories" => $categories,
+                "subcategories" => $subcategories,
+                "subcategory" => $this->subcategory,
+                "subways" => $subways
+            ]);
+        } else {
+            return view("search", ['categories' => $categories, "subways" => $subways]);
+        }
     }
 
-    public function getCategories(){
+    /*public function getCategories(){
         $result = "";
         $categories = Category::get(["id", "name"]);
         $result .= "<option value='0'>Категория</option>";
@@ -39,12 +89,11 @@ class SearchController extends Controller
         }
 
         echo $result;
-    }
+    }*/
 
-    public function getSubcategories(){
-        $result = "";
-        $subcategories = Subcategory::select('id', 'name')->where("category_id", "=", $_GET['category'])->get();
-        $result .= "<option value='0'>Подкатегория</option>";
+    public function getSubcategories(Request $request){
+        $subcategories = Subcategory::select('id', 'name')->where("category_id", "=", $request->category)->get();
+        $result = "<option value='0'>Выберите подкатегорию</option>";
         for ($i = 0; $i < count($subcategories); $i++){
             $result .= "<option value='".$subcategories[$i]['id']."'>".$subcategories[$i]['name']."</option>";
         }
@@ -125,21 +174,21 @@ class SearchController extends Controller
     }
 
 
-    public function getMasters(Request $request){
+    public function getMasters($request){
         if(true) {
             $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
-                $query->where('subways.id', 1);
+                $query->where('subways.id', '<', 67);
             })->whereHas("subcategories", function ($query) {
                 $query->where('subcategories.id', 1);
             })->whereHas('master_info', function ($query) {
                 $query->where('status', 1);
-            })->simplePaginate(1);
+            })->simplePaginate(5);
         } else{
             $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
                 $query->where('subways.id', 1);
             })->whereHas("subcategories", function ($query) {
                 $query->where('subcategories.id', 1);
-            })->has('master_info')->simplePaginate(3);
+            })->has('master_info')->simplePaginate(5);
         }
 
         foreach ($masters as $master){
