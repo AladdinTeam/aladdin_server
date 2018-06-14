@@ -182,9 +182,9 @@ class VerifyController extends Controller
             for($i = 0; $i < count($services); $i++){
                 Service::create([
                     "master_id" => $request->master_id,
-                    "name" => $services[$i]['service_name'],
+                    "name" => $services[$i]['name'],
                     "price" => $services[$i]['price'],
-                    "unit" => $services[$i]['units']
+                    "unit" => $services[$i]['unit']
                 ]);
             }
             $master_info = Master_Info::where('master_id', $request->master_id);
