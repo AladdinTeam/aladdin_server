@@ -41,5 +41,6 @@ Route::get('/home', 'HomeController@index');
 Route::get('/home1', "SearchController@hh")->middleware("auth");
 
 Route::get('/test_pay', 'TestPayController@index');
-Route::get('/testing', 'Client\OrderController@acceptMasterOffer');
+Route::get('/testing', 'Client\OrderController@deleteOrder');
+Route::get('/after_pay', 'Client\OrderController@afterPay');
 

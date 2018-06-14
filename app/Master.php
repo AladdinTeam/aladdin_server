@@ -41,6 +41,14 @@ class Master extends Model implements AuthenticatableContract
         return $this->belongsToMany(Order::class)->withPivot('price');
     }
 
+    public function choose_orders() {
+        return $this->hasMany(Order::class);
+    }
+
+    public function work_orders(){
+        return $this->hasMany(Order::class, 'work_master_id', 'id');
+    }
+
     public function subways() {
         return $this->belongsToMany(Subway::class);
     }

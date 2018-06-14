@@ -4,9 +4,10 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 
-@font-face {
+/*@font-face {
     font-family: "Roboto";
     src: local(Roboto Thin), url("../fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../fonts/roboto/Roboto-Thin.woff") format("woff");
     font-weight: 100;
@@ -34,7 +35,7 @@
     font-family: "Roboto";
     src: local(Roboto Bold), url("../fonts/roboto/Roboto-Bold.woff2") format("woff2"), url("../fonts/roboto/Roboto-Bold.woff") format("woff");
     font-weight: 700;
-}
+}*/
 
 h1 {
     font-weight: normal;

@@ -15,10 +15,10 @@ class CreateAdditionalServicesTable extends Migration
     {
         Schema::create('additional__services', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('sc_id');
             $table->integer('order_id')->index()->unsigned();
             $table->string('name');
             $table->integer('price');
-            $table->string('units');
             $table->tinyInteger('confirmed')->default(0);
             $table->timestamps();
             $table->foreign('order_id')->references('id')->on('orders')->

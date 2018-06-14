@@ -27,6 +27,7 @@ class CreateMasterInfoTable extends Migration
             $table->text('about')->nullable();
             $table->text('sale')->nullable();
             $table->tinyInteger('status')->default(0);
+            $table->integer('card_id');
             $table->timestamps();
 
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");

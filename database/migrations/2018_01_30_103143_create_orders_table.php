@@ -15,7 +15,9 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('sc_id');
             $table->integer('master_id')->unsigned()->nullable()->index();
+            $table->integer('work_master_id')->index()->unsigned()->nullable();
             $table->integer('client_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
             $table->integer('subcategory_id')->unsigned()->index();
@@ -28,6 +30,7 @@ class CreateOrdersTable extends Migration
             $table->tinyInteger('status');
             $table->timestamps();
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("work_master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("client_id")->references("id")->on("clients")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("subcategory_id")->references("id")->on("subcategories")->onDelete("cascade")->onUpdate("cascade");

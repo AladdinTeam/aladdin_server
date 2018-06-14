@@ -16,6 +16,14 @@ class Order extends Model
         return $this->belongsToMany(Master::class)->withPivot('price');
     }
 
+    public function master() {
+        return $this->belongsTo(Master::class);
+    }
+
+    public function choosen_master(){
+        return $this->belongsTo(Master::class, 'work_master_id', 'id');
+    }
+
     public function subway() {
         return $this->belongsTo(Subway::class);
     }
