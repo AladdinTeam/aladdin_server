@@ -1,0 +1,247 @@
+@tablet: 576px;
+@big_tablet: 768px;
+@sm_screen: 992px;
+@lg_screen: 1200px;
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800i');
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.nav {
+  height: 60px;
+  background-color: #eceff1;
+
+  @media only screen and (min-width: @big_tablet){
+    height: 85px;
+  }
+
+  @media only screen and (min-width: @sm_screen){
+    padding: 0 3%;
+  }
+
+  @media only screen and (min-width: @lg_screen){
+    padding: 0 5%;
+  }
+}
+
+.logo{
+  height: 55px;
+  width: 140px;
+  display: block;
+  margin: auto;
+  //width: fit-content;
+
+  @media only screen and (min-width: @big_tablet){
+    display: inline-block;
+    float: left;
+    margin-top: 12px;
+    height: 60px;
+    width: auto;
+    //margin: 0;
+  }
+}
+
+.menu-icon{
+  display: block;
+  height: 27px;
+  margin-left: 20px;
+  position: relative;
+  margin-top: -40px;
+
+  @media only screen and (min-width: @big_tablet){
+    display: none;
+  }
+}
+
+.menu{
+  display: none;
+
+  @media only screen and (min-width: @big_tablet) {
+    display: inline-block;
+    float: right;
+    height: 85px;
+    line-height: 85px;
+    width: 75%;
+
+
+    &__item {
+      display: inline-block;
+      float: right;
+      padding: 0 2%;
+      height: 50px;
+      line-height: 50px;
+      margin-top: 17px;
+      font-size: 0.9rem;
+      font-weight: 400;
+      //color: #dcdcdc;
+      //color: white;
+      cursor: pointer;
+
+      &__img{
+        height: 0.8rem;
+        padding-left: 5px;
+        padding-top: 2px;
+        //margin-top: 10px;
+        top:18px;
+      }
+
+      &:first-child {
+        //display: none;
+        /*font-size: 1.2rem;
+        font-weight: 400;*/
+        //color: #bababa;
+        //color: whitesmoke;
+      }
+
+      &:hover{
+        background-color: whitesmoke;
+        color: black;
+      }
+
+      &--active {
+        //border: 2px solid #2195f3;
+        padding: 1% 5%;
+      }
+    }
+  }
+}
+
+.phone{
+  display: none;
+
+  @media only screen and (min-width: @sm_screen){
+    display: inline-block;
+  }
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: #eceff1;
+  overflow-x: hidden;
+  transition: width 0.3s;
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 2rem;
+    text-decoration: none;
+    color: black;
+    font-weight: 300;
+  }
+
+  &__item{
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: black;
+    display: block;
+    padding: 5% 25px;
+
+    &--active {
+      background-color: #c2c5c7;
+    }
+  }
+}
+
+.footer{
+  background-color: #eceff1;
+
+  &__container{
+    width: 90%;
+    margin: 0 auto;
+
+    @media only screen and (min-width: @tablet){
+      width: 95%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      width: 75%;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      width: 60%;
+    }
+  }
+}
+
+.block{
+  padding: 15px 0;
+
+  @media only screen and (min-width: @tablet){
+    padding: 20px 2%;
+  }
+
+  &--right{
+    @media only screen and (min-width: @tablet){
+      padding: 15px 0;
+    }
+  }
+
+  &__header{
+    color: #00b0ff;
+    font-weight: 600;
+    font-size: 1.1rem;
+
+    @media only screen and (min-width: @tablet){
+      font-size: 1rem;
+    }
+  }
+
+  &__item{
+    margin-top: 2%;
+    font-weight: 400;
+    font-size: 0.95rem;
+
+    @media only screen and (min-width: @tablet){
+      margin-top: 3%;
+      font-size: 0.85rem;
+    }
+
+    &--lighter{
+      color: #605e5e;
+    }
+
+    &--spaced{
+      margin-bottom: 2.5rem;
+
+      @media only screen and (min-width: @tablet){
+        margin-bottom: 1.8rem;
+      }
+    }
+  }
+
+  &__link{
+    color: #2f2e2e;
+    text-decoration: none;
+    text-decoration: -moz-none;
+
+    &--lighter{
+      color: #605e5e;
+    }
+  }
+
+  &__phone{
+    color: #00b0ff;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    @media only screen and (min-width: @tablet){
+      font-size: 1.3rem;
+      margin-bottom: 1.3rem;
+    }
+  }
+}

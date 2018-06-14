@@ -1,0 +1,699 @@
+@tablet: 576px;
+@big_tablet: 768px;
+@sm_screen: 992px;
+@lg_screen: 1200px;
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&subset=cyrillic');
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.first-block{
+  margin: 0;
+  background-image: url("../img/first_block-background.jpg");
+  background-position: bottom center;
+  background-size: cover;
+  text-align: center;
+  padding: 15% 3%;
+
+  @media only screen and (min-width: @tablet){
+    padding: 10% 9%;
+  }
+
+  @media only screen and (min-width: @big_tablet){
+    padding: 8% 10%;
+  }
+
+  @media only screen and (min-width: @sm_screen){
+    padding: 8% 15%;
+  }
+
+  /*@media only screen and (min-width: @lg_screen){
+    padding: 8% ;
+  }*/
+
+  &__header{
+    color: white;
+    font-weight: 400;
+    font-size: 1.3rem;
+
+    @media only screen and (min-width: @tablet){
+      font-size: 1.4rem;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      font-size: 1.6rem;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 2rem;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      font-size: 2.4rem;
+    }
+  }
+
+  &__subheader{
+    display: none;
+
+    @media only screen and (min-width: @tablet){
+      margin-top: 2%;
+      font-size: 1rem;
+      font-weight: 300;
+      //font-family: 'Open Sans Condensed', sans-serif;
+      display: block;
+      color: #cccccc;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      font-size: 1.1rem;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.second-block{
+  background-color: white;
+
+  &__container{
+    width: 95%;
+    margin: 10% auto;
+
+    @media only screen and (min-width: @tablet){
+      width: 85%;
+      margin: 5% auto;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      width: 75%;
+    }
+  }
+
+  &__header{
+    text-align: center;
+    text-align: -moz-center;
+    font-size: 1.5rem;
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1.8rem;
+    }
+  }
+
+  &__subheader{
+    text-align: center;
+    text-align: -moz-center;
+    font-size: 0.9rem;
+    margin-top: 2%;
+  }
+}
+
+.category{
+
+  margin-top: 35px;
+
+  @media only screen and (min-width: @tablet){
+    margin-top: 25px;
+  }
+
+  &__img{
+    height: 30px;
+    width: auto;
+    padding-left: 25%;
+
+    @media only screen and (min-width: @sm_screen){
+      height: 30px;
+    }
+  }
+
+  &__header{
+    line-height: 30px;
+    padding-left: 3%;
+    text-decoration: none;
+    text-decoration: -moz-none;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 300;
+
+    @media only screen and (min-width: @sm_screen){
+      line-height: 30px;
+    }
+  }
+}
+
+.subcategory{
+
+  padding-left: 3%;
+  //font-family: 'Open Sans Light', arial;
+
+  &__item{
+    list-style-type: none;
+    margin-bottom: 2%;
+    font-size: 0.9rem;
+    font-weight: 300;
+
+    &--text{
+      text-decoration: none;
+      text-decoration: -moz-none;
+      color: #30bdff;
+    }
+  }
+}
+
+.button{
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  width: fit-content;
+  width: -moz-fit-content;
+  padding: 8px 20px;
+
+  @media only screen and (min-width: @tablet){
+    //padding: 1.5% 4%;
+    font-size: 0.9rem;
+  }
+
+  &--blue{
+    background-color: #00b0ff;
+    color: white;
+  }
+
+  &--center{
+    display: block;
+    margin: 5% auto 0;
+
+    @media only screen and (min-width: @sm_screen){
+      margin: 3% auto 0;
+    }
+  }
+
+  &--bold{
+    font-weight: 600;
+  }
+}
+
+.third-block{
+  background-color: #00b0ff;
+
+  &__container{
+    width: 85%;
+    margin: 0 auto;
+    padding: 10% 0;
+
+    @media only screen and (min-width: @tablet){
+      width: 95%;
+      padding: 5% 0 2%;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      padding: 2% 0;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      width: 85%;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      width: 75%;
+    }
+  }
+
+  &__header{
+    display: none;
+
+    @media only screen and (min-width: @big_tablet){
+      display: block;
+      //margin: 0 auto;
+      text-align: center;
+      text-align: -moz-center;
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 3.5%;
+    }
+  }
+}
+
+.item{
+  text-align: center;
+  text-align: -moz-center;
+  margin-bottom: 4%;
+
+  @media only screen and (min-width: @tablet){
+    padding: 0 0.5%;
+  }
+
+  @media only screen and (min-width: @big_tablet){
+    margin-bottom: 2%;
+  }
+
+  &:last-child{
+    margin-bottom: 0;
+  }
+
+  &__img{
+    height: 60px;
+  }
+
+  &__header{
+    margin-top: 1%;
+    padding: 0 2%;
+    font-size: 1rem;
+    font-weight: 400;
+
+    @media only screen and (min-width: @big_tablet){
+      font-size: 0.95rem;
+    }
+  }
+
+  &__text{
+    margin-top: 2%;
+    font-weight: 300;
+    font-size: 0.8rem;
+    margin-bottom: 10%;
+
+    &--alloted{
+      color: #605e5e;
+      text-decoration: underline;
+    }
+  }
+}
+
+.fourth-block{
+
+  &__container{
+    width: 95%;
+    margin: 0 auto;
+    padding: 10% 0;
+
+    @media only screen and (min-width: @tablet){
+      padding: 5% 0;
+    }
+  }
+
+  &__header{
+    text-align: center;
+    text-align: -moz-center;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 5%;
+    margin-bottom: 8%;
+
+    @media only screen and (min-width: @tablet){
+      margin-bottom: 5%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1.5rem;
+      margin-bottom: 3%;
+    }
+  }
+}
+
+.list{
+
+  @media only screen and (min-width: @tablet){
+    padding: 0 15%;
+  }
+
+  @media only screen and (min-width: @sm_screen){
+    padding: 0 25%;
+  }
+
+  &__img{
+    height: 50px;
+
+    @media only screen and (min-width: @tablet){
+      padding-left: 12px;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      padding-left: 35px;
+    }
+
+    &--dot{
+      height: 45px;
+      padding-left: 12px;
+
+      @media only screen and (min-width: @tablet){
+        padding-left: 22px;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        padding-left: 45px;
+      }
+    }
+  }
+
+  &__header{
+    padding-left: 3%;
+    font-size: 0.85rem;
+
+    @media only screen and (min-width: @tablet){
+      padding-left: 1%;
+    }
+  }
+
+  &__text{
+    padding-left: 3%;
+    font-size: 0.75rem;
+
+    @media only screen and (min-width: @tablet){
+      padding-left: 1%;
+    }
+
+    &--allowed{
+      color: #30bdff;
+      text-decoration: none;
+      text-decoration: -moz-none;
+    }
+  }
+}
+
+.fifth-block{
+
+  &__container{
+    background-color: #eceff1;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 3%;
+
+    @media only screen and (min-width: @tablet){
+      width: 80%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      width: 70%;
+      //padding-bottom: 1.5%;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      width: 60%;
+    }
+  }
+
+  &__header{
+    background-color: #00b0ff;
+    text-align: center;
+    text-align: -moz-center;
+    color: white;
+    padding: 7%;
+
+    @media only screen and (min-width: @big_tablet){
+      padding: 5% 7%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      padding: 4% 5%;
+    }
+
+    &__text{
+      font-size: 0.85rem;
+
+      @media only screen and (min-width: @big_tablet){
+        font-size: 0.9rem;
+      }
+
+      @media only screen and (min-width: @sm_screen){
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__hint{
+    //margin-bottom: 7%;
+    padding: 6% 5%;
+    background-color: white;
+
+    @media only screen and (min-width: @tablet){
+      padding: 3% 5%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      padding: 2% 5%;
+    }
+
+    &__header{
+      font-size: 1rem;
+
+      @media only screen and (min-width: @sm_screen){
+        font-size: 0.9rem;
+      }
+    }
+
+    &__text{
+      margin-top: 2%;
+      font-size: 0.9rem;
+      color: #605e5e;
+
+      @media only screen and (min-width: @sm_screen){
+        font-size: 0.8rem;
+      }
+
+      &--bold{
+        font-weight: 700;
+      }
+
+      &--href{
+        color: #00b0ff;
+        text-decoration: none;
+        text-decoration: -moz-none;
+      }
+    }
+  }
+}
+
+.form{
+  //background-color: #eceff1;
+  padding: 7% 0;
+  text-align: center;
+  text-align: -moz-center;
+
+  @media only screen and (min-width: @tablet){
+    padding: 4% 0;
+  }
+
+  &__select {
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 97% 50%;
+    background-color: white;
+    border: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+
+  &__input-field{
+    border: 1px solid #b9b9b9;
+    border-radius: 0;
+    display: block;
+    width: 90%;
+    padding: 5px;
+    margin: 1% auto;
+  }
+
+  &__search{
+    color: #a0a09f;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+.sixth-block{
+
+  background-color: #eceff1;
+  border-top: 1px solid #cbcbcc;
+
+  &__container{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    text-align: -moz-center;
+    padding-bottom: 3%;
+
+    @media only screen and (min-width: @tablet){
+      width: 80%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      width: 70%;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      width: 60%;
+    }
+  }
+
+  &__header{
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 5%;
+  }
+}
+
+.report{
+  border-top: 1px dashed grey;
+  //border-bottom: 1px dashed grey;
+  width: 90%;
+  margin: 0 auto;
+  padding: 7% 0;
+  text-align: left;
+  text-align: -moz-left;
+
+  @media only screen and (min-width: @tablet){
+    padding: 4% 4%;
+  }
+
+  @media only screen and (min-width: @sm_screen){
+    padding: 2% 4%;
+  }
+
+  &:last-child{
+    border-bottom: 1px dashed grey;
+  }
+
+  &__img{
+    height: 40px;
+
+    @media only screen and (min-width: @tablet){
+      float: right;
+      padding-right: 15px;
+    }
+  }
+
+  &__header{
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #2f2e2e;
+    padding: 0 2%;
+  }
+
+  &__price{
+    font-size: 0.95rem;
+    color: #00b0ff;
+  }
+
+  &__text{
+    margin-top: 4%;
+    padding-right: 2%;
+    text-indent: 1.5rem;
+    font-size: 0.95rem;
+    color: #605e5e;
+
+    @media only screen and (min-width: @tablet){
+      margin-top: 2%;
+    }
+
+    &--master{
+      color: #00b0ff;
+      text-decoration: none;
+      text-decoration: -moz-none;
+    }
+  }
+
+  &__signature{
+    float: right;
+    padding-right: 2%;
+    margin-top: 5%;
+    font-style: oblique;
+    color: #605e5e;
+
+    @media only screen and (min-width: @tablet){
+      margin-top: 3%;
+    }
+  }
+}
+
+
+.seventh-block{
+
+  &__container{
+    width: 70%;
+    margin: 0 auto 2%;
+
+    @media only screen and (min-width: @tablet){
+      width: 80%;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      width: 90%;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      width: 80%;
+    }
+  }
+
+  &__header-block{
+    margin: 15% 0 5%;
+    text-align: center;
+    text-align: -moz-center;
+    position: relative;
+    padding: 4% 0 5.5%;
+
+    @media only screen and (min-width: @tablet){
+      margin: 5% 0 2%;
+      padding: 3% 0 3.5%;
+    }
+
+    @media only screen and (min-width: @tablet){
+      padding: 2% 0 2.5%;
+    }
+
+    @media only screen and (min-width: @tablet){
+      padding: 1% 0 1.5%;
+    }
+
+    &:before {
+      content : "";
+      position: absolute;
+      left    : 33%;
+      bottom  : 0;
+      height  : 1px;
+      width   : 33%;  /* or 100px */
+      border-bottom: 1px solid #00b0ff;
+
+      @media only screen and (min-width: @tablet){
+        width: 16%;
+        left : 42%;
+      }
+    }
+
+    &:after {
+      content : "";
+      position: absolute;
+      left    : 33%;
+      top  : 0;
+      height  : 1px;
+      width   : 33%;  /* or 100px */
+      border-bottom: 1px solid #00b0ff;
+
+      @media only screen and (min-width: @tablet){
+        width: 16%;
+        left : 42%;
+      }
+    }
+  }
+
+  &__header{
+    font-size: 2rem;
+    font-weight: 300;
+    color: #00b0ff;
+
+    @media only screen and (min-width: @tablet){
+      font-size: 1.5rem;
+    }
+  }
+
+  &__img{
+    display: inline-block;
+    width: 90%;
+    padding-left: 5%;
+  }
+}
