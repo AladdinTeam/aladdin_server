@@ -44,3 +44,5 @@ Route::get('/test_pay', 'TestPayController@index');
 Route::get('/testing', 'Client\OrderController@deleteOrder');
 Route::get('/after_pay', 'Client\OrderController@afterPay');
 
+Route::get('/test_master', 'SearchController@getMasters');
+

@@ -16,7 +16,7 @@ class CreateMastersTable extends Migration
         Schema::create('masters', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sc_id');
-            $table->string('phone', 11);
+            $table->string('phone', 30);
             $table->string('email', 50);
             $table->string('password', 100)->nullable();
             $table->string('first_name', 50);
