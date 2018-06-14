@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->integer('category_id')->unsigned()->index();
             $table->integer('subcategory_id')->unsigned()->index();
             $table->integer('subway_id')->unsigned()->index();
-            $table->integer('price')->unsigned();
+            $table->integer('price')->unsigned()->default(0);
             $table->string('header');
             $table->text('description');
             $table->integer('amount')->unsigned();

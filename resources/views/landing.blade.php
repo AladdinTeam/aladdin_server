@@ -7,8 +7,8 @@
 @endsection
 @section("title", "Aladdin")
 @section("styles")
-    <link href="{{asset('css/styles.less')}}" type="text/less" rel="stylesheet"/>
-    <link href="{{asset('css/general.less')}}" type="text/less" rel="stylesheet"/>
+    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js"></script>
 @endsection
 @section("body")

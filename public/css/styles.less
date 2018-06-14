@@ -481,6 +481,10 @@
     padding: 4% 0;
   }
 
+  &--border-bottom{
+    border-bottom: 1px dashed grey;
+  }
+
   &__select {
     background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 97% 50%;
     background-color: white;
@@ -502,6 +506,74 @@
     color: #a0a09f;
     font-size: 0.8rem;
     text-align: center;
+  }
+
+  &__container {
+    text-align: left;
+    text-align: -moz-left;
+    padding-left: 30px;
+    display: block;
+    width: 90%;
+    margin: 2% auto;
+    font-size: 0.9rem;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default checkbox */
+  &__container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom checkbox */
+  &__checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+  }
+
+  /* On mouse-over, add a grey background color */
+  &__container:hover input ~ &__checkmark {
+    background-color: #ccc;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  &__container input:checked ~ &__checkmark {
+    background-color: #00b0ff;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  &__checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  &__container input:checked ~ &__checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  &__container &__checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
   }
 }
 
@@ -697,3 +769,113 @@
     padding-left: 5%;
   }
 }
+
+
+
+//-------------search----------------------
+
+.tab {
+
+  height: 45px;
+  margin-bottom: 5px;
+
+  &__item{
+    border: 2px solid #cccccc;
+
+    &:first-child{
+      border-right: none;
+    }
+  }
+
+  &__button {
+    background-color: #eceff1;
+    border: none;
+    height: 100%;
+    width: 100%;
+    //padding: 3%;
+    outline: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #a0a09f;
+
+    &--active {
+      background-color: #00b0ff;
+      color: white;
+    }
+  }
+}
+
+.hint-list{
+  padding: 3% 10% 5%;
+
+  &--border-bottom{
+    border-bottom: 1px dashed grey;
+  }
+
+  &__header{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #605e5e;
+  }
+
+  &__item{
+    font-size: 0.9rem;
+    color: #605e5e;
+    margin-top: 2%;
+
+    &--href{
+      text-decoration: none;
+      text-decoration: -moz-none;
+      color: #00b0ff;
+    }
+  }
+}
+
+.profile{
+  background-color: #ffffff;
+  padding: 5% 5%;
+  -webkit-box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);
+  -moz-box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);
+  box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);
+  margin-bottom: 30px;
+
+  &__name{
+    color: #00b0ff;
+    font-size: 1.5rem;
+    margin-bottom: 3%;
+  }
+
+  &__avatar{
+    height: 110px;
+    border: 4px solid white;
+    -webkit-box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
+    -moz-box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
+    box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
+  }
+
+  &__qualities{
+    padding-left: 2%;
+    margin-bottom: 2%;
+
+    &:first-child{
+      margin-top: 2%;
+    }
+  }
+
+  &__img{
+    width: 30px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  &__quality{
+    font-size: 0.8rem;
+  }
+
+  &__about{
+    margin-top: 4%;
+    font-size: 0.95rem;
+    color: #a0a09f;
+  }
+}
+

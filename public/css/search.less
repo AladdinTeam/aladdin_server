@@ -10,9 +10,57 @@ body {
 * {
   padding: 0;
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  //font-family: "Roboto", sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
+.tab {
+
+  height: 50px;
+
+  &__item{
+    border: 2px solid #cccccc;
+
+    &:first-child{
+      border-right: none;
+    }
+  }
+
+  &__button {
+    background-color: #eceff1;
+    border: none;
+    height: 100%;
+    width: 100%;
+    //padding: 3%;
+    outline: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #a0a09f;
+
+
+    @media only screen and (min-width: @phone_m) {
+      padding: 2.5% 0;
+    }
+
+    @media only screen and (min-width: @tablet){
+      &_1 {
+        border-radius: 10px 0 0 0;
+      }
+
+      &_2 {
+        border-radius: 0 10px 0 0;
+      }
+    }
+
+    &--active {
+      background-color: #00b0ff;
+      color: white;
+    }
+  }
+}
+
+
+/*
 .error {
   color: #c40002;
   font-size: 0.7rem;
@@ -172,7 +220,7 @@ body {
 
 }
 
-/*.settings {
+!*.settings {
   background-color: #2195f3;
   height: 12vw;
 
@@ -191,7 +239,7 @@ body {
     display: block;
     font-size: 4.5vw;
   }
-}*/
+}*!
 
 .search {
   background-size: cover;
@@ -287,7 +335,7 @@ body {
     }
   }
 
-  /*&_range {
+  !*&_range {
     margin: 2% 0;
     float: right;
 
@@ -303,7 +351,7 @@ body {
       border-radius: 4px;
       height: 8.2vw;
     }
-  }*/
+  }*!
 
   &_checkbox-div {
     clear: both;
@@ -439,10 +487,10 @@ body {
   background-color: #f9fafb;
   border-radius: 10px 10px 0 0;
 
-  /*&_one {
+  !*&_one {
     border-bottom: none;
     padding: 7% 5% 0;
-  }*/
+  }*!
 
   @media only screen and (min-width: @phone_m) {
     padding: 4% 5% 0;
@@ -513,7 +561,7 @@ body {
     }
   }
 
-  /*&_info {
+  !*&_info {
     padding: 2% 0 5% 3%;
 
     @media only screen and (min-width: @phone_m) {
@@ -528,7 +576,7 @@ body {
     &_text {
       font-size: 0.8rem;
     }
-  }*/
+  }*!
 
   &_about {
     background-color: #ededed;
@@ -685,9 +733,9 @@ body {
   padding: 1% 5% 2%;
   border-top: 1px solid #E1E2E3;
 
-  /*&:last-child {
+  !*&:last-child {
     border-bottom: 1px solid #E1E2E3;
-  }*/
+  }*!
 
 
   &_header {
@@ -858,3 +906,4 @@ body {
 .profile_button_block2 {
   margin: 3% 0;
 }
+*/

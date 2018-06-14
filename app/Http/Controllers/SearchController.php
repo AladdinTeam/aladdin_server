@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Master;
 use App\Order;
 use App\Subcategory;
 use App\Subway;
@@ -121,6 +122,40 @@ class SearchController extends Controller
 //                "free" => (isset($data["free"])) ? 1 : 0,
             ]);
         return redirect('/lk/orders');
+    }
+
+
+    public function getMasters(Request $request){
+        if(true) {
+            $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
+                $query->where('subways.id', 1);
+            })->whereHas("subcategories", function ($query) {
+                $query->where('subcategories.id', 1);
+            })->whereHas('master_info', function ($query) {
+                $query->where('status', 1);
+            })->simplePaginate(1);
+        } else{
+            $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
+                $query->where('subways.id', 1);
+            })->whereHas("subcategories", function ($query) {
+                $query->where('subcategories.id', 1);
+            })->has('master_info')->simplePaginate(3);
+        }
+
+        foreach ($masters as $master){
+            $count = $master->work_orders()->where('status', 3)->count();
+            //echo $count;
+            $master->count = $count;
+            if($master->master_info->card_id != null){
+                $master->safety = 1;
+            } else{
+                $master->safety = 0;
+            }
+            $master->about = $master->master_info->about;
+        }
+
+        //print_r($masters);
+        return view("search")->with("masters", $masters);
     }
 
     public function hh()
