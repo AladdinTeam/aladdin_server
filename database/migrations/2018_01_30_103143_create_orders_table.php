@@ -26,6 +26,8 @@ class CreateOrdersTable extends Migration
             $table->string('header');
             $table->text('description');
             $table->integer('amount')->unsigned();
+            $table->date("end_date");
+            $table->text("address");
             $table->tinyInteger('safety');
             $table->tinyInteger('status');
             $table->timestamps();
