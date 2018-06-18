@@ -28,7 +28,7 @@ class SearchController extends Controller
             $subcategories = $subcategory->category->subcategories;
             return view("search", ['categories' => $categories, "subways" => $subways, 'subcategories' => $subcategories, 'subcategory' => $subcategory]);
         }
-        if(isset($request->_token)) {
+        if(isset($request->_token) or (isset($request->page))) {
             if(isset($request->subcat)) {
                 $this->subcategory = $request->subcat;
             }

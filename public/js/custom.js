@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $("#phone").mask("+7(999) 999-99-99");
 
-    $.ajax({
+    /*$.ajax({
         type: "GET",
         url: '/search/get_categories',
         success: function(html){
@@ -10,15 +10,15 @@ $(document).ready(function(){
             $("#categories1").html(arr[0]);
             $("#subways").html(arr[1]);
         }
-    });
+    });*/
 
-    if(location.hash === "#best_price"){
+   /* if(location.hash === "#best_price"){
         document.getElementById("best_price1").style.display = "block";
         document.getElementById("search").style.display = "none";
         var tab_buttons = document.getElementsByClassName("tab_button");
         tab_buttons[0].className = tab_buttons[0].className.replace(" active", "");
         tab_buttons[1].className = tab_buttons[1].className + " active";
-    }
+    }*/
 });
 
 $('#categories').change(function () {

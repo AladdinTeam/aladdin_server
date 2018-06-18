@@ -37,6 +37,8 @@ $factory->define(App\Order::class, function (Faker $faker) {
 //        'header' => $faker->randomLetter,
         'description' => $faker->text,
         'amount' => $faker->numberBetween(200, 10000),
+        'end_date' => $faker->dateTimeBetween('+0 days', '+1 year')->format("Y-m-d"),
+        'address' => $faker->address,
         'safety' => $faker->numberBetween(0, 1),
         'status' => $faker->numberBetween(0, 3)
     ];
