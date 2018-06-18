@@ -17,10 +17,10 @@ class CreateClientTable extends Migration
             $table->increments('id');
             $table->integer('sc_id');
             $table->string('phone', 30);
-            $table->string('email', 50);
+            $table->string('email', 50)->nullable();
             $table->string('password', 100)->nullable();
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
+            $table->string('first_name', 50)->nullable();
+            $table->string('last_name', 50)->nullable();
             $table->rememberToken();
             $table->string('token', 255)->nullable();
             $table->timestamp('token_until')->nullable();

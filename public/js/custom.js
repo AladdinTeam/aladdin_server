@@ -1,5 +1,9 @@
 $(document).ready(function(){
     $("#phone").mask("+7(999) 999-99-99");
+    $.mask.definitions['1'] = "[0-1]";
+    $.mask.definitions['2'] = "[0-2]";
+    $.mask.definitions['3'] = "[0-3]";
+    $("#date").mask("39.19.2999", {placeholder:"*"});
 
     /*$.ajax({
         type: "GET",
@@ -32,7 +36,13 @@ $('#categories').change(function () {
     });
 });
 
-$('#categories1').change(function () {
+$('#filters').click(function () {
+    document.getElementById('search').style.display = 'block';
+    document.getElementById('filters').style.display = 'none';
+});
+
+
+/*$('#categories1').change(function () {
     $.ajax({
         type: "GET",
         url: '/search/get_subcategories',
@@ -41,7 +51,7 @@ $('#categories1').change(function () {
             $("#subcategories1").html(html);
         }
     })
-});
+});*/
 
 /*function validation() {
     var categories =
@@ -57,7 +67,7 @@ function closeNav(){
     document.getElementById("menuButton").style.display = '';
 }
 
-function tapOnSearchTab(evt, id) {
+/*function tapOnSearchTab(evt, id) {
     var i, search, tab_button;
 
     search = document.getElementsByClassName('search');
@@ -77,9 +87,10 @@ function tapOnSearchTab(evt, id) {
     } else {
         location.href = '#';
     }
-}
+}*/
 
+/*
 function extendedSearchClick(){
     document.getElementsByClassName('search_extended-button')[0].style.display = 'none';
     document.getElementsByClassName('search_extended')[0].style.display = 'block';
-}
+}*/

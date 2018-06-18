@@ -24,10 +24,16 @@ $factory->define(App\Order::class, function (Faker $faker) {
     } else {
         $master_id = null;
     }
+    $status = $faker->numberBetween(0, 3);
+    if($status != 0){
+        $wm = $faker->numberBetween(0, 100);
+    } else {
+        $wm = null;
+    }
     return [
         'sc_id' => 1,
         'master_id' => $master_id,
-        'work_master_id' => null,
+        'work_master_id' => $wm,
         'client_id' => $faker->numberBetween(1, 100),
         'category_id' => $category,
         'subcategory_id' => $subcategory,
@@ -40,6 +46,6 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'end_date' => $faker->dateTimeBetween('+0 days', '+1 year')->format("Y-m-d"),
         'address' => $faker->address,
         'safety' => $faker->numberBetween(0, 1),
-        'status' => $faker->numberBetween(0, 3)
+        'status' => $status
     ];
 });

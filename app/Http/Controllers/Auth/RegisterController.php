@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Client;
 use App\Http\Controllers\Controller;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -36,10 +37,10 @@ class RegisterController extends Controller
         $phone = str_replace(['+', '(', ')', '-', ' '], [], $request->phone);
         if($request->user_type == 1){
             $user = Master::select("id")->where("phone", "=", $phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         } else {
             $user = Client::select("id")->where("phone", "=", $phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         }
         if($user == null) {
             $sender = new Sms();
@@ -67,8 +68,20 @@ class RegisterController extends Controller
             );
             $validator->validate();
             $phone = str_replace(['+', '(', ')', '-', ' '], [], $request->phone);
+            $sc_id = SafeCrow::getUserIdByPhone($phone);
+            if($sc_id == null){
+                $user = json_decode(SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name));
+                print_r($user);
+            }
+            $body = SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name);
+            if(isset($body->errors[0]->email)){
+
+            } else {
+                $sc_id = $body->id;
+            }
             if ($request->user_type == 1) {
                 $id = Master::insertGetId([
+                    "sc_id" => $sc_id,
                     "phone" => $phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,
@@ -79,6 +92,7 @@ class RegisterController extends Controller
                 ]);
             } else {
                 $id = Client::insertGetId([
+                    "sc_id" => $sc_id,
                     "phone" => $phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,

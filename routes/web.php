@@ -12,15 +12,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', 'LandingController@index');
-Route::get('/profile', 'ProfileController@index');
+Route::get('/profile/{id}', 'ProfileController@index');
 Route::get('/soon', 'SoonController@index');
 
 Route::group(["prefix" => "search"], function (){
     Route::get('/', 'SearchController@index');
-    Route::post('/best_price', 'SearchController@bestPrice')->name('best_price');
+    //Route::post('/best_price', 'SearchController@bestPrice')->name('best_price');
     Route::get('/save_order', 'SearchController@saveOrder');
+    Route::post('/save_full_order', 'SearchController@saveFullOrder')->name('save_full_order');
     Route::get('/get_categories', 'SearchController@getCategories');
     Route::get('/get_subcategories', 'SearchController@getSubcategories');
+    Route::post('/mini_order', 'SearchController@miniOrder')->name('miniOrder');
 });
 
 Route::group(["namespace" => "Auth"], function (){
@@ -33,9 +35,7 @@ Route::group(["namespace" => "Auth"], function (){
     Route::post('/registration', 'RegisterController@register')->name('register');
 });
 
-Route::group(["prefix" => "lk"], function (){
-   Route::get('/orders', "ProfileController@orders")->middleware('auth');
-});
+Route::get('/orders', "ProfileController@orders")->middleware('auth');
 
 Route::get('/home', 'HomeController@index');
 Route::get('/home1', "SearchController@hh")->middleware("auth");
@@ -43,6 +43,9 @@ Route::get('/home1', "SearchController@hh")->middleware("auth");
 Route::get('/test_pay', 'TestPayController@index');
 Route::get('/testing', 'Client\OrderController@deleteOrder');
 Route::get('/after_pay', 'Client\OrderController@afterPay');
+Route::get('/best_price', 'BestPriceController@index');
+
+Route::get('/order/{order}', 'ProfileController@oneOrder');
 
 //Route::get('/master', 'SearchController@getMasters');
 

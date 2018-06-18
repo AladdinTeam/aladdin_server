@@ -28,15 +28,19 @@ class Order extends Model
         return $this->belongsTo(Subway::class);
     }
 
-    public function categories() {
-        return $this->belongsToMany(Category::class);
+    public function category() {
+        return $this->belongsTo(Category::class);
     }
 
-    public function subcategories() {
-        return $this->belongsToMany(Subcategory::class);
+    public function subcategory() {
+        return $this->belongsTo(Subcategory::class);
     }
 
     public function additional_services(){
         return $this->hasMany(Additional_Service::class);
+    }
+
+    public function report() {
+        return $this->hasOne(Report::class);
     }
 }

@@ -21,13 +21,13 @@ class CreateOrdersTable extends Migration
             $table->integer('client_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
             $table->integer('subcategory_id')->unsigned()->index();
-            $table->integer('subway_id')->unsigned()->index();
+            $table->integer('subway_id')->unsigned()->index()->nullable();
             $table->integer('price')->unsigned()->default(0);
             $table->string('header');
-            $table->text('description');
-            $table->integer('amount')->unsigned();
-            $table->date("end_date");
-            $table->text("address");
+            $table->text('description')->nullable();
+            $table->integer('amount')->unsigned()->nullable();
+            $table->date("end_date")->nullable();
+            $table->text("address")->nullable();
             $table->tinyInteger('safety');
             $table->tinyInteger('status');
             $table->timestamps();

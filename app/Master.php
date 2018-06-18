@@ -17,6 +17,10 @@ class Master extends Model implements AuthenticatableContract
         return $this->hasMany(Service::class);
     }
 
+    public function reports() {
+        return $this->hasMany(Report::class);
+    }
+
     /*public function info_master() {
         return $this->hasOne(Info_Master::class);
     }*/
