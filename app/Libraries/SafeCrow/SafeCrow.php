@@ -75,6 +75,16 @@ class SafeCrow
         return $body;
     }
 
+    public static function getUserIdByPhone($phone){
+        $users = json_decode(self::getUsers());
+        foreach ($users as $user){
+            if($user->phone == $phone){
+                return $user->id;
+            }
+        }
+        return null;
+    }
+
     public static function createDeal($consumer_id, $supplier_id, $price, $description){
         $json = [
             'consumer_id' => $consumer_id,

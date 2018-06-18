@@ -37,10 +37,10 @@ class RegisterController extends Controller
         $phone = str_replace(['+', '(', ')', '-', ' '], [], $request->phone);
         if($request->user_type == 1){
             $user = Master::select("id")->where("phone", "=", $phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         } else {
             $user = Client::select("id")->where("phone", "=", $phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         }
         if($user == null) {
             $sender = new Sms();
@@ -68,6 +68,11 @@ class RegisterController extends Controller
             );
             $validator->validate();
             $phone = str_replace(['+', '(', ')', '-', ' '], [], $request->phone);
+            $sc_id = SafeCrow::getUserIdByPhone($phone);
+            if($sc_id == null){
+                $user = json_decode(SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name));
+                print_r($user);
+            }
             $body = SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name);
             if(isset($body->errors[0]->email)){
 
