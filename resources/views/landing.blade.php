@@ -12,6 +12,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js"></script>
 @endsection
 @section("body")
+    <?php
+/*    use Illuminate\Support\Facades\Request;
+    Request::session()->forget('id');
+    Request::session()->forget('auth');
+    Request::session()->forget('user_type');
+    */?>
     <div class="first-block">
         <h3 class="first-block__header">Обращайтесь к грамотным исполнителям и совершайте безопасные сделки</h3>
         <h3 class="first-block__subheader">Поможем поручить бытовые задачи с оплатой за результат</h3>
@@ -32,14 +38,11 @@
                         </div>
                         <div class="col-10 offset-2 subcategory">
                             <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Сантехник</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Электрик</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Мастер на час</a>
-                                </li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Отделочные
-                                        работы</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Сборка и ремонт
-                                        мебели</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=1">Сантехник</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=2">Электрик</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=3">Мастер на час</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=4">Отделочные работы</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=5">Сборка и ремонт мебели</a></li>
                             </ul>
                         </div>
                     </div>
@@ -54,14 +57,11 @@
                         </div>
                         <div class="col-10 offset-2 subcategory">
                             <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Пешком</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">На авто</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Купить и
-                                        доставить</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Курьер на день</a>
-                                </li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Срочная доставка</a>
-                                </li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=6">Пешком</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=7">На авто</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=8">Купить и доставить</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=9">Курьер на день</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=10">Срочная доставка</a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,11 +76,11 @@
                         </div>
                         <div class="col-10 offset-2 subcategory">
                             <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Влажная уборка</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Вывоз мусора</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Генеральная уборка</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Мытье окон</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Глажка</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=11">Влажная уборка</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=12">Вывоз мусора</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=13">Генеральная уборка</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=14">Мытье окон</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=15">Глажка</a></li>
                             </ul>
                         </div>
                     </div>
@@ -95,11 +95,11 @@
                         </div>
                         <div class="col-10 offset-2 subcategory">
                             <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Эвакутор</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Помощь в переезде</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Пассажирские перевозки</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Междугородние перевозки</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search">Грузчики</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=16">Эвакутор</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=17">Помощь в переезде</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=18">Пассажирские перевозки</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=19">Междугородние перевозки</a></li>
+                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=20">Грузчики</a></li>
                             </ul>
                         </div>
                     </div>
@@ -192,21 +192,84 @@
             </div>
         </div>
     </div>
-    <div class="fifth-block">
+    <div class="fifth-block" id="search_form">
         <div class="fifth-block__container">
             <div class="fifth-block__header">
                 <h1 class="fifth-block__header__text">Расскажите о вашей задаче прямо сейчас и получите первые предложения от специалистов из Санкт-Петербурга уже через 8 минут</h1>
             </div>
-            <form class="form">
-                <select class="form__input-field form__select">
-                    <option>Мелкий ремонт</option>
-                    <option>Грузоперевозки</option>
+            <form class="form" method="post" action="{{route('miniOrder')}}">
+                {{csrf_field()}}
+                <input type="hidden" name="st" value="1">
+                <select name="category" id="categories" class="form__input-field form__select">
+                @if(old('category') != null)
+                    {{--<option value="0" disabled selected>Выберите категорию</option>--}}
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>
+                    @endforeach
+                @else
+                    <option value="0" disabled selected>Выберите категорию</option>
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                @endif
                 </select>
-                <input class="form__input-field" type="text" placeholder="Ваше имя">
-                <input class="form__input-field" type="text" placeholder="Ваш телефон">
-                <textarea class="form__input-field" rows="3" placeholder="Что требуется сделать? Например, починить кран или доставить посылку"></textarea>
+                @if($errors->has("category"))
+                    @foreach ($errors->get("category") as $error)
+                        <label class="form__error">{{$error}}</label>
+                    @endforeach
+                @endif
+                <select name="subcategory" id="subcategories" class="form__input-field form__select">
+                    @if (old('category') != null)
+                        <?php
+                        $subcategories = App\Subcategory::where('category_id', old('category'))->get();
+                        if(old('subcategory') != 0){
+                            foreach ($subcategories as $subcategory){
+                                if($subcategory->id == old('subcategory')){
+                                    echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
+                                } else {
+                                    echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                }
+                            }
+                        } else {
+                            echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
+                            foreach ($subcategories as $subcategory){
+                                echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                            }
+                        }
+                        ?>
+                    @else
+                        <option value="0" disabled selected>Выберите подкатегорию</option>
+                    @endif
+                </select>
+                @if($errors->has("subcategory"))
+                    @foreach ($errors->get("subcategory") as $error)
+                        <label class="form__error">{{$error}}</label>
+                    @endforeach
+                @endif
+                <input id="phone" name="phone" class="form__input-field" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
+                @if($errors->has("phone"))
+                    @foreach ($errors->get("phone") as $error)
+                        <label class="form__error">{{$error}}</label>
+                    @endforeach
+                @endif
+                <textarea class="form__input-field" rows="2" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>
+                @if($errors->has("header"))
+                    @foreach ($errors->get("header") as $error)
+                        <label class="form__error">{{$error}}</label>
+                    @endforeach
+                @endif
+                <input type="number" class="form__input-field" name="amount" placeholder="Предполагаемый бюджет" value="{{old('amount')}}">
+                @if($errors->has("amount"))
+                    @foreach ($errors->get("amount") as $error)
+                        <label class="form__error">{{$error}}</label>
+                    @endforeach
+                @endif
+                <label class="form__container">Работа через безопасную сделку
+                    <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
+                    <span class="form__checkmark"></span>
+                </label>
                 <button type="submit" class="button button--blue button--center button--bold">ЗАРЕГИСТРИРОВАТЬСЯ И ВЫБРАТЬ ЛУЧШЕЕ ПРЕДЛОЖЕНИЕ</button>
-                <a class="form__search" href="#">или найти специалиста вручную через поиск</a>
+                <a class="form__search" href="/search">или найти специалиста вручную через поиск</a>
             </form>
             <div class="fifth-block__hint">
                 <h1 class="fifth-block__hint__header">Что будет после оформления заявки?</h1>
@@ -243,8 +306,11 @@
                         <p class="report__price">5000 р</p>
                     </div>
                     <div class="col-12 col-sm-8 offset-sm-2">
+                        <span class="report__master">Мастер: </span><a href="" class="report__master--link">Иванов Иван</a>
+                    </div>
+                    <div class="col-12 col-sm-8 offset-sm-2">
                         <p class="report__text">
-                            Мастер <a href="#" class="report__text--master">Иванов Иван</a> сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!
+                            Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!
                         </p>
                     </div>
                     <div class="col-12 col-sm-10">
@@ -268,8 +334,11 @@
                         <p class="report__price">500 р</p>
                     </div>
                     <div class="col-12 col-sm-8 offset-sm-2">
+                        <span class="report__master">Мастер: </span><a href="" class="report__master--link">Иванова Инна</a>
+                    </div>
+                    <div class="col-12 col-sm-8 offset-sm-2">
                         <p class="report__text">
-                            Клинер <a href="#" class="report__text--master">Иванов Инна</a> прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
+                            Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
                         </p>
                     </div>
                     <div class="col-12 col-sm-10">
@@ -293,8 +362,11 @@
                         <p class="report__price">2500 р</p>
                     </div>
                     <div class="col-12 col-sm-8 offset-sm-2">
+                        <span class="report__master">Мастер: </span><a href="" class="report__master--link">Иванова Инна</a>
+                    </div>
+                    <div class="col-12 col-sm-8 offset-sm-2">
                         <p class="report__text">
-                            Клинер <a href="#" class="report__text--master">Иванов Инна</a> прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
+                            Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
                         </p>
                     </div>
                     <div class="col-12 col-sm-10">
@@ -318,8 +390,11 @@
                         <p class="report__price">5000 р</p>
                     </div>
                     <div class="col-12 col-sm-8 offset-sm-2">
+                        <span class="report__master">Мастер: </span><a href="" class="report__master--link">Игорь Морозов</a>
+                    </div>
+                    <div class="col-12 col-sm-8 offset-sm-2">
                         <p class="report__text">
-                            Осталась довольна. Исполнитель <a href="#" class="report__text--master">Игорь Морозов</a> был очень вежлив, купил препарат на свои деньги и привёз всё быстро. Мне оставалось только заплатить за доставку и чек.
+                            Осталась довольна. Исполнитель был очень вежлив, купил препарат на свои деньги и привёз всё быстро. Мне оставалось только заплатить за доставку и чек.
                         </p>
                     </div>
                     <div class="col-12 col-sm-10">

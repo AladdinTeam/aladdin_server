@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Client;
 use App\Http\Controllers\Controller;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -67,8 +68,16 @@ class RegisterController extends Controller
             );
             $validator->validate();
             $phone = str_replace(['+', '(', ')', '-', ' '], [], $request->phone);
+            $body = SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name);
+            if(isset($body->errors[0]->email)){
+
+            } else {
+                $sc_id = $body->id;
+            }
+            print_r($gg);
             if ($request->user_type == 1) {
                 $id = Master::insertGetId([
+                    "sc_id" => $sc_id,
                     "phone" => $phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,
@@ -79,6 +88,7 @@ class RegisterController extends Controller
                 ]);
             } else {
                 $id = Client::insertGetId([
+                    "sc_id" => $sc_id,
                     "phone" => $phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,

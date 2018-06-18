@@ -10,116 +10,174 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
-    <div class="row tab">
-        <div class="col-4 tab__item">
-            <button class="tab__button tab__button--active" onclick="tapOnSearchTab(event, 'search')">Исполнители</button>
-        </div>
-        <div class="col-8 tab__item">
-            <button class="tab__button" onclick="tapOnSearchTab(event, 'best_price1')">Поиск лучшего предложения</button>
-        </div>
-    </div>
-    <div id="search">
-        <div style="background-color: #eceff1; height: 50px;@if(Request::is('*_token*')) display:block; @endif"></div>
-        <form style="@if(Request::is('*_token*')) display:none; @endif" class="form form--border-bottom" method="GET" action="/search">
-            {{csrf_field()}}
-            <select id="categories" name="cat" class="form__input-field form__select">
-            @if(isset($subcategory))
-                @foreach($categories as $category)
-                    <option value="{{$category->id}}" @if($subcategory->category->id == $category->id) selected @endif>{{$category->name}}</option>
-                @endforeach
-            @else
-                <option value="0" disabled selected>Выберите категорию</option>
-                @foreach($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option>
-                @endforeach
-            @endif
-            </select>
-            <select id="subcategories" name="subcat" class="form__input-field form__select">
-            @if(isset($subcategory))
-                @foreach($subcategories as $sub)
-                    <option value="{{$sub->id}}" @if($sub->id == $subcategory->id) selected @endif>{{$sub->name}}</option>
-                @endforeach
-            @else
-                <option value="0">Выбор подкатегории</option>
-            @endif
-            </select>
-            <select id="subways" name="sub" class="form__input-field form__select">
-            <option value="0">Выберите метро</option>
-            @foreach($subways as $subway)
-                <option value="{{$subway->id}}">{{$subway->name}}</option>
-            @endforeach
-            </select>
-            <label class="form__container">Работа через безопасную сделку
-                <input type="checkbox" name="safety">
-                <span class="form__checkmark"></span>
-            </label>
-            <button type="submit" class="button button--blue button--center">Найти</button>
-        </form>
-        <div class="hint-list hint-list--border-bottom">
-            <h1 class="hint-list__header">Как это работает:</h1>
-            <ol>
-                <li class="hint-list__item">Выберите исполнителя</li>
-                <li class="hint-list__item">Вкратце опишите задачу</li>
-                <li class="hint-list__item">Договоритесь об условиях</li>
-                <li class="hint-list__item">Платите наличными исполнителю или картой через безопасную сделку</li>
-            </ol>
-        </div>
-        <div class="hint-list">
-            <ul>
-                <li class="hint-list__item"><a class="hint-list__item--href" href="#">Почему Aladdin?</a></li>
-                <li class="hint-list__item"><a class="hint-list__item--href" href="#">Как это работает</a></li>
-                <li class="hint-list__item"><a class="hint-list__item--href" href="#">Об исполнителях</a></li>
-                <li class="hint-list__item"><a class="hint-list__item--href" href="#">Безопасная сделка</a></li>
-            </ul>
-        </div>
-    </div>
-    @if(isset($masters))
-        @foreach($masters as $master)
-            <div class="row profile">
-                <div class="col-12">
-                    <p class="profile__name">{{$master->first_name}} {{$master->last_name}}{{--Иван Иванов--}}</p>
+    <div class="third-block--optional">
+        <div class="third-block__container">
+            <div class="row">
+                <div class="item col-12 col-sm-6 col-md-4">
+                    <img class="item__img" src="{{asset('img/third-block-1.png')}}">
+                    <h3 class="item__header">База проверенных,<br>ответственных специалистов</h3>
+                    <p class="item__text">Исполнители проходят <span><a href="#" class="item__text--alloted">верификацию</a></span>, имеют образование и владеют сервисным этикетом</p>
                 </div>
-                <div class="col-4">
-                    <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                <div class="item col-12 col-sm-6 col-md-4">
+                    <img class="item__img" src="{{asset('img/third-block-2.png')}}">
+                    <h3 class="item__header">Вернём деньги в случае некачественного сервиса</h3>
+                    <p class="item__text">Воспользуйтесь <span><a href="#" class="item__text--alloted">безопасной сделкой</a></span>, чтобы защититься от любых невзгод</p>
                 </div>
-                <div class="col-8">
-                    <div class="row profile__qualities">
-                        <div class="col-2">
-                            <img class="profile__img" src="{{asset('img/complete-order.png')}}">
-                        </div>
-                        <div class="col-10 align-self-center">
-                            <p class="profile__quality">{{$master->count}}{{--34 выполненных задания--}}</p>
-                        </div>
-                    </div>
-                    <div class="row profile__qualities">
-                        <div class="col-2">
-                            <img class="profile__img" src="{{asset('img/positive-report.png')}}">
-                        </div>
-                        <div class="col-10 align-self-center">
-                            <p class="profile__quality">92% положительных отзывов</p>
-                        </div>
-                    </div>
-                    @if($master->safety == 1)
-                        <div class="row profile__qualities">
-                            <div class="col-2">
-                                <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
-                            </div>
-                            <div class="col-10 align-self-center">
-                                <p class="profile__quality">Работает через безопасную сделку</p>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <div class="col-12">
-                    <p class="profile__about">{{$master->about}}{{--Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!--}}</p>
-                </div>
-                <div class="col-12">
-                    <button class="button button--center button--blue">Цены и отзывы</button>
+                <div class="item col-12 col-sm-6 offset-sm-3 offset-md-0 col-md-4">
+                    <img class="item__img" src="{{asset('img/third-block-3.png')}}">
+                    <h3 class="item__header">Найдём лучшую цену для любой задачи</h3>
+                    <p class="item__text">Специалисты сами предложат свои услуги, останется только выбрать</p>
                 </div>
             </div>
-        @endforeach
-        {{$masters->links()}}
-    @endif
+        </div>
+    </div>
+    <div class="find">
+        <p class="find__text">Находите исполнителей вручную или заполните форму для поиска лучшего предложения</p>
+    </div>
+    <div class="row search__container">
+        <div class="col-12 col-md-5 search-panel">
+            <div class="row tab">
+                <div class="col-4 tab__item">
+                    <button class="tab__button tab__button--active" onclick="location.href='/search'">Исполнители</button>
+                </div>
+                <div class="col-8 tab__item">
+                    <button class="tab__button" onclick="location.href='/best_price'">Поиск лучшего предложения</button>
+                </div>
+            </div>
+            <div id="filters" class="@if(isset($masters)) filter--show @else filter--hidden @endif turn_form row ">
+                <div class="col-1">
+                    <img class="turn_form__img" src="{{asset('img/dropdown.png')}}">
+                </div>
+                <div class="col-9 align-self-center">
+                    <p class="turn_form__text">Фильтр</p>
+                </div>
+            </div>
+            <div id="search" class="@if(isset($masters)) form--hidden @else form--show @endif">
+                <form class="form form--border-bottom" method="GET" action="/search">
+                    {{--{{csrf_field()}}--}}
+                    <select id="categories" name="category" class="form__input-field form__select">
+                    @if(isset($category))
+                        @foreach($categories as $cat)
+                            <option value="{{$cat->id}}" @if($cat->id == $category) selected @endif>{{$cat->name}}</option>
+                        @endforeach
+                    @else
+                        <option value="0" disabled selected>Выберите категорию</option>
+                        @foreach($categories as $cat)
+                            <option value="{{$cat->id}}">{{$cat->name}}</option>
+                        @endforeach
+                    @endif
+                    </select>
+                    <select id="subcategories" name="subcategory" class="form__input-field form__select">
+                    @if(isset($subcategory))
+                        @foreach($subcategories as $subcat)
+                            <option value="{{$subcat->id}}" @if($subcat->id == $subcategory) selected @endif>{{$subcat->name}}</option>
+                        @endforeach
+                    @elseif(isset($category))
+                        <option value="0" disabled selected>Выберите подкатегорию</option>
+                        @foreach($subcategories as $subcat)
+                            <option value="{{$subcat->id}}">{{$subcat->name}}</option>
+                        @endforeach
+                    @else
+                        <option value="0" disabled selected>Выберите подкатегорию</option>
+                    @endif
+                    </select>
+                    <select id="subways" name="subway" class="form__input-field form__select">
+                    <option value="0">Выберите метро</option>
+                    @if(isset($subway))
+                        @foreach($subways as $subw)
+                            <option value="{{$subw->id}}" @if($subw->id == $subway) selected @endif>{{$subw->name}}</option>
+                        @endforeach
+                    @else
+                        @foreach($subways as $subw)
+                            <option value="{{$subw->id}}">{{$subw->name}}</option>
+                        @endforeach
+                    @endif
+                    </select>
+                    <label class="form__container">Работа через безопасную сделку
+                        <input type="checkbox" name="safety" @if(isset($safety)) checked @endif>
+                        <span class="form__checkmark"></span>
+                    </label>
+                    @if(isset($error))
+                        <p style="font-size: 0.95rem; color: #d83355; margin-top: 10px">{{$error}}</p>
+                    @endif
+                    <button type="submit" class="button button--blue button--center">Найти</button>
+                </form>
+                <div class="hint-list hint-list--border-bottom">
+                    <h1 class="hint-list__header">Как это работает:</h1>
+                    <ol>
+                        <li class="hint-list__item">Выберите исполнителя</li>
+                        <li class="hint-list__item">Вкратце опишите задачу</li>
+                        <li class="hint-list__item">Договоритесь об условиях</li>
+                        <li class="hint-list__item">Платите наличными исполнителю или картой через безопасную сделку</li>
+                    </ol>
+                </div>
+                <div class="hint-list">
+                    <ul>
+                        <li class="hint-list__item"><a class="hint-list__item--href" href="#">Почему Aladdin?</a></li>
+                        <li class="hint-list__item"><a class="hint-list__item--href" href="#">Как это работает</a></li>
+                        <li class="hint-list__item"><a class="hint-list__item--href" href="#">Об исполнителях</a></li>
+                        <li class="hint-list__item"><a class="hint-list__item--href" href="#">Безопасная сделка</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-7 profile__container">
+            @if(isset($masters))
+                @foreach($masters as $master)
+                    <div class="row profile">
+                        <div class="col-12">
+                            {{--<p class="profile__name">
+                                --}}{{--@foreach($master->subcategories as $subcategory)
+                                    {{$subcategory->id}}
+                                @endforeach--}}{{--
+                            </p>--}}
+                            <p class="profile__name">{{$master->first_name}} {{$master->last_name}}</p>
+                        </div>
+                        <div class="col-4 col-sm-2 col-md-3 col-lg-3">
+                            <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                        </div>
+                        <div class="col-8 col-sm-10 col-md-9 col-lg-9">
+                            <div class="row profile__qualities">
+                                <div class="col-2">
+                                    <img class="profile__img" src="{{asset('img/complete-order.png')}}">
+                                </div>
+                                <div class="col-10 align-self-center">
+                                    <p class="profile__quality">Выполненных заданий {{/*$master->count*/random_int(5, 19)}}{{--34 выполненных задания--}}</p>
+                                </div>
+                            </div>
+                            <div class="row profile__qualities">
+                                <div class="col-2">
+                                    <img class="profile__img" src="{{asset('img/positive-report.png')}}">
+                                </div>
+                                <div class="col-10 align-self-center">
+                                    <p class="profile__quality">92% положительных отзывов</p>
+                                </div>
+                            </div>
+                            @if($master->safety == 1)
+                                <div class="row profile__qualities">
+                                    <div class="col-2">
+                                        <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
+                                    </div>
+                                    <div class="col-10 align-self-center">
+                                        <p class="profile__quality">Работает через безопасную сделку</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-12">
+                            <p class="profile__about">{{$master->about}}{{--Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!--}}</p>
+                        </div>
+                        <div class="col-12">
+                            <button class="button button--center button--blue" onclick="location.href = '/profile/{{$master->id}}'">Цены и отзывы</button>
+                        </div>
+                    </div>
+                @endforeach
+                {{$masters->links()}}
+            @else
+                Выберите интересующую Вас категорию
+            @endif
+        </div>
+    </div>
 {{--<div class="placeholder">
 <div class="row">
 <div class="col-12">
