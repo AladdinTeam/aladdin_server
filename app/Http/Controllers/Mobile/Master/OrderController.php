@@ -82,7 +82,7 @@ class OrderController extends Controller
                 "name" => $orders[$i]->header,
                 "amount" => $orders[$i]->amount,
                 "safety" => $orders[$i]->safety,
-                "date" => "1995.10.12"
+                "date" => $orders[$i]->end_date
             ];
             $res_orders[] = $order;
         }
@@ -96,7 +96,7 @@ class OrderController extends Controller
                 "id" => $order->id,
                 "name" => $order->header,
                 "amount" => $order->amount,
-                "date" => "Hui znaet",
+                "date" => $order->end_date,
                 "description" => $order->description,
                 "subway" => $order->subway,
                 "additional_services" => $order->additional_services

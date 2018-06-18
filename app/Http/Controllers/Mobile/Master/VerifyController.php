@@ -127,7 +127,9 @@ class VerifyController extends Controller
             'email' => $request->email
         ]);
         if($master->verification_status == 2){
-            $master->increment('verification_status');}return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
+            $master->increment('verification_status');
+        }
+        return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
     }
 
     public function getSubway(){
@@ -176,17 +178,19 @@ class VerifyController extends Controller
     }
 
     public function aboutPriceSale(Request $request){
-        //print_r($request->services);
         $services = $request->services;
+//        return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
         if($services != null){
-            for($i = 0; $i < count($services); $i++){
+            for($i = 0; $i < count($services); $i++) {
+
                 Service::create([
-                    "master_id" => $request->master_id,
-                    "name" => $services[$i]['name'],
-                    "price" => $services[$i]['price'],
-                    "unit" => $services[$i]['unit']
+                    'master_id' => $request->master_id,
+                    'name' => $services[$i]['name'],
+                    'price' => $services[$i]['price'],
+                    'unit' => ""
                 ]);
             }
+
             $master_info = Master_Info::where('master_id', $request->master_id);
             $master_info->update([
                 'sale' => $request->sales

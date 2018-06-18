@@ -18,7 +18,7 @@ class CreateServicesTable extends Migration
             $table->integer('master_id')->unsigned()->index();
             $table->string('name', 255);
             $table->string('price', 100);
-            $table->string('unit');
+            $table->string('unit')->default("");
             $table->tinyInteger('verified')->default(0);
             $table->timestamps();
 
