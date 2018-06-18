@@ -34,14 +34,20 @@ class AuthorizationController extends Controller
         }
         if ($user == null) {
             if($request->user_type == 1){
-                $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
+
+                $safeCrowID = self::getSafeCrowID($request->phone);
+                if ($safeCrowID == null) {
+                    $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
+                    $safeCrowID = $safeCrowBody->id;
+                }
+//                $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
 
                 $user = Master::create([
                     "phone" => $request->phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,
                     "last_name" => $request->last_name,
-                    "sc_id" => $safeCrowBody->id
+                    "sc_id" => $safeCrowID
                 ]);
 
                 Master_Info::insert([
@@ -77,6 +83,19 @@ class AuthorizationController extends Controller
                 );
             }
         }
+    }
+
+    private static function getSafeCrowID($phoneNumber) {
+
+        $allUsers = json_decode(SafeCrow::getUsers());
+
+        for ($i = 0; $i < count($allUsers); $i++) {
+            if ($allUsers[$i]->phone == $phoneNumber) {
+                return $allUsers[$i]->id;
+            }
+        }
+
+        return null;
     }
 
     public function login(Request $request){

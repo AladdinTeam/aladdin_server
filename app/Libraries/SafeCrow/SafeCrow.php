@@ -67,6 +67,14 @@ class SafeCrow
         return $body;
     }
 
+    public static function getUsers() {
+        $endpoint = '/users';
+
+        $body = self::sendGetCurl($endpoint);
+
+        return $body;
+    }
+
     public static function createDeal($consumer_id, $supplier_id, $price, $description){
         $json = [
             'consumer_id' => $consumer_id,
