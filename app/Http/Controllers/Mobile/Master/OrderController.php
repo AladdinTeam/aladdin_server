@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Mobile\Master;
 use App\Additional_Service;
 use App\AddLibraries\ErrorCode;
 use App\Http\Controllers\Controller;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Order;
 use Illuminate\Http\Request;
@@ -20,10 +21,10 @@ class OrderController extends Controller
     public function getOrders(Request $request) {
         $master = Master::find($request->master_id);
         $orders = [];
-        switch ($request->type_order) {
+        switch ($request->order_type) {
             case 0: {
                 $personal_orders = $this::getPrivateOrders($master->id);
-                $pull_orders = $this::getOrdersFromPull($master->subcategories()->pluck('subcategory_id'));
+                $pull_orders = $this::getOrdersFromPull($master->id, $master->subcategories()->pluck('subcategory_id'));
                 $orders = [$personal_orders, $pull_orders];
                 break;
             }
@@ -49,12 +50,12 @@ class OrderController extends Controller
     }
 
     private function getHistoryOrders($id) {
-        $history_orders = Order::where('master_id', $id)->where('status', 2)->get();
+        $history_orders = Order::where('work_master_id', $id)->where('status', 2)->get();
         return $this->constructOrders($history_orders);
     }
 
     private function getActiveOrders($id, $isHolded) {
-        $orders = Order::where('master_id', $id)->where('safety', $isHolded)->get();
+        $orders = Order::where('work_master_id', $id)->where('safety', $isHolded)->get();
         return $this->constructOrders($orders);
     }
 
@@ -64,12 +65,12 @@ class OrderController extends Controller
     }
 
     private function getPrivateOrders($id) {
-        $orders = Order::where('master_id', $id)->where('status', 0)->get();
+        $orders = Order::where('work_master_id', '!=', $id)->where('master_id', $id)->where('status', 0)->get();
         return $this->constructOrders($orders);
     }
 
-    private function getOrdersFromPull($subcategories) {
-        $orders = Order::where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+    private function getOrdersFromPull($id, $subcategories) {
+        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
         return $this->constructOrders($orders);
     }
 
@@ -80,7 +81,8 @@ class OrderController extends Controller
                 "id" => $orders[$i]->id,
                 "name" => $orders[$i]->header,
                 "amount" => $orders[$i]->amount,
-                "date" => "Hui znaet"
+                "safety" => $orders[$i]->safety,
+                "date" => "1995.10.12"
             ];
             $res_orders[] = $order;
         }
@@ -93,10 +95,11 @@ class OrderController extends Controller
             $concreteOrder = [
                 "id" => $order->id,
                 "name" => $order->header,
-                "price" => $order->price,
+                "amount" => $order->amount,
                 "date" => "Hui znaet",
                 "description" => $order->description,
-                "subway" => $order->subway
+                "subway" => $order->subway,
+                "additional_services" => $order->additional_services
             ];
             return response()->json(
                 array_merge(
@@ -116,11 +119,10 @@ class OrderController extends Controller
     public function makeOffer(Request $request) {
         $master = Master::find($request->master_id);
         $order = Order::find($request->id);
-        //$order->masters()->sync($master->id);
         $order->masters()->attach($master->id, [
             "commentary" => $request->commentary,
             "price" => $request->price,
-            "date" => $request->date
+            "date" => date("Y-m-d H:i:s", strtotime($request->date))
         ]);
 
         return response()->json(
@@ -130,10 +132,10 @@ class OrderController extends Controller
 
     public function addService(Request $request) {
         Additional_Service::create([
-            "order_id"=>$request->order_id,
-            "name" => $request->service_name,
+            "order_id" => $request->order_id,
+            "sc_id" => 0,
+            "name" => $request->name,
             "price" => $request->price,
-            "units" => $request->units
         ]);
         return response()->json(
             ErrorCode::sendStatus(ErrorCode::CODE_1)
@@ -152,5 +154,50 @@ class OrderController extends Controller
                 ErrorCode::sendStatus(ErrorCode::CODE_18)
             );
         }
+    }
+
+    public function addBankCard(Request $request) {
+        $master = Master::find($request->master_id);
+        $safeCrowResult = json_decode(SafeCrow::addUserCard($master->sc_id, 'http://vsealaddin.ru'));
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["sc_link" => $safeCrowResult->redirect_url]
+            )
+        );
+    }
+
+    public function getBankCards(Request $request) {
+        $master = Master::find($request->master_id);
+        $safeCrowResult = json_decode(SafeCrow::showUserCards($master->sc_id));
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["cards" => $safeCrowResult]
+            )
+        );
+    }
+
+    public function getMaster(Request $request) {
+        $master = Master::find($request->id);
+        $masterArray = $master->toArray();
+        $subcategories = $master->subcategories()->select('name', 'image_url')->get()->toArray();
+        $masterSubways = $master->subways()->get();
+        $masterServices = $master->services()->get();
+        $masterInfo = $master->master_info()->first()->toArray();
+
+        $masterArray = array_merge(
+            $masterArray,
+            ["subcategories" => $subcategories],
+            ["subways" => $masterSubways],
+            ["services" => $masterServices],
+            ["master_info" => $masterInfo]);
+
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["master" => $masterArray]
+            )
+        );
     }
 }

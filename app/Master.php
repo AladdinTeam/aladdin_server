@@ -41,14 +41,25 @@ class Master extends Model implements AuthenticatableContract
         return $this->hasMany(PassportPhoto::class);
     }
 
+    /*
+     * Функция. которая возвращает заказы, с которыми он работает
+     */
+
     public function orders() {
         return $this->belongsToMany(Order::class)->withPivot('commentary', 'price', 'date');
     }
+
+    /*
+     * Функция, которая возвращает заказы, которые были адресованы напрямую
+     * */
 
     public function choose_orders() {
         return $this->hasMany(Order::class);
     }
 
+    /*
+     * Функция, которая возвращает заказы, с которыми он работал (история)
+     * */
     public function work_orders(){
         return $this->hasMany(Order::class, 'work_master_id', 'id');
     }

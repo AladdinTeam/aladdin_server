@@ -40,6 +40,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'subway_id' => $faker->numberBetween(1, 67),
         'price' => 1,
         'header' => $faker->title,
+//        'header' => $faker->randomLetter,
         'description' => $faker->text,
         'amount' => $faker->numberBetween(200, 10000),
         'end_date' => $faker->dateTimeBetween('+0 days', '+1 year')->format("Y-m-d"),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 use App\Client;
 use App\Http\Controllers\Controller;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Master_Info;
 use Illuminate\Http\Request;
@@ -33,11 +34,14 @@ class AuthorizationController extends Controller
         }
         if ($user == null) {
             if($request->user_type == 1){
+                $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
+
                 $user = Master::create([
                     "phone" => $request->phone,
                     "email" => mb_strtolower($request->email, 'UTF-8'),
                     "first_name" => $request->first_name,
                     "last_name" => $request->last_name,
+                    "sc_id" => $safeCrowBody->id
                 ]);
 
                 Master_Info::insert([
@@ -90,11 +94,7 @@ class AuthorizationController extends Controller
             );
         } else {
             return response()->json(
-                [
-                    'status' => '664',
-                    'error' => $request->phone
-                ]
-                //ErrorCode::sendStatus(ErrorCode::CODE_5)
+                ErrorCode::sendStatus(ErrorCode::CODE_5)
             );
         }
     }
@@ -158,7 +158,20 @@ class AuthorizationController extends Controller
                 $token = bcrypt($this->code_generation());
                 $user->update(["confirm_code" => null, "token" => $token,
                     "token_until" => date('Y-m-d H:i:s', (strtotime(date("Y-m-d H:i:s")) + 86400 * 5))]);
-                $user_arr = $user->toArray();
+
+                if ($request->user_type == 1) {
+                    $subcategories = $user->subcategories()->select('name', 'image_url')->get()->toArray();
+                    $masterSubways = $user->subways()->get();
+                    $masterServices = $user->services()->get();
+                    $masterInfo = $user->master_info()->first()->toArray();
+                    $user_arr = array_merge(
+                        $user->toArray(),
+                        ["subcategories" => $subcategories],
+                        ["subways" => $masterSubways],
+                        ["prices" => $masterServices],
+                        ["master_info" => $masterInfo]);
+                }
+
                 return response()->json(
                     array_merge(
                         ErrorCode::sendStatus(ErrorCode::CODE_1),
@@ -191,6 +204,22 @@ class AuthorizationController extends Controller
                 )
             );
         }
+    }
+
+    private function getUserJson($request) {
+        $master = Master::find($request->id);
+        $masterArray = $master->toArray();
+        $subcategories = $master->subcategories()->select('name', 'image_url')->get()->toArray();
+        $masterSubways = $master->subways()->get();
+
+        $masterArray = array_merge($masterArray, ["subcategories" => $subcategories], ["subways" => $masterSubways]);
+
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["master" => $masterArray]
+            )
+        );
     }
 
     public function change(Request $request){
