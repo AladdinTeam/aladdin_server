@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Mobile\Master;
 use App\Additional_Service;
 use App\AddLibraries\ErrorCode;
 use App\Http\Controllers\Controller;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Order;
 use Illuminate\Http\Request;
@@ -81,7 +82,7 @@ class OrderController extends Controller
                 "name" => $orders[$i]->header,
                 "amount" => $orders[$i]->amount,
                 "safety" => $orders[$i]->safety,
-                "date" => "Hui znaet"
+                "date" => "1995.10.12"
             ];
             $res_orders[] = $order;
         }
@@ -156,7 +157,25 @@ class OrderController extends Controller
     }
 
     public function addBankCard(Request $request) {
+        $master = Master::find($request->master_id);
+        $safeCrowResult = json_decode(SafeCrow::addUserCard($master->sc_id, 'http://vsealaddin.ru'));
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["sc_link" => $safeCrowResult->redirect_url]
+            )
+        );
+    }
 
+    public function getBankCards(Request $request) {
+        $master = Master::find($request->master_id);
+        $safeCrowResult = json_decode(SafeCrow::showUserCards($master->sc_id));
+        return response()->json(
+            array_merge(
+                ErrorCode::sendStatus(ErrorCode::CODE_1),
+                ["cards" => $safeCrowResult]
+            )
+        );
     }
 
     public function getMaster(Request $request) {

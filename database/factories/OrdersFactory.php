@@ -34,6 +34,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
         'subway_id' => $faker->numberBetween(1, 67),
         'price' => 1,
         'header' => $faker->title,
+//        'header' => $faker->randomLetter,
         'description' => $faker->text,
         'amount' => $faker->numberBetween(200, 10000),
         'safety' => $faker->numberBetween(0, 1),

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subcategory extends Model
 {
-    protected $hidden = ['category_id', 'created_at', 'updated_at', 'pivot'];
+    protected $hidden = ['category_id', 'created_at', 'updated_at', 'pivot', 'id', 'master_id'];
 
     public function category() {
         return $this->belongsTo(Category::class);

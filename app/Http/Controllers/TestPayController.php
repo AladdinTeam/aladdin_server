@@ -11,8 +11,8 @@ class TestPayController extends Controller
     public function index(){
         //print_r(json_decode(SafeCrow::createUser('79213877640', 'v.a.volkov@icloud.com', 'Victor', 'Volkov')));
         //print_r(json_decode(SafeCrow::createDeal(2541, 2542, 11000, 'Просто3', 'supplier')));
-        //SafeCrow::addUserCard(2542, 'http://vsealaddin.ru');
-//        print_r(json_decode(SafeCrow::showUserCards(2554)));
+        //print_r(json_decode(SafeCrow::addUserCard(2542, 'http://vsealaddin.ru')));
+        print_r(json_decode(SafeCrow::showUserCards(2554)));
         //print_r(json_decode(SafeCrow::getOrder()));
         //print_r(json_decode(SafeCrow::preAuth(8306, 'http://vsealaddin.ru')));
         //print_r(json_decode(SafeCrow::confirmPreAuth(8305)));
