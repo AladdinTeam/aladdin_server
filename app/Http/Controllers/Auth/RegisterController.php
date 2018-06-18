@@ -74,7 +74,6 @@ class RegisterController extends Controller
             } else {
                 $sc_id = $body->id;
             }
-            print_r($gg);
             if ($request->user_type == 1) {
                 $id = Master::insertGetId([
                     "sc_id" => $sc_id,
