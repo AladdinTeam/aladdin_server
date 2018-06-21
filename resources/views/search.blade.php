@@ -142,7 +142,7 @@
                                     <img class="profile__img" src="{{asset('img/complete-order.png')}}">
                                 </div>
                                 <div class="col-10 align-self-center">
-                                    <p class="profile__quality">Выполненных заданий {{/*$master->count*/random_int(5, 19)}}{{--34 выполненных задания--}}</p>
+                                    <p class="profile__quality">Выполненных заданий {{$master->work_orders()->where('status', 3)->count()}}{{--34 выполненных задания--}}</p>
                                 </div>
                             </div>
                             <div class="row profile__qualities">

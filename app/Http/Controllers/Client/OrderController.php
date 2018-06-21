@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Client;
 
 use App\Additional_Service;
 use App\Category;
+use App\Client;
 use App\Libraries\SafeCrow\SafeCrow;
+use App\Master;
 use App\Order;
 use App\Subcategory;
 use App\Subway;
@@ -115,6 +117,11 @@ class OrderController extends Controller
                 $master->pivot->price * 100,
                 $order->header
             ));
+
+            //echo $order->id.'(----)';
+//            echo $client->id.'(----)';
+//            echo $master->id.'(----)';
+//            print_r($deal);
             $order->update([
                 'sc_id' => $deal->id,
                 'work_master_id' => $master->id
@@ -131,8 +138,8 @@ class OrderController extends Controller
                 'http://aladdin.hoolee/after_pay'
             ));
 
-            //return redirect($deal->redirect_url);
             return redirect($deal->redirect_url);
+            //return redirect($deal->redirect_url);
            //print_r($deal);
         }
     }
@@ -234,7 +241,7 @@ class OrderController extends Controller
 
         $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://aladdin.hoolee/order/'.$service->order->id));
 
-        $service->update(['confirmed' => 2]);
+        $service->update(['confirmed' => 1]);
 
         return redirect($deal->redirect_url);
     }
@@ -249,70 +256,82 @@ class OrderController extends Controller
 
     public function callback(Request $request){
         $f = fopen('example.txt', 'w');
-
-        $test = fwrite($f, $request->status." ");
+        $test = fwrite($f, serialize($_GET));
+        /*$test = fwrite($f, $request->status." ");
         $test = fwrite($f, $request->price." ");
-        $test = fwrite($f, $request->orderId." ");
-        $sc_id = explode('_', $request->orderId);
-
-        $order = Order::where('sc_id', $sc_id[0])->first();
-        if($order != null){
-            $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
-            $test = fwrite($f, $deal->status." ");
-            switch ($deal->status){
-                case 'preauthorized':{
-                    $order->update(['status' => 5]);
-                    $test = fwrite($f, $deal->status." ");
-                    break;
-                }
-                case 'pending': {
-                    SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
-                    $order->update([
-                        'status' => 0,
-                        'work_master_id' => null,
-                        'sc_id' => 1
-                    ]);
-                    $test = fwrite($f, $deal->status." ");
-                    break;
-                }
-                case 'paid': {
-                    $test = fwrite($f, $deal->status." ");
-                    $order->update(['status' => 1]);
-                    break;
-                }
-                case 'closed': {
-                    $test = fwrite($f, $deal->status." ");
-                    $order->update(['status' => 3]);
-                    break;
-                }
-                case 'escalated': {
-                    $test = fwrite($f, $deal->status." ");
-                    $order->update(['status' => -2]);
-                    break;
-                }
-                /*case 'annul': {
-                    SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
-                    $order->update([
-                        'status' => 0,
-                        'work_master_id' => null,
-                        'sc_id' => 1
-                    ]);
-                    break;
-                }*/
-            }
+        $test = fwrite($f, $request->orderId." ");*/
+        if(isset($request->card_id)){
+            $user = Master::where('sc_id', $request->user_id)->first();
+            $info = $user->master_info;
+            $info->update(['card_id' => $request->card_id]);
         } else {
-            $service = Additional_Service::where('sc_id', $sc_id[0])->first();
-            $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
-            switch ($deal->status){
-                case 'paid': {
-                    $test = fwrite($f, $deal->status." ");
-                    $service->update(['verificated' => 1]);
-                    break;
-                }
-            }
+            $sc_id = explode('_', $request->orderId);
 
+            $order = Order::where('sc_id', $sc_id[0])->first();
+            if ($order != null) {
+                $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
+                $test = fwrite($f, $deal->status . " ");
+                switch ($deal->status) {
+                    case 'preauthorized':
+                        {
+                            $order->update(['status' => 5]);
+                            $test = fwrite($f, $deal->status . " ");
+                            break;
+                        }
+                    case 'pending':
+                        {
+                            SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
+                            $order->update([
+                                'status' => 0,
+                                'work_master_id' => null,
+                                'sc_id' => 1
+                            ]);
+                            $test = fwrite($f, $deal->status . " ");
+                            break;
+                        }
+                    case 'paid':
+                        {
+                            $test = fwrite($f, $deal->status . " ");
+                            $order->update(['status' => 1]);
+                            break;
+                        }
+                    case 'closed':
+                        {
+                            $test = fwrite($f, $deal->status . " ");
+                            $order->update(['status' => 3]);
+                            break;
+                        }
+                    case 'escalated':
+                        {
+                            $test = fwrite($f, $deal->status . " ");
+                            $order->update(['status' => -2]);
+                            break;
+                        }
+                    /*case 'annul': {
+                        SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
+                        $order->update([
+                            'status' => 0,
+                            'work_master_id' => null,
+                            'sc_id' => 1
+                        ]);
+                        break;
+                    }*/
+                }
+            } else {
+                $service = Additional_Service::where('sc_id', $sc_id[0])->first();
+                $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
+                switch ($deal->status) {
+                    case 'paid':
+                        {
+                            $test = fwrite($f, $deal->status . " ");
+                            $service->update(['verificated' => 1]);
+                            break;
+                        }
+                }
+
+            }
+            /*$hmac = OpenSSL::HMAC.hexdigest('SHA256', SafeCrow::getSecret(), "#".SafeCrow::getKey()."-");
+            $test = fwrite($f, hmac = OpenSSL::HMAC.hexdigest(‘SHA256’, api_secret, “#{api_key}-#{url}“));*/
         }
-        /*$hmac = OpenSSL::HMAC.hexdigest('SHA256', SafeCrow::getSecret(), "#".SafeCrow::getKey()."-");
-        $test = fwrite($f, hmac = OpenSSL::HMAC.hexdigest(‘SHA256’, api_secret, “#{api_key}-#{url}“));*/
     }
 }

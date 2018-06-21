@@ -70,8 +70,15 @@ class OrderController extends Controller
     }
 
     private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
-        return $this->constructOrders($orders);
+        //$orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        //return $this->constructOrders($orders);
+        $orders = Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        foreach($orders as $key=>$order){
+            if($order->masters()->where('master_id', $id)->first() != null){
+                $orders->forget($key);
+            }
+
+        }return $this->constructOrders($orders);
     }
 
     private function constructOrders($orders) {

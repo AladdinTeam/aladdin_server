@@ -2,7 +2,7 @@
 @section('title', 'Поиск')
 @section('styles')
     <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
-    <link href="{{asset('css/auth.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
     {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
@@ -135,11 +135,11 @@
         </div>
         <div class="col-12 col-md-7 profile__container--optional">
             @if($order->status == 0)
-                @if($order->master_id != null)
+                @if($order->master_id != null) <!--Если заявка прямая-->
                     <?php
                         $st_master = $order->masters()->where('master_id', $order->master_id)->first();
                     ?>
-                    @if($st_master != null)
+                    @if($st_master != null) <!--Если откликнулся прямой мастер-->
                         <div class="row profile">
                             <div class="col-6 col-md-8" style="padding-bottom: 10px">
                                 <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>
@@ -197,13 +197,13 @@
                                 <p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$st_master->pivot->commentary}}</p>
                             </div>
                         </div>
-                    @else
+                    @else <!--Если не откликнулся прямой мастер-->
                         <div class="row profile">
                             <div class="col-6 col-md-8" style="padding-bottom: 10px">
-                                <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
+                                <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
+                                {{--<button --}}{{--type="submit"--}}{{-- onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -248,15 +248,16 @@
                         <h3 style="font-size: 1rem; font-weight: 600; color: #605e5e">Посмотрите предложения других мастеров</h3>
                     </div>
                     @foreach($order->masters as $master)
-                        @if($master->id == $order->master_id)
+                        @if($master->id == $order->master_id) <!--Не выводим второй раз предложение прямого-->
 
-                        @endif
+                        @else <!--Выводим остальных-->
                         <div class="row profile">
                             <div class="col-6 col-md-8" style="padding-bottom: 10px">
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
+                            <!--gjsdg-->
                             <div class="col-6 col-md-4">
-                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
+                                <button {{--type="submit"--}} onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             {{--<div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -303,15 +304,16 @@
                                 <p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$master->pivot->commentary}}</p>
                             </div>
                         </div>
+                        @endif
                     @endforeach
-                @else
+                @else <!--Если заявка через лучшую цену-->
                     @foreach($order->masters as $master)
                         <div class="row profile">
                             <div class="col-6 col-md-8" style="padding-bottom: 10px">
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
+                                <button {{--type="submit"--}} onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -360,13 +362,13 @@
                         </div>
                     @endforeach
                 @endif
-            @else
+            @else <!--Если заявка не в ожидании-->
                 <?php
                 $st_master = $order->masters()->where('master_id', $order->work_master_id)->first();
                 ?>
                 <div class="row profile">
                     <div class="col-6 col-md-8" style="padding-bottom: 10px">
-                        <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->choosen_master->first_name}} {{$order->choosen_master->last_name}}</a>
+                        <a href="/profile/{{$order->choosen_master->id}}" class="profile__name--link">{{$order->choosen_master->first_name}} {{$order->choosen_master->last_name}}</a>
                     </div>
                     <div class="col-6 col-md-4">
                     </div>
@@ -422,8 +424,11 @@
                             <h3 style="font-size: 1.1rem; text-align: center; text-align: -moz-center; padding: 10px; color: #2f2e2e">Дополнительные услуги</h3>
                             @foreach($order->additional_services as $service)
                                 <div class="row">
-                                    <div class="col-6">
-                                        <p style="padding: 5px; font-size: 0.9rem">Послать всех в жопу</p>
+                                    <div class="col-4">
+                                        <p style="padding: 5px; font-size: 0.9rem">{{$service->name}}</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <p style="padding: 5px; font-size: 0.9rem">{{$service->price}}</p>
                                     </div>
                                     @if($service->confirmed == 0)
                                         <div class="col-3">

@@ -116,7 +116,33 @@ class RegisterController extends Controller
     public function addInfo(Request $request){
         $client = Client::find(Crypt::decryptString($request->session()->get('id')));
 
+        $validator = Validator::make($request->all(),
+            [
+                'email' => 'required|email',
+                'first_name' => 'required|alpha',
+                'last_name' => 'required|alpha'
+            ],
+            [
+                'email.required' => 'Введите e-mail',
+                'email.email' => 'Введите корректный e-mail',
+                'first_name.required' => 'Введите фамилию',
+                'first_name.alpha' => 'Введите корректную фамилию',
+                'last_name.required' => 'Введите имя',
+                'last_name.alpha' => 'Введите корректное имя'
+            ]
+        );
+        $validator->validate();
+
+        $sc_id = SafeCrow::getUserIdByPhone($client->phone);
+        if($sc_id == null){
+            $user = json_decode(SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name));
+            //print_r($user);
+            $sc_id = $user->id;
+            //print_r($user);
+        }
+
         $client->update([
+            'sc_id'=>$sc_id,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name

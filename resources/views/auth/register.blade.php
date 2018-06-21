@@ -1,15 +1,15 @@
 @extends('layouts.auth')
 
-@section('mobile-logo')
-    <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
-@endsection
-@section('desktop-logo')
-    <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
+@section('styles')
+    <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 
 @section('title', 'Регистрация')
 
-@section('content')
+@section('body')
     <div class="background">
         <div class="row">
             <div class="col-12">

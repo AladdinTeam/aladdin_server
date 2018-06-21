@@ -27,10 +27,11 @@
 </head>
 <body>
     <p>Ждем подтверждения от банка</p>
-    <svg class="progress-circle indefinite" width="100" height="100">
+    {{App\Order::where('master_id', '<>', 1)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', [1,2])->toSql()}}
+    {{--<svg class="progress-circle indefinite" width="100" height="100">
         <g transform="rotate(-90,50,50)">
             <circle class="bg" r="40" cx="50" cy="50" fill="none"></circle>
             <circle class="progress" r="40" cx="50" cy="50" fill="none"></circle>
         </g>
-    </svg>
+    </svg>--}}
 </body>
