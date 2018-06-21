@@ -7,7 +7,7 @@ $factory->define(App\Report::class, function (Faker $faker) {
     $flag = true;
     //$order = null;
     while($flag){
-        $order_id = $faker->numberBetween(1, 60);
+        $order_id = $faker->numberBetween(1, 2);
         $order = Order::find($order_id);
         if($order->master_id != null){
             $flag = false;

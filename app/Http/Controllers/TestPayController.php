@@ -16,9 +16,9 @@ class TestPayController extends Controller
         }
         print_r($gg);
         echo 'ggggg'.$gg->id;*/
-        print_r(json_decode(SafeCrow::createUser('79006549567', 'example10@gg.ru', 'first1', 'last1')));
+//        print_r(json_decode(SafeCrow::createUser('79006549567', 'example10@gg.ru', 'first1', 'last1')));
         //print_r(json_decode(SafeCrow::createUser('79213877640', 'v.a.volkov@icloud.com', 'Victor', 'Volkov')));
-        //print_r(json_decode(SafeCrow::createDeal(2541, 2542, 11000, 'Просто3', 'supplier')));
+//        print_r(json_decode(SafeCrow::createDeal(2541, 2542, 11000, 'Просто3'))->id);
         //print_r(json_decode(SafeCrow::addUserCard(2542, 'http://vsealaddin.ru')));
         //print_r(json_decode(SafeCrow::showUserCards(2554)));
         //print_r(json_decode(SafeCrow::getOrder()));
@@ -30,6 +30,8 @@ class TestPayController extends Controller
         //print_r(json_decode(SafeCrow::escalateOrder(8280, 'Test')));
         //print_r(json_decode(SafeCrow::payOrder(8306, 'http://vsealaddin.ru')));
         //print_r(json_decode(SafeCrow::closeOrder(8305)));
-        echo SafeCrow::getUserIdByPhone('79006549567');
+//        echo SafeCrow::getUserIdByPhone('79006549567');
+        print_r(count(json_decode(SafeCrow::getUsers())));
+//        print_r(json_decode(SafeCrow::getUsers()));
     }
 }
