@@ -20,7 +20,7 @@
         @if(isset($name))
             <div class="menu__item dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
                 <div class="dropdown-content">
-                    <a href="/lk/orders">Мои заказы</a>
+                    <a href="/orders">Мои заказы</a>
                     <a href="/logout">Выход</a>
                 </div>
             </div>

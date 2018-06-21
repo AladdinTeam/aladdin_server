@@ -45,5 +45,16 @@ class createMasters extends Seeder
             $u->subways()->saveMany($this->getSubways());
             //$u->orders()->saveMany(factory(App\Order::class, ))
         });
+
+        DB::table('masters')->insert(
+            [
+                'sc_id' => 2554,
+                'phone' => 79213877640,
+                'email' => 'v.a.volkov@icloud.com',
+                'password' => null,
+                'first_name' => 'Victor',
+                'last_name' => 'Volkov',
+            ]
+        );
     }
 }

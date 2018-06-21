@@ -50,27 +50,40 @@ class OrderController extends Controller
     }
 
     private function getHistoryOrders($id) {
-        $history_orders = Order::where('work_master_id', $id)->where('status', 2)->get();
+        $history_orders = Order::where('work_master_id', $id)->where('status', 3)->get();
         return $this->constructOrders($history_orders);
     }
 
     private function getActiveOrders($id, $isHolded) {
-        $orders = Order::where('work_master_id', $id)->where('safety', $isHolded)->get();
+        $orders = Order::where('work_master_id', $id)->where('safety', $isHolded)->where('status', 1)->get();
         return $this->constructOrders($orders);
     }
 
     private function getWaitingOrders($id) {
-        $orders = Order::where('master_id', $id)->where('status', 1)->get();
+        //$orders = Order::where('master_id', $id)->where('status', 0)->get();
+        $master = Master::find($id);
+        $orders = $master->orders;
+//        echo $orders;
+        foreach($orders as $key=>$order) {
+            if($order->status != 0) {
+                $orders->forget($key);
+            }
+        }
         return $this->constructOrders($orders);
     }
 
     private function getPrivateOrders($id) {
-        $orders = Order::where('work_master_id', '!=', $id)->where('master_id', $id)->where('status', 0)->get();
+        $orders = Order::where('work_master_id', '<>', $id)->where('master_id', $id)->where('status', 0)->get();
         return $this->constructOrders($orders);
     }
 
     private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        $orders = Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        foreach($orders as $key=>$order){
+            if($order->masters()->where('master_id', $id)->first() != null){
+                $orders->forget($key);
+            }
+        }
         return $this->constructOrders($orders);
     }
 
@@ -144,7 +157,7 @@ class OrderController extends Controller
 
     public function completeOrder(Request $request) {
         $order = Order::find($request->order_id);
-        if ($order->status == 2) {
+        if ($order->status == 1) {
             $order->increment('status');
             return response()->json(
                 ErrorCode::sendStatus(ErrorCode::CODE_1)
@@ -158,13 +171,17 @@ class OrderController extends Controller
 
     public function addBankCard(Request $request) {
         $master = Master::find($request->master_id);
-        $safeCrowResult = json_decode(SafeCrow::addUserCard($master->sc_id, 'http://vsealaddin.ru'));
+        $safeCrowResult = json_decode(SafeCrow::addUserCard($master->sc_id, 'http://vsealaddin.ru/api/order/add_card_id'));
         return response()->json(
             array_merge(
                 ErrorCode::sendStatus(ErrorCode::CODE_1),
                 ["sc_link" => $safeCrowResult->redirect_url]
             )
         );
+    }
+
+    public function addCardID(Request $request) {
+        print_r($request);
     }
 
     public function getBankCards(Request $request) {

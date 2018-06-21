@@ -28,6 +28,7 @@ Route::group(["prefix" => "order", "namespace" => "Mobile\Master"], function () 
     Route::post('/complete_order', 'OrderController@completeOrder')->middleware('master_auth_api');
     Route::post('/add_card', 'OrderController@addBankCard')->middleware('master_auth_api');
     Route::post('/get_cards', 'OrderController@getBankCards')->middleware('master_auth_api');
+    Route::get('/add_card_id', 'OrderController@addBankCard');
 });
 
 Route::group(["prefix" => "auth", "namespace" => "Mobile"], function () {
