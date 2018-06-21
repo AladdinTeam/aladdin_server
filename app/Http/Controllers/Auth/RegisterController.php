@@ -71,14 +71,16 @@ class RegisterController extends Controller
             $sc_id = SafeCrow::getUserIdByPhone($phone);
             if($sc_id == null){
                 $user = json_decode(SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name));
-                print_r($user);
+                //print_r($user);
+                $sc_id = $user->id;
+                //print_r($user);
             }
-            $body = SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name);
+            /*$body = SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name);
             if(isset($body->errors[0]->email)){
 
             } else {
                 $sc_id = $body->id;
-            }
+            }*/
             if ($request->user_type == 1) {
                 $id = Master::insertGetId([
                     "sc_id" => $sc_id,
@@ -109,5 +111,17 @@ class RegisterController extends Controller
         } else {
             return redirect('/registration')->with('unsuccess', "Данный пользователь уже зарегистрирован");
         }
+    }
+
+    public function addInfo(Request $request){
+        $client = Client::find(Crypt::decryptString($request->session()->get('id')));
+
+        $client->update([
+            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name
+        ]);
+
+        return redirect('/orders');
     }
 }

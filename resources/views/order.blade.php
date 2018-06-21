@@ -2,11 +2,38 @@
 @section('title', 'Поиск')
 @section('styles')
     <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
-    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/auth.less')}}" type="text/css" rel="stylesheet/less"/>
     {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
+    <div class="background-modal" id="modal">
+        <div class="modal">
+            <div class="row">
+                <div class="col-12" style="text-align: -moz-center; text-align: center; padding-top: 1.5rem">
+                    <h4 style="font-size: 1.1rem; color: #605e5e; font-weight: 600">Подтверждение выбора</h4>
+                    <p style="padding: 1rem 10px 0; font-size: 1rem">Вы уверены, что хотите выбрать предложение этого мастера?</p>
+                    @if($order->safety == 1)
+                        <p style="padding: 0.8rem 15px 0; font-size: 0.8rem">После подтверждения на карте будут заблокированы средства</p>
+                    @endif
+                </div>
+            </div>
+            <div class="row" style="padding: 25px 10px">
+                <div class="col col-md-4 offset-md-2">
+                    <form method="post" action="{{route('acceptOffer')}}">
+                        {{csrf_field()}}
+                        <input type="hidden" name="master" id="master" value="">
+                        <input type="hidden" name="order" id="order" value="">
+                        <button class="button button--blue button--full-container">Подтвердить</button>
+                        {{--<button type="submit" class="button button--blue button--full-container">Выбрать</button>--}}
+                    </form>
+                </div>
+                <div class="col col-md-4">
+                    <button class="button button--full-container" onclick="closeModal()">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row search__container">
         <div class="col-12 col-md-5 search-panel">
             <div id="search">
@@ -22,6 +49,71 @@
                         @endif
                     </ul>
                 </div>
+                @if($order->status == 5)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Всё устроило, можно выполнять</h1>
+                        <div class="row" style="padding: 25px 10px">
+                            <div class="col ">
+                                <form method="post" action="{{route('pay_order')}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order" value="{{$order->id}}">
+                                    <button type="submit" class="button button--blue button--full-container">Подтвердить</button>
+                                    {{--<button type="submit" class="button button--blue button--full-container">Выбрать</button>--}}
+                                </form>
+                            </div>
+                            <div class="col ">
+                                <form method="post" action="{{route('cancel_order')}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order" value="{{$order->id}}">
+                                    <button type="submit" class="button button--full-container">Отмена</button>
+                                    {{--<button type="submit" class="button button--blue button--full-container">Выбрать</button>--}}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($order->status == 1)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Заявка в работе</h1>
+                    </div>
+                @elseif($order->status == 51)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Ожидание холда</h1>
+                    </div>
+                @elseif($order->status == 11)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Ожидание оплаты</h1>
+                    </div>
+                @elseif($order->status == 2)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Всё устроило, можно выполнять</h1>
+                        <div class="row" style="padding: 25px 10px">
+                            <div class="col ">
+                                <form method="post" action="{{route('close_order')}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order" value="{{$order->id}}">
+                                    <button type="submit" class="button button--blue button--full-container">Закрыть заявку</button>
+                                    {{--<button type="submit" class="button button--blue button--full-container">Выбрать</button>--}}
+                                </form>
+                            </div>
+                            <div class="col ">
+                                <form method="post" action="{{route('escalate_order')}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order" value="{{$order->id}}">
+                                    <button type="submit" class="button button--full-container">Открыть спор</button>
+                                    {{--<button type="submit" class="button button--blue button--full-container">Выбрать</button>--}}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($order->status == 3)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">Заявка закрыта</h1>
+                    </div>
+                @elseif($order->status == -2)
+                    <div class="hint-list hint-list--border-bottom">
+                        <h1 class="hint-list__header">По заявке открыт спор</h1>
+                    </div>
+                @endif
                 <div class="hint-list hint-list--border-bottom">
                     <h1 class="hint-list__header">Как это работает:</h1>
                     <ol>
@@ -47,13 +139,18 @@
                     <?php
                         $st_master = $order->masters()->where('master_id', $order->master_id)->first();
                     ?>
-                    @if($order->masters()->where('master_id', $order->master_id)->first() != null)
+                    @if($st_master != null)
                         <div class="row profile">
                             <div class="col-6 col-md-8" style="padding-bottom: 10px">
-                                <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
+                                <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button class="button button--blue button--full-container">Выбрать</button>
+                                {{--<form method="post" action="{{route('acceptOffer')}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="master" value="{{$order->master->id}}">
+                                    <input type="hidden" name="order" value="{{$order->id}}">--}}
+                                    <button {{--type="submit"--}} onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
+                                {{--</form>--}}
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -106,7 +203,7 @@
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button class="button button--blue button--full-container">Выбрать</button>
+                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -159,7 +256,7 @@
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button class="button button--blue button--full-container">Выбрать</button>
+                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             {{--<div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -193,7 +290,7 @@
                                 @endif
                             </div>--}}
                             <div class="col-12">
-                                <p class="profile__about">{{$master->master_info->about}}Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!</p>
+                                <p class="profile__about">{{$master->master_info->about}}</p>
                             </div>
                             <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
                                 <p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$master->pivot->price}}</p>
@@ -214,7 +311,7 @@
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button class="button button--blue button--full-container">Выбрать</button>
+                                <button {{--type="submit"--}} onclick="alert_modal()" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
@@ -248,7 +345,7 @@
                                 @endif
                             </div>
                             <div class="col-12">
-                                <p class="profile__about">{{$master->master_info->about}}Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!</p>
+                                <p class="profile__about">{{$master->master_info->about}}</p>
                             </div>
                             <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
                                 <p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$master->pivot->price}}</p>
@@ -264,36 +361,100 @@
                     @endforeach
                 @endif
             @else
+                <?php
+                $st_master = $order->masters()->where('master_id', $order->work_master_id)->first();
+                ?>
+                <div class="row profile">
+                    <div class="col-6 col-md-8" style="padding-bottom: 10px">
+                        <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->choosen_master->first_name}} {{$order->choosen_master->last_name}}</a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                    </div>
+                    <div class="col-4 col-sm-2 col-md-3 col-lg-3">
+                        <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                    </div>
+                    <div class="col-8 col-sm-10 col-md-9 col-lg-9">
+                        <div class="row profile__qualities">
+                            <div class="col-2">
+                                <img class="profile__img" src="{{asset('img/complete-order.png')}}">
+                            </div>
+                            <div class="col-10 align-self-center">
+                                <p class="profile__quality">Выполненных заданий: {{$order->choosen_master->work_orders()->count()}}</p>
+                            </div>
+                        </div>
+                        <div class="row profile__qualities">
+                            <div class="col-2">
+                                <img class="profile__img" src="{{asset('img/positive-report.png')}}">
+                            </div>
+                            <div class="col-10 align-self-center">
+                                <p class="profile__quality">92% положительных отзывов</p>
+                            </div>
+                        </div>
+                        @if($order->choosen_master->master_info->card_id != null)
+                            <div class="row profile__qualities">
+                                <div class="col-2">
+                                    <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
+                                </div>
+                                <div class="col-10 align-self-center">
+                                    <p class="profile__quality">Работает через безопасную сделку</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-12">
+                        <p class="profile__about" style="color: #605e5e">Телефон мастера: {{$order->choosen_master->phone}}</p>
+                    </div>
+                    <div class="col-12">
+                        <p class="profile__about">{{$order->choosen_master->master_info->about}}</p>
+                    </div>
+                    <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
+                        <p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$st_master->pivot->price}}</p>
+                        <p style="padding: 5px; font-size: 0.9rem">Дата выполнения:
+                            <?php
+                            $date = new DateTime($st_master->pivot->date);
+                            echo $date->format('d.m.Y');
+                            ?>
+                        </p>
+                        <p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$st_master->pivot->commentary}}</p>
+                    </div>
+                    @if($order->additional_services != null)
+                        <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
+                            <h3 style="font-size: 1.1rem; text-align: center; text-align: -moz-center; padding: 10px; color: #2f2e2e">Дополнительные услуги</h3>
+                            @foreach($order->additional_services as $service)
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="padding: 5px; font-size: 0.9rem">Послать всех в жопу</p>
+                                    </div>
+                                    @if($service->confirmed == 0)
+                                        <div class="col-3">
+                                            <form method="post" action="{{route('confirm_additional_service')}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="service" value="{{$service->id}}">
+                                                <button class="button button--blue button--full-container">
+                                                    Принять
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-3">
+                                            <form method="post" action="{{route('cancel_additional_service')}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="service" value="{{$service->id}}">
+                                                <button class="button button--full-container">
+                                                    Принять
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <div class="col-6">
+                                            <p style="padding: 5px; font-size: 0.9rem">Принята</p>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             @endif
-            {{--<div class="row profile">
-                <div class="col-12">
-                    <p class="profile__name">--}}{{--{{$master->first_name}} {{$master->last_name}}--}}{{--Мастер</p>
-                </div>
-                <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                    <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
-                </div>
-                <div class="col-8 col-sm-10 col-md-9 col-lg-9">
-                    <div class="row profile__qualities">
-                        <div class="col-2">
-                            <img class="profile__img" src="{{asset('img/complete-order.png')}}">
-                        </div>
-                        <div class="col-10 align-self-center">
-                            <p class="profile__quality">Выполненных заданий {{/*$master->count*/random_int(5, 19)}}--}}{{--34 выполненных задания--}}{{--</p>
-                        </div>
-                    </div>
-                    <div class="row profile__qualities">
-                        <div class="col-2">
-                            <img class="profile__img" src="{{asset('img/positive-report.png')}}">
-                        </div>
-                        <div class="col-10 align-self-center">
-                            <p class="profile__quality">92% положительных отзывов</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <p class="profile__about">--}}{{--{{$master->about}}--}}{{--Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!</p>
-                </div>
-            </div>--}}
         </div>
     </div>
 @endsection

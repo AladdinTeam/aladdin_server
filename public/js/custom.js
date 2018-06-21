@@ -5,6 +5,8 @@ $(document).ready(function(){
     $.mask.definitions['3'] = "[0-3]";
     $("#date").mask("39.19.2999", {placeholder:"*"});
 
+    $('#pay_container').load('https://yandex.ru');
+
     /*$.ajax({
         type: "GET",
         url: '/search/get_categories',
@@ -24,6 +26,90 @@ $(document).ready(function(){
         tab_buttons[1].className = tab_buttons[1].className + " active";
     }*/
 });
+
+function getHTML(arr, m){
+    html = '';
+    flag = true;
+    arr.forEach(function (item, i, arr) {
+        if(item.id === m){
+            html += '<option value='+item.id+' selected>'+item.name+'</option>';
+            flag = false;
+        } else {
+            html += '<option value='+item.id+'>'+item.name+'</option>';
+        }
+    });
+    if(flag){
+        html = '<option value="0" disabled selected>Выберите метро</option>' + html;
+    }
+
+    return html;
+}
+
+function modal_order(id) {
+    document.getElementById('modal').style.display = 'block';
+    let csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: "get",//"post",
+        url: '/get_modal_order',
+        data: {_token: csrf_token, id: id},
+        success: function (json) {
+            html = '';
+            obj = JSON.parse(json);
+            iter = obj.categories;
+            m = obj.order.category_id;
+            $('#categories').html(getHTML(iter, m));
+            iter = obj.subcategories;
+            m = obj.order.subcategory_id;
+            $('#subcategories').html(getHTML(iter, m));
+            iter = obj.subways;
+            m = obj.order.subway_id;
+            $('#subways').html(getHTML(iter, m));
+            //obj.order.date = 'kjshkjdgsh';
+            console.log(new Date(obj.order.end_date));
+            $('#header').val(obj.order.header);
+            $('#description').html(obj.order.description);
+            $('#address').html(obj.order.address);
+            if(obj.order.date != null) {
+                date = new Date(obj.order.end_date);
+                $('#date').val(date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear());
+            }
+            $('#amount').val(obj.order.amount);
+            if(obj.order.safety === 1) {
+                document.getElementById('safety').checked = 'true';
+            }
+            $('#order').val(obj.order.id);
+        }
+    })
+    /*let csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: "POST",
+        url: '/get_claim',
+        data: {_token: csrf_token, id: id},
+        success: function(html){
+            let modal = document.getElementById('modal');
+            $(modal).html(html);
+            modal.style.display = 'block';
+        }
+    });*/
+}
+
+function alert_modal(master, order){
+    $('#master').val(master);
+    $('#order').val(order);
+    document.getElementById('modal').style.display = 'block';
+}
+
+$('#modal').on('click', function (evt) {
+    let modal = document.getElementById('modal');
+    if(evt.target === modal){
+        modal.style.display = 'none';
+    }
+});
+
+function closeModal(){
+    let modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
 
 $('#categories').change(function () {
     $.ajax({

@@ -52,7 +52,13 @@ class SafeCrow
         return $body;
     }
 
+    public static function getKey(){
+        return self::$api_key;
+    }
 
+    public static function getSecret(){
+        return self::$api_secret;
+    }
 
     public static function createUser($phone, $email, $firstName, $lastName){
         $json = [
@@ -168,7 +174,7 @@ class SafeCrow
 
     public static function confirmPreAuth($order_id){
         $json = [
-            'reason' => 'yeaah'
+            'reason' => ''
         ];
 
         $endpoint = '/orders/'.$order_id.'/preauth/confirm';
@@ -218,6 +224,25 @@ class SafeCrow
         $endpoint = '/orders/'.$order_id.'/escalate';
 
         $body = self::sendPostCurl($json, $endpoint);
+        return $body;
+    }
+
+    public static function callback(){
+        $json = [
+            'callback_url' => 'http://vsealaddin.ru/callback'
+        ];
+
+        $endpoint = '/settings';
+
+        $body = self::sendPostCurl($json, $endpoint);
+        return $body;
+    }
+
+    public static  function  callback_get(){
+        $endpoint = '/settings';
+
+        $body = self::sendGetCurl($endpoint);
+
         return $body;
     }
 }

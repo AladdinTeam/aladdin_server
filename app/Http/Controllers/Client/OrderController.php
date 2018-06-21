@@ -3,13 +3,37 @@
 namespace App\Http\Controllers\Client;
 
 use App\Additional_Service;
+use App\Category;
 use App\Libraries\SafeCrow\SafeCrow;
 use App\Order;
+use App\Subcategory;
+use App\Subway;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
 
 class OrderController extends Controller
 {
+    public function getModalOrder(Request $request){
+        $order = Order::find($request->id);
+        $categories = Category::get(['id', 'name']);
+        $subcategories = $order->category->subcategories()->select('id', 'name')->get();
+        $subways = Subway::get(['id', 'name']);
+
+        return json_encode(
+            [
+                'categories' => $categories,
+                'subcategories' => $subcategories,
+                'subways' => $subways,
+                'order' => $order
+            ]
+        );
+
+        //print_r(json_decode($gg));
+        //return json_decode()
+    }
+
     public function showPage(){
         $working_orders = Order::where('client_id', Crypt::decryptString(session('id')))->
             where('status', '=', 1, 'and')->orderBy('name')->get();
@@ -65,62 +89,230 @@ class OrderController extends Controller
     }
 
     public function acceptMasterOffer(Request $request){
-        $order = Order::find($request->order_id);
+        $order = Order::find($request->order);
         $client = $order->client;
         //$master = $order->master;
-        $master = $order->masters()->where('master_id', $request->master_id)->first();
+        $master = $order->masters()->where('master_id', $request->master)->first();
         if($order->safety == 0){
-            $order->update(['status', 1]);
+            $order->update(['status' => 1]);
+            $order->update(['work_master_id' => $master->id]);
+            //$order->update(['amount' => $master->pivot->price]);
+            return redirect('/orders');
         } else {
+            /*if(($order->sc_id == 1) or ($order->sc_id == null)){
+                $deal = json_decode(SafeCrow::createDeal(
+                    $client->sc_id,
+                    $master->sc_id,
+                    $master->pivot->price * 100,
+                    $order->header
+                ));
+                $order->update(['sc_id' => $deal->id]);
+            }*/
+
             $deal = json_decode(SafeCrow::createDeal(
                 $client->sc_id,
                 $master->sc_id,
-                $master->pivot->price,
+                $master->pivot->price * 100,
                 $order->header
             ));
+            $order->update([
+                'sc_id' => $deal->id,
+                'work_master_id' => $master->id
+            ]);
 
-            $order->update(['sc_id' => $deal->id]);
-
-            $deal = json_decode(SafeCrow::cardPaySupplier(
+            /*$deal = json_decode(SafeCrow::cardPaySupplier(
                 $master->master_info->card_id,
                 $master->sc_id,
                 $deal->id
-            ));
+            ));*/
 
             $deal = json_decode(SafeCrow::preAuth(
-                $deal->id,
+                $order->sc_id,
                 'http://aladdin.hoolee/after_pay'
             ));
 
+            //return redirect($deal->redirect_url);
+            return redirect($deal->redirect_url);
            //print_r($deal);
         }
     }
 
     public function afterPay(Request $request){
-        if($request->status == 'success'){
-            echo 'Hold complete';
-        }
-
         $order_id = explode('_', $request->orderId);
         $order = Order::where('sc_id', $order_id[0]);
-        $order->update(['status' => 1]);
+        $order->update(['status' => 5]);
+        //$order->update(['work_master_id' => Crypt::decryptString($request->session()->get('master'))]);
+        //$order->update(['amount' => Crypt::decryptString($request->session()->get('price'))]);
+       // $request->session()->forget('master');
+
+        return redirect('/order/'.$order->id);
+
+        //echo "И вот я здесь";
     }
 
-    public function acceptMasterOfferForPay(Request $request){
-        $order = Order::find($request->order_id);
+    public function payOrder(Request $request){
+        //echo $request->order;
+        $order = Order::find($request->order);
 
         $deal = json_decode(SafeCrow::confirmPreAuth($order->sc_id));
 
+        $order->update(['status' => 11]);
+
+        return redirect('/order/'.$order->id);
         //print_r($deal);
     }
 
-    public function declineMasterOfferForPay(Request $request){
-        $order = Order::find($request->order_id);
+    public function cancelOrder(Request $request){
+        $order = Order::find($request->order);
 
         $deal = json_decode(SafeCrow::releasePreAuth($order->sc_id));
 
-        $deal = SafeCrow::annulOrder($order->sc_id, $request->reason);
+        $deal = json_decode(SafeCrow::annulOrder($order->sc_id, $request->reason));
+
+        $order->update([
+            //'sc_id' => null,
+            'sc_id' => 1,
+            'status' => 0,
+            'work_master_id' => null
+        ]);
+
+        return redirect('/orders');
 
         //print_r($deal);
+    }
+
+    public function closeOrder(Request $request){
+        $order = Order::find($request->order);
+        $master = $order->choosen_master;
+
+        foreach ($order->additional_services as $service){
+            $deal = json_decode(SafeCrow::cardPaySupplier($master->master_info->card_id, $master->sc_id, $service->sc_id));
+
+            if($deal->supplier_payout_method_type == 'CreditCard'){
+                SafeCrow::closeOrder($order->sc_id);
+            }
+        }
+
+        $deal = json_decode(SafeCrow::cardPaySupplier($master->master_info->card_id, $master->sc_id, $order->sc_id));
+
+        if($deal->supplier_payout_method_type == 'CreditCard'){
+            $deal = json_decode(SafeCrow::closeOrder($order->sc_id));
+
+            if($deal->status == 'closed'){
+                $order->update(['status' => 3]);
+            }
+        }
+
+        return redirect('/order/'.$order->id);
+    }
+
+    public function escalateOrder(Request $request){
+        $order = Order::find($request->order);
+
+        foreach ($order->additional_services as $service){
+            SafeCrow::escalateOrder($service->id, 'The customer is unhappy');
+        }
+
+        $deal = json_decode(SafeCrow::escalateOrder($order->id, 'The customer is unhappy'));
+
+        if($deal->status == 'escalated'){
+            $order->update(['status' => -2]);
+        }
+    }
+
+    public function confirmAdditionalService(Request $request){
+        $service = Additional_Service::find($request->service);
+
+        $deal = json_decode(SafeCrow::createDeal(
+            $service->order->client->sc_id,
+            $service->order->choosen_master->sc_id,
+            $service->price * 100,
+            $service->name
+        ));
+
+        $service->update(['sc_id' => $deal->id]);
+
+        $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://aladdin.hoolee/order/'.$service->order->id));
+
+        $service->update(['confirmed' => 2]);
+
+        return redirect($deal->redirect_url);
+    }
+
+    public function cancelAdditionalService(Request $request){
+        $service = Additional_Service::find($request->service);
+        $order_id = $service->order->id;
+        $service->delete();
+
+        return redirect('/order/'.$order_id);
+    }
+
+    public function callback(Request $request){
+        $f = fopen('example.txt', 'w');
+
+        $test = fwrite($f, $request->status." ");
+        $test = fwrite($f, $request->price." ");
+        $test = fwrite($f, $request->orderId." ");
+        $sc_id = explode('_', $request->orderId);
+
+        $order = Order::where('sc_id', $sc_id[0])->first();
+        if($order != null){
+            $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
+            $test = fwrite($f, $deal->status." ");
+            switch ($deal->status){
+                case 'preauthorized':{
+                    $order->update(['status' => 5]);
+                    $test = fwrite($f, $deal->status." ");
+                    break;
+                }
+                case 'pending': {
+                    SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
+                    $order->update([
+                        'status' => 0,
+                        'work_master_id' => null,
+                        'sc_id' => 1
+                    ]);
+                    $test = fwrite($f, $deal->status." ");
+                    break;
+                }
+                case 'paid': {
+                    $test = fwrite($f, $deal->status." ");
+                    $order->update(['status' => 1]);
+                    break;
+                }
+                case 'closed': {
+                    $test = fwrite($f, $deal->status." ");
+                    $order->update(['status' => 3]);
+                    break;
+                }
+                case 'escalated': {
+                    $test = fwrite($f, $deal->status." ");
+                    $order->update(['status' => -2]);
+                    break;
+                }
+                /*case 'annul': {
+                    SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
+                    $order->update([
+                        'status' => 0,
+                        'work_master_id' => null,
+                        'sc_id' => 1
+                    ]);
+                    break;
+                }*/
+            }
+        } else {
+            $service = Additional_Service::where('sc_id', $sc_id[0])->first();
+            $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
+            switch ($deal->status){
+                case 'paid': {
+                    $test = fwrite($f, $deal->status." ");
+                    $service->update(['verificated' => 1]);
+                    break;
+                }
+            }
+
+        }
+        /*$hmac = OpenSSL::HMAC.hexdigest('SHA256', SafeCrow::getSecret(), "#".SafeCrow::getKey()."-");
+        $test = fwrite($f, hmac = OpenSSL::HMAC.hexdigest(‘SHA256’, api_secret, “#{api_key}-#{url}“));*/
     }
 }

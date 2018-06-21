@@ -88,14 +88,14 @@ class LoginController extends Controller
             if($user->confirm_code == $request->code){
                 $user->update(['confirm_code' => null]);
                 session(['auth' => Crypt::encryptString('1')]);
-                if(($user instanceof Client) and session()->get('login_data') and session()->get('login_target')){
-                    $target = session()->get('login_target');
+                if(($user instanceof Client) and session()->get('login_data') /*and session()->get('login_target')*/){
+                    /*$target = session()->get('login_target');
                     switch ($target) {
-                        case 'search/best_price':
+                        case 'search/mini_order':*/
                             return redirect()->action('SearchController@saveOrder');
-                    }
+                    //}
                 }
-                return redirect('/lk/orders');
+                return redirect('/orders');
             } else {
                 $code = $this->code_generation();
                 $user->update(['confirm_code' => $code]);
