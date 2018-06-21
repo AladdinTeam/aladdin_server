@@ -27,20 +27,19 @@ class AuthorizationController extends Controller
     public function register(Request $request) {
         if($request->user_type == 1){
             $user = Master::select("id")->where("phone", $request->phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         } else {
             $user = Client::select("id")->where("phone", $request->phone)->
-            where("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
+            orWhere("email", "=", mb_strtolower($request->email, 'UTF-8'), "or")->first();
         }
         if ($user == null) {
             if($request->user_type == 1){
 
-                $safeCrowID = self::getSafeCrowID($request->phone);
+                $safeCrowID = SafeCrow::getUserIdByPhone($request->phone);
                 if ($safeCrowID == null) {
                     $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
                     $safeCrowID = $safeCrowBody->id;
                 }
-//                $safeCrowBody = json_decode(SafeCrow::createUser($request->phone, $request->email, $request->first_name, $request->last_name));
 
                 $user = Master::create([
                     "phone" => $request->phone,
@@ -68,10 +67,9 @@ class AuthorizationController extends Controller
                 ErrorCode::sendStatus(ErrorCode::CODE_1)
             );
         } else {
-            if(($user->phone == $request->phone) && ($user->email == $request->email)){
+            if(($user->phone == $request->phone) && ($user->email == $request->email)) {
                 return response()->json(
                     ErrorCode::sendStatus(ErrorCode::CODE_2)
-
                 );
             } elseif ($user->phone == $request->phone) {
                 return response()->json(
@@ -83,19 +81,6 @@ class AuthorizationController extends Controller
                 );
             }
         }
-    }
-
-    private static function getSafeCrowID($phoneNumber) {
-
-        $allUsers = json_decode(SafeCrow::getUsers());
-
-        for ($i = 0; $i < count($allUsers); $i++) {
-            if ($allUsers[$i]->phone == $phoneNumber) {
-                return $allUsers[$i]->id;
-            }
-        }
-
-        return null;
     }
 
     public function login(Request $request){

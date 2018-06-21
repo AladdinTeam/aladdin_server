@@ -3,12 +3,17 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Client::class, function (Faker $faker) {
+    $fakeFirstName = $faker->firstName;
+    $fakeLastName = $faker->lastName;
+    $fakeEmail = $faker->email;
+    $fakeNumber = $faker->phoneNumber;
+    $scID = json_decode(\App\Libraries\SafeCrow\SafeCrow::createUser($fakeNumber, $fakeEmail, $fakeFirstName, $fakeLastName))->id;
     return [
-        'sc_id' => 1,
-        'phone' => $faker->phoneNumber,
-        'email' => $faker->email,
+        'sc_id' => $scID,
+        'phone' => $fakeNumber,
+        'email' => $fakeEmail,
         'password' => null,
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
+        'first_name' => $fakeFirstName,
+        'last_name' => $fakeLastName,
     ];
 });

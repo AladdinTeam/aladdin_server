@@ -2,8 +2,10 @@
 
 use Illuminate\Database\Seeder;
 
+
 class createClients extends Seeder
 {
+    static $ClientsCount = 100;
     /**
      * Run the database seeds.
      *
@@ -11,6 +13,6 @@ class createClients extends Seeder
      */
     public function run()
     {
-        factory(App\Client::class, 100)->create();
+        factory(App\Client::class, $this::$ClientsCount)->create();
     }
 }
