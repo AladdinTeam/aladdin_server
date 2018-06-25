@@ -15,6 +15,7 @@ class BestPriceController extends Controller
         $categories = Category::get();
         $subways = Subway::get();
         $full_order = false;
+        $name = 'Пользователь';
         if(session()->has('auth')){
             if(Crypt::decryptString(session()->get('user_type')) == 0){
                 $user = Client::find(Crypt::decryptString(session()->get('id')));

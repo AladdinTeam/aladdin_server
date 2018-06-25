@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(createOrders::class);
         $this->call(createReports::class);
         $this->call(createServices::class);
+        $this->call(createTests::class);
     }
 }

@@ -7,7 +7,13 @@ $factory->define(App\Master::class, function (Faker $faker) {
     $fakeLastName = $faker->lastName;
     $fakeEmail = $faker->email;
     $fakeNumber = $faker->phoneNumber;
-    $scID = json_decode(\App\Libraries\SafeCrow\SafeCrow::createUser($fakeNumber, $fakeEmail, $fakeFirstName, $fakeLastName))->id;
+    $sc = json_decode(\App\Libraries\SafeCrow\SafeCrow::createUser($fakeNumber, $fakeEmail, $fakeFirstName, $fakeLastName));
+    if(isset($sc->errors)){
+        $scID = 1;
+    } else {
+        $scID = $sc->id;
+    }
+
     return [
         'sc_id' => $scID,
         'phone' => $fakeNumber,
