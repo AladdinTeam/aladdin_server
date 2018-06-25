@@ -7,6 +7,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
+    <input type="hidden" style="display: none" id="status" value="{{$order->status}}">
     <div class="background-modal" id="modal">
         <div class="modal">
             <div class="row">
@@ -462,4 +463,30 @@
             @endif
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+
+        let status = $('#status').val();
+        console.log(status);
+
+        setInterval(function(){ checkStatus({{$order->id}}, status);}, 3000);
+        /*function checkStatus(order, status) {
+            console.log('gg huli');
+            let csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: "get",
+                url: '/check_order_status',
+                data: {_token: csrf_token, order: order, status: status},
+                success: function (json) {
+                    obj = JSON.parse(json);
+                    console.log(obj.check);
+                    if(obj.check){
+                        location.reload(true);
+                    }
+                }
+            })
+        }*/
+
+    </script>
 @endsection

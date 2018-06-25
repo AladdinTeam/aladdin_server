@@ -73,7 +73,7 @@
 <script src="{{asset('js/custom.js')}}"></script>
 </body>
 </html>--}}
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

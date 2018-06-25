@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Crypt;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("client_auth");
+    }
+
     public function getModalOrder(Request $request){
         $order = Order::find($request->id);
         $categories = Category::get(['id', 'name']);
@@ -93,54 +98,82 @@ class OrderController extends Controller
     public function acceptMasterOffer(Request $request){
         $order = Order::find($request->order);
         $client = $order->client;
-        //$master = $order->master;
         $master = $order->masters()->where('master_id', $request->master)->first();
         if($order->safety == 0){
             $order->update(['status' => 1]);
             $order->update(['work_master_id' => $master->id]);
-            //$order->update(['amount' => $master->pivot->price]);
             return redirect('/orders');
         } else {
-            /*if(($order->sc_id == 1) or ($order->sc_id == null)){
+            if(($order->sc_id != null) and ($order->sc_id != 1)){
+                $deal = json_decode(SafeCrow::getOrder($order->sc_id));
+                if(isset($deal->error)){
+                    $deal = json_decode(SafeCrow::createDeal(
+                        $client->sc_id,
+                        $master->sc_id,
+                        $master->pivot->price * 100,
+                        $order->header
+                    ));
+                } else {
+                    if(($master->sc_id != $deal->supplier_id) or ($master->pivot->price * 100 != $deal->price) or
+                        ($order->header != $deal->description)){
+                        $deal = json_decode(SafeCrow::createDeal(
+                            $client->sc_id,
+                            $master->sc_id,
+                            $master->pivot->price * 100,
+                            $order->header
+                        ));
+                    }
+                }
+            } else {
                 $deal = json_decode(SafeCrow::createDeal(
                     $client->sc_id,
                     $master->sc_id,
                     $master->pivot->price * 100,
                     $order->header
                 ));
-                $order->update(['sc_id' => $deal->id]);
-            }*/
+            }
+            //print_r($deal);
 
-            $deal = json_decode(SafeCrow::createDeal(
+            /*$deal = json_decode(SafeCrow::getOrder(null, $client->sc_id));
+            foreach ($deal as $d){
+                if(($master->sc_id == $d->supplier_id) and ($master->pivot->price * 100 == $d->price) and
+                    ($order->header == $d->header))
+            }*/
+            //print_r($deal);
+            /*$deal = json_decode(SafeCrow::createDeal(
                 $client->sc_id,
                 $master->sc_id,
                 $master->pivot->price * 100,
                 $order->header
-            ));
+            ));*/
 
-            //echo $order->id.'(----)';
-//            echo $client->id.'(----)';
-//            echo $master->id.'(----)';
-//            print_r($deal);
             $order->update([
                 'sc_id' => $deal->id,
                 'work_master_id' => $master->id
             ]);
-
-            /*$deal = json_decode(SafeCrow::cardPaySupplier(
-                $master->master_info->card_id,
-                $master->sc_id,
-                $deal->id
-            ));*/
 
             $deal = json_decode(SafeCrow::preAuth(
                 $order->sc_id,
                 'http://aladdin.hoolee/after_pay'
             ));
 
+            if(isset($deal->errors)){
+                $deal = json_decode(SafeCrow::getOrder($order->sc_id));
+                if($deal->status == 'preauthorized'){
+                    $order->update(['status' => 5]);
+                } elseif($deal->status == 'paid'){
+                    $order->update(['status' => 1]);
+                } elseif($deal->status == 'escalated'){
+                    $order->update(['status' => -2]);
+                } elseif($deal->status == 'pending'){
+                    $order->update(['status' => 0]);
+                } elseif($deal->status == 'closed'){
+                    $order->update(['status' => 3]);
+                }
+                return redirect('/order/'.$order->id);
+            }
+
             return redirect($deal->redirect_url);
-            //return redirect($deal->redirect_url);
-           //print_r($deal);
         }
     }
 
@@ -254,28 +287,33 @@ class OrderController extends Controller
         return redirect('/order/'.$order_id);
     }
 
+    public function checkOrderStatus(Request $request){
+        $order = Order::find($request->order);
+        if($order->status != $request->status){
+            return json_encode(['check' => true]);
+        } else {
+            return json_encode(['check' => false]);
+        }
+    }
+
     public function callback(Request $request){
         $f = fopen('example.txt', 'w');
         $test = fwrite($f, serialize($_GET));
-        /*$test = fwrite($f, $request->status." ");
-        $test = fwrite($f, $request->price." ");
-        $test = fwrite($f, $request->orderId." ");*/
         if(isset($request->card_id)){
             $user = Master::where('sc_id', $request->user_id)->first();
             $info = $user->master_info;
             $info->update(['card_id' => $request->card_id]);
         } else {
             $sc_id = explode('_', $request->orderId);
-
             $order = Order::where('sc_id', $sc_id[0])->first();
             if ($order != null) {
                 $deal = json_decode(SafeCrow::getOrder($sc_id[0]));
-                $test = fwrite($f, $deal->status . " ");
+                //$test = fwrite($f, $deal->status . " ");
                 switch ($deal->status) {
                     case 'preauthorized':
                         {
                             $order->update(['status' => 5]);
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             break;
                         }
                     case 'pending':
@@ -286,36 +324,27 @@ class OrderController extends Controller
                                 'work_master_id' => null,
                                 'sc_id' => 1
                             ]);
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             break;
                         }
                     case 'paid':
                         {
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             $order->update(['status' => 1]);
                             break;
                         }
                     case 'closed':
                         {
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             $order->update(['status' => 3]);
                             break;
                         }
                     case 'escalated':
                         {
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             $order->update(['status' => -2]);
                             break;
                         }
-                    /*case 'annul': {
-                        SafeCrow::annulOrder($sc_id[0], 'The choice was not confirmed');
-                        $order->update([
-                            'status' => 0,
-                            'work_master_id' => null,
-                            'sc_id' => 1
-                        ]);
-                        break;
-                    }*/
                 }
             } else {
                 $service = Additional_Service::where('sc_id', $sc_id[0])->first();
@@ -323,15 +352,13 @@ class OrderController extends Controller
                 switch ($deal->status) {
                     case 'paid':
                         {
-                            $test = fwrite($f, $deal->status . " ");
+                            //$test = fwrite($f, $deal->status . " ");
                             $service->update(['verificated' => 1]);
                             break;
                         }
                 }
 
             }
-            /*$hmac = OpenSSL::HMAC.hexdigest('SHA256', SafeCrow::getSecret(), "#".SafeCrow::getKey()."-");
-            $test = fwrite($f, hmac = OpenSSL::HMAC.hexdigest(‘SHA256’, api_secret, “#{api_key}-#{url}“));*/
         }
     }
 }

@@ -30,7 +30,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
     }
     $status = $faker->numberBetween(0, 3);
     if($status != 0){
-        $wm = $faker->numberBetween(1, 2);
+        $wm = $faker->numberBetween(1, 100);
         $clientSafeCrowID = \App\Client::where('id', $clientID)->first()->sc_id;
         $masterSafeCrowID = \App\Master::where('id', $wm)->first()->sc_id;
         $safeCrowBody = json_decode(App\Libraries\SafeCrow\SafeCrow::createDeal($clientSafeCrowID, $masterSafeCrowID, ($amount * 100), $header));

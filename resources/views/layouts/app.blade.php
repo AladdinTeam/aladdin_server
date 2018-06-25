@@ -25,7 +25,7 @@
                 </div>
             </div>
         @else
-            <div class="menu__item"><span>Мои заказы</span></div>
+            <div class="menu__item"><span onclick="location.href = '/login'">Мои заказы</span></div>
         @endif
         <div class="menu__item"><span>Исполнителям</span></div>
         <div class="menu__item"><span>Заказчикам</span></div>
@@ -34,10 +34,15 @@
     <img class="menu-icon" onclick="openNav()" src="{{asset('img/icon-menu.png')}}">
     <div class="sidenav" id="sidenav">
         <a href="javascript:void(0)" class="sidenav__close" onclick="closeNav()">&times</a>
-        <a href="#" class="sidenav__item">Найти специалиста</a>
-        <a href="#" class="sidenav__item {{--sidenav__item--active--}}">Заказчикам</a>
+        <a href="/search" class="sidenav__item">Найти специалиста</a>
+        <a href="#" class="sidenav__item">Заказчикам</a>
         <a href="#" class="sidenav__item">Исполнителям</a>
-        <a href="#" class="sidenav__item">Мои заказы</a>
+        @if(isset($name))
+            <a href="/orders" class="sidenav__item">Мои заказы</a>
+            <a href="/logout" class="sidenav__item">Выход</a>
+        @else
+            <a href="/login" class="sidenav__item">Мои заказы</a>
+        @endif
     </div>
 </nav>
 @yield("body")

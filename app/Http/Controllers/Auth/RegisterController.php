@@ -135,7 +135,7 @@ class RegisterController extends Controller
 
         $sc_id = SafeCrow::getUserIdByPhone($client->phone);
         if($sc_id == null){
-            $user = json_decode(SafeCrow::createUser($phone, $request->email, $request->first_name, $request->last_name));
+            $user = json_decode(SafeCrow::createUser($client->phone, $request->email, $request->first_name, $request->last_name));
             //print_r($user);
             $sc_id = $user->id;
             //print_r($user);

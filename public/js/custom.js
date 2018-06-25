@@ -1,11 +1,12 @@
 $(document).ready(function(){
+    //$('#phone').focus();
     $("#phone").mask("+7(999) 999-99-99");
     $.mask.definitions['1'] = "[0-1]";
     $.mask.definitions['2'] = "[0-2]";
     $.mask.definitions['3'] = "[0-3]";
     $("#date").mask("39.19.2999", {placeholder:"*"});
 
-    $('#pay_container').load('https://yandex.ru');
+
 
     /*$.ajax({
         type: "GET",
@@ -26,6 +27,23 @@ $(document).ready(function(){
         tab_buttons[1].className = tab_buttons[1].className + " active";
     }*/
 });
+
+function checkStatus(order, status) {
+    console.log('gg huli');
+    let csrf_token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: "get",
+        url: '/check_order_status',
+        data: {_token: csrf_token, order: order, status: status},
+        success: function (json) {
+            obj = JSON.parse(json);
+            console.log(obj.check);
+            if(obj.check){
+                location.reload(true);
+                }
+        }
+    })
+}
 
 function getHTML(arr, m){
     html = '';
@@ -49,7 +67,7 @@ function modal_order(id) {
     document.getElementById('modal').style.display = 'block';
     let csrf_token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
-        type: "get",//"post",
+        type: "post",
         url: '/get_modal_order',
         data: {_token: csrf_token, id: id},
         success: function (json) {
@@ -105,6 +123,10 @@ $('#modal').on('click', function (evt) {
         modal.style.display = 'none';
     }
 });
+
+function openModal() {
+    document.getElementById('modal').style.display = 'block';
+}
 
 function closeModal(){
     let modal = document.getElementById('modal');

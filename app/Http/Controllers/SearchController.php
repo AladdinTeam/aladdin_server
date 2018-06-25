@@ -276,6 +276,11 @@ class SearchController extends Controller
                 return redirect('/best_price#search_form')
                     ->withErrors($validator)
                     ->withInput();
+            } elseif($request->st == 3){
+                return redirect('/profile/'.$request->master_id)
+                    ->withErrors($validator)
+                    ->withInput()
+                    ->with('modal_state', 'open');
             }
         }
         //$data = $request->all();

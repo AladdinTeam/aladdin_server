@@ -34,14 +34,14 @@
     <div class="find">
         <p class="find__text">Находите исполнителей вручную или заполните форму для поиска лучшего предложения</p>
     </div>
-    <div class="row search__container">
+    <div class="row search__container" id="form">
         <div class="col-12 col-md-5 search-panel">
             <div class="row tab">
                 <div class="col-4 tab__item">
-                    <button class="tab__button tab__button--active" onclick="location.href='/search'">Исполнители</button>
+                    <button class="tab__button tab__button--active" onclick="location.href='/search#form'">Исполнители</button>
                 </div>
                 <div class="col-8 tab__item">
-                    <button class="tab__button" onclick="location.href='/best_price'">Поиск лучшего предложения</button>
+                    <button class="tab__button" onclick="location.href='/best_price#form'">Поиск лучшего предложения</button>
                 </div>
             </div>
             <div id="filters" class="@if(isset($masters)) filter--show @else filter--hidden @endif turn_form row ">

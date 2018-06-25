@@ -76,11 +76,16 @@ class ProfileController extends Controller
     }
 
     public function oneOrder(Order $order){
+        if($order->client->id == Crypt::decryptString(session()->get('id'))){
+            return view ('order', ['order' => $order]);
+        } else {
+            return redirect('/orders');
+        }
        /*if($order->additional_services == null){
            echo 'gg';
        } else {
            echo 'gj';
        }*/
-        return view ('order', ['order' => $order]);
+        //return view ('order', ['order' => $order]);
     }
 }

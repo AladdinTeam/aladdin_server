@@ -25,6 +25,8 @@ Route::group(["prefix" => "search"], function (){
     Route::post('/mini_order', 'SearchController@miniOrder')->name('miniOrder');
 });
 
+Route::get('/best_price', 'BestPriceController@index');
+
 Route::group(["namespace" => "Auth"], function (){
     Route::get('/login', 'LoginController@showForm');
     Route::post('/login', 'LoginController@login')->name('login');
@@ -36,36 +38,27 @@ Route::group(["namespace" => "Auth"], function (){
     Route::post('/add_info', 'RegisterController@addInfo')->name('add_info')->middleware("client_auth");
 });
 
-Route::get('/orders', "ProfileController@orders")->middleware('auth');
-
-Route::get('/home', 'HomeController@index');
-Route::get('/home1', "SearchController@hh")->middleware("auth");
+Route::get('/orders', "ProfileController@orders")->middleware('client_auth');
 
 Route::get('/test_pay', 'TestPayController@index');
-Route::get('/testing', 'Client\OrderController@deleteOrder');
+//Route::get('/testing', 'Client\OrderController@deleteOrder');
 Route::get('/after_pay', 'Client\OrderController@afterPay');
-Route::get('/best_price', 'BestPriceController@index');
 
-Route::get('/order/{order}', 'ProfileController@oneOrder');
+
+Route::get('/order/{order}', 'ProfileController@oneOrder')->middleware('client_auth');
 
 Route::post('/accept_offer', 'Client\OrderController@acceptMasterOffer')->name('acceptOffer');
 
-Route::get('/get_modal_order', 'Client\OrderController@getModalOrder');
+Route::post('/get_modal_order', 'Client\OrderController@getModalOrder');
 Route::post('/pay_order', 'Client\OrderController@payOrder')->name('pay_order');
 Route::post('/cancel_order', 'Client\OrderController@cancelOrder')->name('cancel_order');
 Route::post('close_order', 'Client\OrderController@closeOrder')->name('close_order');
 Route::post('escalate_order', 'Client\OrderController@escalateOrder')->name('escalate_order');
 Route::post('/confirm_additional_service', 'Client\OrderController@confirmAdditionalService')->name('confirm_additional_service');
 Route::post('/cancel_additional_service', 'Client\OrderController@cancelAdditionalService')->name('cancel_additional_service');
+Route::get('/check_order_status', 'Client\OrderController@checkOrderStatus');
 
 Route::get('/callback', 'Client\OrderController@callback');
-
-Route::get('/progress', function(){
-    return view('progress');
-});
-Route::get('/pay', function (){
-    return view('pay');
-});
 
 //Route::get('/master', 'SearchController@getMasters');
 

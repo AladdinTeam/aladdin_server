@@ -36,10 +36,12 @@ class LoginController extends Controller
     public function login(Request $request){
         $sender = new Sms();
         $validator = Validator::make($request->all(),
-            ['user_type' => 'required',
+            [
+                'user_type' => 'required',
                 'phone' => 'required|min:17|max:17',
             ],
-            ['user_type.required' => 'Выберите тип пользователя',
+            [
+                'user_type.required' => 'Выберите тип пользователя',
                 'phone.required' => 'Введите корректный номер телефона',
                 'phone.min' => 'Введите корректный номер телефона',
                 'phone.max' => 'Введите корректный номер телефона'

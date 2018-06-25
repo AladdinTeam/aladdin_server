@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Request;
 @endsection
 @section('body')
     @if(session()->has('category'))
-        <div class="background-modal" id="modal">
+        <div class="background-modal" id="modal" @if(session()->has('modal_state')) style="display:block;" @endif>
             <div class="modal">
                 <a href="javascript:void(0)" class="modal__close" onclick="closeModal()">&times</a>
                 <div style="text-align: -moz-center; text-align: center; padding-top: 1.5rem">
@@ -19,20 +19,10 @@ use Illuminate\Support\Facades\Request;
                 </div>
                 <form class="form" method="post" action="{{route('miniOrder')}}">
                     <input type="hidden" name="master_id" value="{{$master->id}}">
+                    <input type="hidden" name="st" value="3">
                     {{csrf_field()}}
                     <select id="categories" name="category" class="form__input-field form__select">
-                        {{--@if(session()->has('category'))--}}
-                        <option value="{{session()->get('category')}}" disabled selected>{{App\Category::find(session()->get('category'))->name}}</option>
-                        {{--@elseif(old('category') != null)
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>
-                            @endforeach
-                        @else
-                            <option value="0" disabled selected>Выберите категорию</option>
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
-                            @endforeach
-                        @endif--}}
+                        <option value="{{session()->get('category')}}" selected>{{App\Category::find(session()->get('category'))->name}}</option>
                     </select>
                     @if($errors->has("category"))
                         @foreach ($errors->get("category") as $error)
@@ -40,47 +30,33 @@ use Illuminate\Support\Facades\Request;
                         @endforeach
                     @endif
                     <select id="subcategories" name="subcategory" class="form__input-field form__select">
-                        {{--@if(session()->has('subcategory'))--}}
-                        <option value="{{session()->get('subcategory')}}" disabled selected>{{App\Category::find(session()->get('subcategory'))->name}}</option>
-                        {{--@elseif(session()->has('category'))
+                        @if(session()->get('subcategory') != 0)
+                            <option value="{{session()->get('subcategory')}}" selected>{{App\Subcategory::find(session()->get('subcategory'))->name}}</option>
+                        @elseif (old('subcategory') != 0)
                             <?php
-                                $subcategories = $master->subcategories()->where('category_id', session()->has('category'))->get();
+                                $subcategories = $master->subcategories()->where('category_id', session()->get('category'))->get();
                             ?>
-                            <option value="0" disabled selected>Выберите категорию</option>
                             @foreach($subcategories as $subcategory)
-                                <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
+                                <option value="{{$subcategory->id}}" @if($subcategory->id == old('subcategory')) selected @endif>{{$subcategory->name}}</option>
                             @endforeach
-                        @endif--}}
-                        {{--@if (old('category') != null)
-                            <?php
-                            $subcategories = App\Subcategory::where('category_id', old('category'))->get();
-                            if(old('subcategory') != 0){
-                                foreach ($subcategories as $subcategory){
-                                    if($subcategory->id == old('subcategory')){
-                                        echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
-                                    } else {
-                                        echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
-                                    }
-                                }
-                            } else {
-                                echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
-                                foreach ($subcategories as $subcategory){
-                                    echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
-                                }
-                            }
-                            ?>
                         @else
+                            <?php
+                                $subcategories = $master->subcategories()->where('category_id', session()->get('category'))->get();
+                            ?>
                             <option value="0" disabled selected>Выберите подкатегорию</option>
-                        @endif--}}
+                            @foreach($subcategories as $subcategory)
+                                    <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
+                            @endforeach
+                        @endif
                     </select>
                     @if($errors->has("subcategory"))
                         @foreach ($errors->get("subcategory") as $error)
                             <label class="form__error">{{$error}}</label>
                         @endforeach
                     @endif
-                    @if(isset(session()->has('subway')))
+                    @if(session()->get('subway') != 0)
                         <select id="subways" name="subway" class="form__input-field form__select">
-                            <option value="{{session()->get('subway')}}" disabled selected>{{App\Category::find(session()->get('subway'))->name}}</option>
+                            <option value="{{session()->get('subway')}}" selected>{{App\Subway::find(session()->get('subway'))->name}}</option>
                         </select>
                         @if($errors->has("subway"))
                             @foreach ($errors->get("subway") as $error)
@@ -88,39 +64,18 @@ use Illuminate\Support\Facades\Request;
                             @endforeach
                         @endif
                     @endif
-                    {{--<select class="form__input-field form__select">
-                        <option>Мелкий ремонт</option>
-                        <option>Грузоперевозки</option>
-                    </select>--}}
-                    {{-- <input class="form__input-field" type="text" placeholder="Ваше имя">
-                     <input class="form__input-field" type="text" placeholder="Ваш телефон">--}}
+                    <input id="phone" name="phone" class="form__input-field" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
+                    @if($errors->has("phone"))
+                        @foreach ($errors->get("phone") as $error)
+                            <label class="form__error">{{$error}}</label>
+                        @endforeach
+                    @endif
                     <input type="text" class="form__input-field" name="header" placeholder="Введите название заявки" value="{{old('header')}}">
                     @if($errors->has("header"))
                         @foreach ($errors->get("header") as $error)
                             <label class="form__error">{{$error}}</label>
                         @endforeach
                     @endif
-                    {{--<textarea class="form__input-field" rows="3" name="description" placeholder="Введите подробное описание задачи">{{old('description')}}</textarea>
-                    @if($errors->has("description"))
-                        @foreach ($errors->get("description") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <textarea class="form__input-field" rows="2" name="address" placeholder="Введите адрес">{{old('address')}}</textarea>
-                    @if($errors->has("address"))
-                        @foreach ($errors->get("address") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <div class="form__input-field" style="border: none;">
-                        <label for="date" style="float: left;margin-bottom: 10px;font-size: 0.8rem">Дата окончания актуальности заказа:</label>
-                    </div>
-                    <input class="form__input-field" id="date" name="date" placeholder="дд.мм.гггг" value="{{old('date')}}">
-                    @if($errors->has("date"))
-                        @foreach ($errors->get("date") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif--}}
                     <input type="number" class="form__input-field" placeholder="Предпологаемый бюджет" name="amount" value="{{old('amount')}}">
                     @if($errors->has("amount"))
                         @foreach ($errors->get("amount") as $error)
@@ -128,7 +83,7 @@ use Illuminate\Support\Facades\Request;
                         @endforeach
                     @endif
                     <label class="form__container">Работа через безопасную сделку
-                        <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
+                        <input type="checkbox" name="safety" @if((old('safety') != null) or (session()->get('safety') == 'on')) checked @endif>
                         <span class="form__checkmark"></span>
                     </label>
                     <button type="submit" class="button button--blue button--center button--bold">ОТПРАВИТЬ ЗАЯВКУ</button>
@@ -163,7 +118,7 @@ use Illuminate\Support\Facades\Request;
             <div class="row profile">
                 @if(session()->has('category'))
                 <div class="col-4 offset-8">
-                    <button class="button button--center button--blue" {{--onclick="location.href = '/profile/{{$master->id}}'"--}}>Выбрать</button>
+                    <button class="button button--center button--blue" onclick="openModal()">Выбрать</button>
                 </div>
                 @endif
                 <div class="col-12">
