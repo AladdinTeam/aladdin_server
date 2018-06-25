@@ -125,7 +125,14 @@ use Illuminate\Support\Facades\Request;
                     <p class="profile__name">{{$master->first_name}} {{$master->last_name}}{{--Иван Иванов--}}</p>
                 </div>
                 <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                    <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                    <?php
+                    $photo = $master->photos()->where('is_avatar', 1)->first();
+                    ?>
+                    @if($photo != null)
+                        <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                    @else
+                        <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                    @endif
                 </div>
                 <div class="col-8 col-sm-10 col-md-9 col-lg-9">
                     <div class="row profile__qualities">

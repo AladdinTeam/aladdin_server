@@ -20,6 +20,10 @@ class OrderController extends Controller
     public function __construct()
     {
         $this->middleware("client_auth");
+        session()->forget('category');
+        session()->forget('subcategory');
+        session()->forget('subway');
+        session()->forget('safety');
     }
 
     public function getModalOrder(Request $request){

@@ -211,7 +211,7 @@ class VerifyController extends Controller
             $type = $file->getMimeType();
             if(in_array($type, VerifyController::UPLOAD_IMAGE_MIME_TYPE)){
                 if($request->isAvatar == 1){
-                    $name = $file->store('images');
+                    $name = $file->store('public/'.$request->master_id);
                     $avatar = Photo::select('id')->where('master_id', $request->master_id)->where('is_avatar', '=', 1, 'and')->first();
                     if($avatar != null){
                         $avatar->update(["is_avatar" => 0]);
@@ -225,7 +225,7 @@ class VerifyController extends Controller
                     );
                     return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
                 } elseif ($request->isDocument == 1){
-                    $name = $file->store('images');
+                    $name = $file->store('public/'.$request->master_id);
                     Photo::create(
                         [
                             "master_id" => $request->master_id,
@@ -235,7 +235,7 @@ class VerifyController extends Controller
                     );
                     return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
                 } elseif($request->isPassport == 1) {
-                    $name = $file->store('pass');
+                    $name = $file->store('pass/'.$request->master_id);
                     PassportPhoto::create(
                         [
                             "master_id" => $request->master_id,
@@ -248,7 +248,7 @@ class VerifyController extends Controller
                     }
                     return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
                 } else {
-                    $name = $file->store('images');
+                    $name = $file->store('public/'.$request->master_id);
                     Photo::create(
                         [
                             "master_id" => $request->master_id,

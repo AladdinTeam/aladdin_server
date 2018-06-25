@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Request;
 
 class LandingController extends Controller
 {
+    public function __construct()
+    {
+        session()->forget('category');
+        session()->forget('subcategory');
+        session()->forget('subway');
+        session()->forget('safety');
+    }
+
     public function index() {
         if(session()->has("auth")){
             if(Crypt::decryptString(session()->get('user_type')) == 0){
@@ -35,5 +43,9 @@ class LandingController extends Controller
         } else {
             return view("landing", ["categories" => $categories]);
         }
+    }
+
+    public function index1(){
+        return view('index1');
     }
 }

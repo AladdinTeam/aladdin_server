@@ -18,7 +18,7 @@
     <div class="menu">
         {{--<div class="menu__item"><span class="phone">8(800) 550 16 45</span></div>--}}
         @if(isset($name))
-            <div class="menu__item dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
+            <div class="menu__item menu__item--name dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
                 <div class="dropdown-content">
                     <a href="/orders">Мои заказы</a>
                     <a href="/logout">Выход</a>

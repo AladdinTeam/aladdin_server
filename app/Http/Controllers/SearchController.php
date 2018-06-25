@@ -23,6 +23,24 @@ class SearchController extends Controller
     }
 
     public function index(Request $request){
+        if(session()->has("auth")){
+            if(Crypt::decryptString(session()->get('user_type')) == 0){
+                $user = Client::find(Crypt::decryptString(session()->get('id')));
+            } else {
+                $user = Master::find(Crypt::decryptString(session()->get('id')));
+            }
+            if($user == null){
+                session()->forget('auth');
+                session()->forget('user_type');
+                session()->forget('id');
+            } else {
+                if ($user->last_name != null) {
+                    $name = $user->last_name;
+                } else {
+                    $name = 'Пользователь';
+                }
+            }
+        }
         $categories = Category::get();
         $subways = Subway::get();
         if((isset($request->subcategory)) or (isset($request->page))){
@@ -82,15 +100,26 @@ class SearchController extends Controller
                     }
                     $master->about = $master->master_info->about;
                 }
-
-                return view('search')->with([
-                    "masters" => $masters,
-                    "categories" => $categories,
-                    "category" => $local_category,
-                    "subcategories" => $subcategories,
-                    "subways" => $subways,
-                    "safety" => $local_safety
-                ]);
+                if(isset($name)){
+                    return view('search')->with([
+                        "name" => $name,
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subways" => $subways,
+                        "safety" => $local_safety
+                    ]);
+                } else {
+                    return view('search')->with([
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subways" => $subways,
+                        "safety" => $local_safety
+                    ]);
+                }
             } elseif(($local_category != 0 ) and ($local_subcategory != 0)
                 and ($local_subway == 0)) {
 
@@ -120,16 +149,28 @@ class SearchController extends Controller
                     }
                     $master->about = $master->master_info->about;
                 }
-
-                return view('search')->with([
-                    "masters" => $masters,
-                    "categories" => $categories,
-                    "category" => $local_category,
-                    "subcategories" => $subcategories,
-                    "subcategory" => $local_subcategory,
-                    "subways" => $subways,
-                    "safety" => $local_safety
-                ]);
+                if(isset($name)){
+                    return view('search')->with([
+                        "name" => $name,
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subcategory" => $local_subcategory,
+                        "subways" => $subways,
+                        "safety" => $local_safety
+                    ]);
+                } else {
+                    return view('search')->with([
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subcategory" => $local_subcategory,
+                        "subways" => $subways,
+                        "safety" => $local_safety
+                    ]);
+                }
             } elseif(($local_category != 0 ) and ($local_subcategory != 0)
                 and ($local_subway != 0)) {
 
@@ -163,17 +204,30 @@ class SearchController extends Controller
                     }
                     $master->about = $master->master_info->about;
                 }
-
-                return view('search')->with([
-                    "masters" => $masters,
-                    "categories" => $categories,
-                    "category" => $local_category,
-                    "subcategories" => $subcategories,
-                    "subcategory" => $local_subcategory,
-                    "subways" => $subways,
-                    "subway" => $local_subway,
-                    "safety" => $local_safety
-                ]);
+                if(isset($name)){
+                    return view('search')->with([
+                        "name" => $name,
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subcategory" => $local_subcategory,
+                        "subways" => $subways,
+                        "subway" => $local_subway,
+                        "safety" => $local_safety
+                    ]);
+                } else {
+                    return view('search')->with([
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subcategory" => $local_subcategory,
+                        "subways" => $subways,
+                        "subway" => $local_subway,
+                        "safety" => $local_safety
+                    ]);
+                }
             } elseif(($local_category != 0 ) and ($local_subcategory == 0)
                 and ($local_subway != 0)) {
 
@@ -210,25 +264,42 @@ class SearchController extends Controller
                     }
                     $master->about = $master->master_info->about;
                 }
-
-                return view('search')->with([
-                    "masters" => $masters,
-                    "categories" => $categories,
-                    "category" => $local_category,
-                    "subcategories" => $subcategories,
-                    "subways" => $subways,
-                    "subway" => $local_subway,
-                    "safety" => $local_safety
-                ]);
+                if(isset($name)){
+                    return view('search')->with([
+                        "name" => $name,
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subways" => $subways,
+                        "subway" => $local_subway,
+                        "safety" => $local_safety
+                    ]);
+                } else {
+                    return view('search')->with([
+                        "masters" => $masters,
+                        "categories" => $categories,
+                        "category" => $local_category,
+                        "subcategories" => $subcategories,
+                        "subways" => $subways,
+                        "subway" => $local_subway,
+                        "safety" => $local_safety
+                    ]);
+                }
             } else {
                 $error = 'Уточните, пожалуйста, запрос!';
-                return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error]);
+                if(isset($name)){
+                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error, "name" => $name]);
+                } else {
+                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error]);
+                }
             }
-        } elseif(isset($request->subcategory)){
-
-        }
-        else {
-            return view('search', ["categories" => $categories, "subways" => $subways]);
+        } else {
+            if(isset($name)){
+                return view('search', ["categories" => $categories, "subways" => $subways, "name" => $name]);
+            }else {
+                return view('search', ["categories" => $categories, "subways" => $subways]);
+            }
         }
     }
 

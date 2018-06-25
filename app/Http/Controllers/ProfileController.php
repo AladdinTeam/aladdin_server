@@ -12,20 +12,51 @@ use Illuminate\Support\Facades\Crypt;
 class ProfileController extends Controller
 {
     public function index($id) {
+        if(session()->has("auth")){
+            if(Crypt::decryptString(session()->get('user_type')) == 0){
+                $user = Client::find(Crypt::decryptString(session()->get('id')));
+            } else {
+                $user = Master::find(Crypt::decryptString(session()->get('id')));
+            }
+            if($user == null){
+                session()->forget('auth');
+                session()->forget('user_type');
+                session()->forget('id');
+            } else {
+                if ($user->last_name != null) {
+                    $name = $user->last_name;
+                } else {
+                    $name = 'Пользователь';
+                }
+            }
+        }
         $master = Master::find($id);
         $master_info = Master_Info::where('master_id', $id)->first();
         $services = $master->services()->where('verified', 1)->get();
         $reports = $master->reports()->orderBy('created_at')->get();
-        return view("profile", [
-            "master" => $master,
-            'master_info' => $master_info,
-            "services" => $services,
-            'reports' => $reports
-        ]);
-
+        if(isset($name)){
+            return view("profile", [
+                "name" => $name,
+                "master" => $master,
+                'master_info' => $master_info,
+                "services" => $services,
+                'reports' => $reports
+            ]);
+        } else {
+            return view("profile", [
+                "master" => $master,
+                'master_info' => $master_info,
+                "services" => $services,
+                'reports' => $reports
+            ]);
+        }
     }
 
     public function orders(){
+        session()->forget('category');
+        session()->forget('subcategory');
+        session()->forget('subway');
+        session()->forget('safety');
         $client = Client::find(Crypt::decryptString(session()->get('id')));
         $new_orders = $client->orders()->whereIn('status', [-1, 0])->get();
         /*print_r($new_orders);
@@ -76,8 +107,34 @@ class ProfileController extends Controller
     }
 
     public function oneOrder(Order $order){
+        session()->forget('category');
+        session()->forget('subcategory');
+        session()->forget('subway');
+        session()->forget('safety');
+        if(session()->has("auth")){
+            if(Crypt::decryptString(session()->get('user_type')) == 0){
+                $user = Client::find(Crypt::decryptString(session()->get('id')));
+            } else {
+                $user = Master::find(Crypt::decryptString(session()->get('id')));
+            }
+            if($user == null){
+                session()->forget('auth');
+                session()->forget('user_type');
+                session()->forget('id');
+            } else {
+                if ($user->last_name != null) {
+                    $name = $user->last_name;
+                } else {
+                    $name = 'Пользователь';
+                }
+            }
+        }
         if($order->client->id == Crypt::decryptString(session()->get('id'))){
-            return view ('order', ['order' => $order]);
+            if(isset($name)) {
+                return view('order', ['order' => $order, 'name' => $name]);
+            } else {
+                return view('order', ['order' => $order]);
+            }
         } else {
             return redirect('/orders');
         }

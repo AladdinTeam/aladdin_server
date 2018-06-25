@@ -34,6 +34,6 @@ class TestPayController extends Controller
 //        echo SafeCrow::getUserIdByPhone('79006549567');
 //        print_r(count(json_decode(SafeCrow::getUsers())));
 //        print_r(json_decode(SafeCrow::getUsers()));
-        print_r(json_decode(SafeCrow::callback_get()));
+        print_r(json_decode(SafeCrow::callback()));
     }
 }

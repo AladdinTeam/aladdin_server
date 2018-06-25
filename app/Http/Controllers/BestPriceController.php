@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Crypt;
 
 class BestPriceController extends Controller
 {
+    public function __construct()
+    {
+        session()->forget('category');
+        session()->forget('subcategory');
+        session()->forget('subway');
+        session()->forget('safety');
+    }
+
     public function index(){
         $categories = Category::get();
         $subways = Subway::get();

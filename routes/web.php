@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'LandingController@index');
+Route::get('/', 'LandingController@index1');
 Route::get('/profile/{id}', 'ProfileController@index');
 Route::get('/soon', 'SoonController@index');
 

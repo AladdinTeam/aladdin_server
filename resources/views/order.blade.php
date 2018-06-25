@@ -154,7 +154,14 @@
                                 {{--</form>--}}
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                                <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                                <?php
+                                $photo = $order->master->photos()->where('is_avatar', 1)->first();
+                                ?>
+                                @if($photo != null)
+                                    <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                                @else
+                                    <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                                @endif
                             </div>
                             <div class="col-8 col-sm-10 col-md-9 col-lg-9">
                                 <div class="row profile__qualities">
@@ -207,7 +214,14 @@
                                 {{--<button --}}{{--type="submit"--}}{{-- onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                                <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                                <?php
+                                    $photo = $order->master->photos()->where('is_avatar', 1)->first();
+                                ?>
+                                @if($photo != null)
+                                    <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                                @else
+                                    <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                                @endif
                             </div>
                             <div class="col-8 col-sm-10 col-md-9 col-lg-9">
                                 <div class="row profile__qualities">
@@ -260,37 +274,6 @@
                             <div class="col-6 col-md-4">
                                 <button {{--type="submit"--}} onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
                             </div>
-                            {{--<div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                                <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
-                            </div>
-                            <div class="col-8 col-sm-10 col-md-9 col-lg-9">
-                                <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/complete-order.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">Выполненных заданий: {{$master->work_orders()->count()}}</p>
-                                    </div>
-                                </div>
-                                <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/positive-report.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">92% положительных отзывов</p>
-                                    </div>
-                                </div>
-                                @if($master->master_info->card_id != null)
-                                    <div class="row profile__qualities">
-                                        <div class="col-2">
-                                            <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
-                                        </div>
-                                        <div class="col-10 align-self-center">
-                                            <p class="profile__quality">Работает через безопасную сделку</p>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>--}}
                             <div class="col-12">
                                 <p class="profile__about">{{$master->master_info->about}}</p>
                             </div>
@@ -317,7 +300,14 @@
                                 <button {{--type="submit"--}} onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                                <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                                <?php
+                                $photo = $master->photos()->where('is_avatar', 1)->first();
+                                ?>
+                                @if($photo != null)
+                                    <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                                @else
+                                    <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                                @endif
                             </div>
                             <div class="col-8 col-sm-10 col-md-9 col-lg-9">
                                 <div class="row profile__qualities">
@@ -374,7 +364,14 @@
                     <div class="col-6 col-md-4">
                     </div>
                     <div class="col-4 col-sm-2 col-md-3 col-lg-3">
-                        <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                        <?php
+                        $photo = $order->choosen__master->photos()->where('is_avatar', 1)->first();
+                        ?>
+                        @if($photo != null)
+                            <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                        @else
+                            <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                        @endif
                     </div>
                     <div class="col-8 col-sm-10 col-md-9 col-lg-9">
                         <div class="row profile__qualities">
