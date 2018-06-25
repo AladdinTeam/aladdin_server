@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Client;
+use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Order;
 use App\Subcategory;
@@ -305,10 +307,8 @@ class SearchController extends Controller
                 'categories.min' => "Выберите категорию",
                 'subcategories.required' => "Выберите подкатегорию",
                 'subcategories.min' => "Выберите подкатегорию",
-                'subway.required' => "Выберите станцию метро1",
+                'subway.required' => "Выберите станцию метро",
                 'subway.min' => "Выберите станцию метро",
-                /*'price.required' => "Выберите ожидание по цене",
-                'price.min' => "Выберите ожидание по цене",*/
                 'header.required' => "Введите, что требуется сделать",
                 'description.required' => "Введите описание проблемы",
                 'address.required' => 'Введите адрес',
@@ -322,12 +322,12 @@ class SearchController extends Controller
         } else {
             $master_id = null;
         }
+
         $date = new DateTime($request->date);
-        Order::create(
-            [
+        if(isset($request->order)){
+            $order = Order::find($request->order);
+            $order->update([
                 'sc_id' => 1,
-                'master_id' => $master_id,
-                "client_id" => Crypt::decryptString(session()->get("id")),
                 "category_id" => $request->category,
                 "subcategory_id" => $request->subcategory,
                 "subway_id" => $request->subway,
@@ -339,9 +339,28 @@ class SearchController extends Controller
                 "amount" => $request->amount,
                 "safety" => (isset($request->safety)) ? 1 : 0,
                 "status" => 0
-//                "free" => (isset($data["free"])) ? 1 : 0,
             ]);
-        return redirect('/lk/orders');
+        } else {
+            Order::create(
+                [
+                    'sc_id' => 1,
+                    'master_id' => $master_id,
+                    "client_id" => Crypt::decryptString(session()->get("id")),
+                    "category_id" => $request->category,
+                    "subcategory_id" => $request->subcategory,
+                    "subway_id" => $request->subway,
+                    //"price" => $data["price"],
+                    "header" => $request->header,
+                    "description" => $request->description,
+                    "address" => $request->address,
+                    "end_date" => $date->format('Y-m-d'),
+                    "amount" => $request->amount,
+                    "safety" => (isset($request->safety)) ? 1 : 0,
+                    "status" => 0
+//                "free" => (isset($data["free"])) ? 1 : 0,
+                ]);
+        }
+        return redirect('/orders');
     }
 
     public function saveOrder(){

@@ -33,6 +33,7 @@ Route::group(["namespace" => "Auth"], function (){
     Route::get("/logout", 'LoginController@logout');
     Route::get('/registration', 'RegisterController@showForm');
     Route::post('/registration', 'RegisterController@register')->name('register');
+    Route::post('/add_info', 'RegisterController@addInfo')->name('add_info')->middleware("client_auth");
 });
 
 Route::get('/orders', "ProfileController@orders")->middleware('auth');
@@ -46,6 +47,25 @@ Route::get('/after_pay', 'Client\OrderController@afterPay');
 Route::get('/best_price', 'BestPriceController@index');
 
 Route::get('/order/{order}', 'ProfileController@oneOrder');
+
+Route::post('/accept_offer', 'Client\OrderController@acceptMasterOffer')->name('acceptOffer');
+
+Route::get('/get_modal_order', 'Client\OrderController@getModalOrder');
+Route::post('/pay_order', 'Client\OrderController@payOrder')->name('pay_order');
+Route::post('/cancel_order', 'Client\OrderController@cancelOrder')->name('cancel_order');
+Route::post('close_order', 'Client\OrderController@closeOrder')->name('close_order');
+Route::post('escalate_order', 'Client\OrderController@escalateOrder')->name('escalate_order');
+Route::post('/confirm_additional_service', 'Client\OrderController@confirmAdditionalService')->name('confirm_additional_service');
+Route::post('/cancel_additional_service', 'Client\OrderController@cancelAdditionalService')->name('cancel_additional_service');
+
+Route::get('/callback', 'Client\OrderController@callback');
+
+Route::get('/progress', function(){
+    return view('progress');
+});
+Route::get('/pay', function (){
+    return view('pay');
+});
 
 //Route::get('/master', 'SearchController@getMasters');
 

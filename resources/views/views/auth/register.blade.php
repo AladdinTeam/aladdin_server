@@ -28,7 +28,7 @@
                                 </div>
                             @endif
 
-                            <div class="row">
+                            {{--<div class="row">
                                 <div class="col-6">
                                     <input name="user_type" type="radio" id="user_type_master" value="1"/>
                                     <label for="user_type_master">Мастер</label>
@@ -37,7 +37,8 @@
                                     <input name="user_type" type="radio" id="user_type_client" value="0" checked/>
                                     <label for="user_type_client">Клиент</label>
                                 </div>
-                            </div>
+                            </div>--}}
+                            <input type="hidden" name="user_type" value="0">
                             <div class="row">
                                 <div class="col-12">
                                     <!--<i class="material-icons prefix">phone</i>-->

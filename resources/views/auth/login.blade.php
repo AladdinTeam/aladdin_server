@@ -2,19 +2,26 @@
 
 @section('title', 'Войти')
 
-@section('mobile-logo')
+@section('styles')
+    <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
+@endsection
+
+{{--@section('mobile-logo')
     <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
 @endsection
 @section('desktop-logo')
     <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
 @endsection
 
-@section('title', 'Профиль')
-@section('content')
-    <div class="background">
-        {{--<div class="row">
+@section('title', 'Профиль')--}}
+@section('body')
+    <div class="container">
+        <div class="row">
             <h3 class="header">Войти</h3>
-        </div>--}}
+        </div>
         <div class="row">
             <div class="col-12 col-sm-8 offset-sm-2 col-lg-6 offset-lg-3">
                 <form class="form" method="post" action="{{route('login')}}">
@@ -41,6 +48,7 @@
                             <label class="label" for="user_type_client">Клиент</label>
                         </div>
                     </div>
+                    <input type="hidden" name="user_type" value="0">
                     <div class="row">
                         <div class="col-12">
                             <input type="submit" value="Войти" class="button">

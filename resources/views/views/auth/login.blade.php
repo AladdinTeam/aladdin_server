@@ -2,15 +2,15 @@
 
 @section('title', 'Войти')
 
-@section('mobile-logo')
+{{--@section('mobile-logo')
     <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
 @endsection
 @section('desktop-logo')
     <a href="/"><img class="logo-img" src="{{ asset('img/new_logo.png') }}"></a>
-@endsection
+@endsection--}}
 
-@section('title', 'Профиль')
-@section('content')
+{{--@section('title', 'Профиль')--}}
+@section('body')
     <div class="background">
         {{--<div class="row">
             <h3 class="header">Войти</h3>
@@ -31,7 +31,7 @@
                             <input id="phone" name="phone" type="text" class="input_field_auth" placeholder="Введите телефон">
                         </div>
                     </div>
-                    <div class="row user-type">
+                    {{--<div class="row user-type">
                         <div class="col-6">
                             <input name="user_type" type="radio" id="user_type_master" value="1" {{old('user_type') == 1 ? 'checked' : ''}}/>
                             <label class="label" for="user_type_master">Мастер</label>
@@ -40,7 +40,8 @@
                             <input name="user_type" type="radio" id="user_type_client" value="0" {{old('user_type') == 0 ? 'checked' : ''}}/>
                             <label class="label" for="user_type_client">Клиент</label>
                         </div>
-                    </div>
+                    </div>--}}
+                    <input type="hidden" name="user_type" value="0">
                     <div class="row">
                         <div class="col-12">
                             <input type="submit" value="Войти" class="button">

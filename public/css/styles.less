@@ -509,12 +509,29 @@
     color: #e10000;
   }
 
+  @media only screen and (min-width: @tablet){
+    padding: 4% 0;
+  }
+
   @media only screen and (min-width: @sm_screen){
     width: 85%;
     margin: 4% auto 4%;
     background-color: #fafafa;
     border: 1px solid #b7b7b7;
     //margin-top: 4%;
+  }
+
+  &--modal{
+
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 3% 0;
+
+    @media only screen and (min-width: @sm_screen){
+      padding: 1% 0;
+      background-color: #ECEFF1;
+      border: none;
+    }
   }
 
   &--show{
@@ -533,10 +550,6 @@
     @media only screen and (min-width: @big_tablet){
       display: block;
     }
-  }
-
-  @media only screen and (min-width: @tablet){
-    padding: 4% 0;
   }
 
   &--border-bottom{
@@ -1278,5 +1291,50 @@
       color: #2f2e2e;
       font-weight: 600;
     }
+  }
+}
+
+.background-modal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal {
+  background-color: #ECEFF1;
+  margin: 5% auto; /* 15% from the top and centered */
+  //padding: 25px;
+  //border: 1px solid #888;
+  padding-bottom: 5px;
+  position: relative;
+  width: 95%; /* Could be more or less, depending on screen size */
+
+  @media only screen and (min-width: @tablet) {
+    width: 70%;
+  }
+
+  @media only screen and (min-width: @big_tablet) {
+    width: 60%;
+  }
+
+  @media only screen and (min-width: @lg_screen) {
+    width: 50%;
+  }
+
+  &__close{
+    position: absolute;
+    top: -4px;
+    right: 5px;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #2f2e2e;
+    font-weight: 300;
   }
 }
