@@ -73,7 +73,7 @@ class OrderController extends Controller
     }
 
     private function getPrivateOrders($id) {
-        $orders = Order::where('work_master_id', '<>', $id)->where('master_id', $id)->where('status', 0)->get();
+        $orders = Order::where('work_master_id', '<>', $id)->orWhereNull('work_master_id')->where('master_id', $id)->where('status', 0)->get();
         return $this->constructOrders($orders);
     }
 
