@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Client;
+use App\Master;
 use App\Subway;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -32,12 +33,18 @@ class BestPriceController extends Controller
             } else {
                 $name = 'Пользователь';
             }
+            return view('bestPrice', [
+                "categories" => $categories,
+                "subways" => $subways,
+                'full_order' => $full_order,
+                'name' => $name
+            ]);
+        } else {
+            return view('bestPrice', [
+                "categories" => $categories,
+                "subways" => $subways,
+                'full_order' => $full_order,
+            ]);
         }
-        return view('bestPrice', [
-            "categories" => $categories,
-            "subways" => $subways,
-            'full_order' => $full_order,
-            'name' => $name
-        ]);
     }
 }

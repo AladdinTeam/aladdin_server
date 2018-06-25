@@ -48,7 +48,7 @@ class SearchController extends Controller
             $local_subcategory = $request->session()->get('subcategory');
             $local_subway = $request->session()->get('subway');
             $local_safety = $request->session()->get('safety');
-            echo $local_safety.' '.$local_subway.' '.$local_subcategory.' '.$local_category;
+            //echo $local_safety.' '.$local_subway.' '.$local_subcategory.' '.$local_category;
 
             if(($local_category != 0 ) and ($local_subcategory == 0)
                 and ($local_subway == 0)){
@@ -247,6 +247,7 @@ class SearchController extends Controller
             [
                 'category' => "required|numeric|min:1",
                 'subcategory' => "required|numeric|min:1",
+                'subway' => "numeric|min:1",
                 'phone' => 'required|min:17|max:17',
                 //'price' => "required|numeric|min:1",
                 'header' => "required",
@@ -257,6 +258,7 @@ class SearchController extends Controller
                 'category.min' => "Выберите категорию",
                 'subcategory.required' => "Выберите подкатегорию",
                 'subcategory.min' => "Выберите подкатегорию",
+                'subway.min' => "Выберите подкатегорию",
                 'header.required' => "Введите, что требуется сделать",
                 'phone.required' => 'Введите корректный номер телефона',
                 'phone.min' => 'Введите корректный номер телефона',
@@ -372,29 +374,50 @@ class SearchController extends Controller
         } else {
             $master_id = null;
         }
-        Order::create(
-            [
-                'sc_id' => 1,
-                'master_id' => $master_id,
-                "client_id" => Crypt::decryptString(session()->get("id")),
-                "category_id" => $data["category"],
-                "subcategory_id" => $data["subcategory"],
-                //"subway_id" => $data["subway"],
-                //"price" => $data["price"],
-                "header" => $data["header"],
-                //"description" => $data["description"],
-                //"address" => $data['address'],
-                //"date" => $data['date'],
-                "amount" => $data["amount"],
-                "safety" => (isset($data["safety"])) ? 1 : 0,
-                "status" => -1
+        if(isset($data['subway'])){
+            Order::create(
+                [
+                    'sc_id' => 1,
+                    'master_id' => $master_id,
+                    "client_id" => Crypt::decryptString(session()->get("id")),
+                    "category_id" => $data["category"],
+                    "subcategory_id" => $data["subcategory"],
+                    "subway_id" => $data["subway"],
+                    //"price" => $data["price"],
+                    "header" => $data["header"],
+                    //"description" => $data["description"],
+                    //"address" => $data['address'],
+                    //"date" => $data['date'],
+                    "amount" => $data["amount"],
+                    "safety" => (isset($data["safety"])) ? 1 : 0,
+                    "status" => -1
 //                "free" => (isset($data["free"])) ? 1 : 0,
-            ]);
-        return redirect('/lk/orders');
+                ]);
+        }else {
+            Order::create(
+                [
+                    'sc_id' => 1,
+                    'master_id' => $master_id,
+                    "client_id" => Crypt::decryptString(session()->get("id")),
+                    "category_id" => $data["category"],
+                    "subcategory_id" => $data["subcategory"],
+                    //"subway_id" => $data["subway"],
+                    //"price" => $data["price"],
+                    "header" => $data["header"],
+                    //"description" => $data["description"],
+                    //"address" => $data['address'],
+                    //"date" => $data['date'],
+                    "amount" => $data["amount"],
+                    "safety" => (isset($data["safety"])) ? 1 : 0,
+                    "status" => -1
+//                "free" => (isset($data["free"])) ? 1 : 0,
+                ]);
+        }
+        return redirect('/orders');
     }
 
 
-    public function getMasters($request){
+    /*public function getMasters($request){
         if(true) {
             $masters = Master::select('id', 'first_name', 'last_name')->whereHas("subways", function ($query) {
                 $query->where('subways.id', '<', 67);
@@ -425,7 +448,7 @@ class SearchController extends Controller
 
         //print_r($masters);
         return view("search")->with("masters", $masters);
-    }
+    }*/
 
     public function hh()
     {
