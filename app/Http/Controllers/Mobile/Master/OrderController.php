@@ -23,7 +23,7 @@ class OrderController extends Controller
         $orders = [];
         switch ($request->order_type) {
             case 0: {
-                $personal_orders = $this::getPrivateOrders($master->id);
+                $personal_orders = [];//$this::getPrivateOrders($master->id);
                 $pull_orders = $this::getOrdersFromPull($master->id, $master->subcategories()->pluck('subcategory_id'));
                 $orders = [$personal_orders, $pull_orders];
                 break;
@@ -78,7 +78,9 @@ class OrderController extends Controller
     }
 
     private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        $orders = Order::where('master_id', '<>', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        //echo Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->toSql();
+        //print_r($orders);
         foreach($orders as $key=>$order){
             if($order->masters()->where('master_id', $id)->first() != null){
                 $orders->forget($key);
