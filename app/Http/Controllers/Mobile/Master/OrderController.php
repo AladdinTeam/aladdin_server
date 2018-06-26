@@ -73,19 +73,36 @@ class OrderController extends Controller
     }
 
     private function getPrivateOrders($id) {
-        $orders = Order::where('work_master_id', '<>', $id)->orWhereNull('work_master_id')->where('master_id', $id)->where('status', 0)->get();
+        $orders = Order::where('master_id', $id)->where('status', 0)->get();
         return $this->constructOrders($orders);
     }
 
     private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
-        foreach($orders as $key=>$order){
-            if($order->masters()->where('master_id', $id)->first() != null){
-                $orders->forget($key);
+        $orders = Order::where('master_id', '<>', $id)->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        $sortedOrders = [];
+        foreach($orders as $key=>$order) {
+            $shit = $order->masters()->where('master_id', $id)->first();
+            if($shit == null) {
+                $sortedOrders[] = $order;
             }
         }
-        return $this->constructOrders($orders);
+        return $this->constructOrders($sortedOrders);
     }
+
+//    private function getPrivateOrders($id) {
+//        $orders = Order::where('work_master_id', '<>', $id)->orWhereNull('work_master_id')->where('master_id', $id)->where('status', 0)->get();
+//        return $this->constructOrders($orders);
+//    }
+//
+//    private function getOrdersFromPull($id, $subcategories) {
+//        $orders = Order::where('master_id', '<>', $id)->whereNull('work_master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+//        foreach($orders as $key=>$order){
+//            if($order->masters()->where('master_id', $id)->first() != null){
+//                $orders->forget($key);
+//            }
+//        }
+//        return $this->constructOrders($orders);
+//    }
 
     private function constructOrders($orders) {
         $res_orders = [];
