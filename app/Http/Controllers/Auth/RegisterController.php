@@ -15,6 +15,7 @@ use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\AddLibraries\Sms;
 
@@ -107,6 +108,7 @@ class RegisterController extends Controller
             $sender->send($phone, "You code for Aladdin auth is: " . $code, "Aladdin");
             session(['id' => Crypt::encryptString($id)]);
             session(['user_type' => Crypt::encryptString($request->user_type)]);
+            //Session::save();
             return redirect('/confirm');
         } else {
             return redirect('/registration')->with('unsuccess', "Данный пользователь уже зарегистрирован");

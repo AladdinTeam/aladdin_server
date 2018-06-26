@@ -365,7 +365,7 @@
                     </div>
                     <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                         <?php
-                        $photo = $order->choosen__master->photos()->where('is_avatar', 1)->first();
+                        $photo = $order->choosen_master->photos()->where('is_avatar', 1)->first();
                         ?>
                         @if($photo != null)
                             <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">

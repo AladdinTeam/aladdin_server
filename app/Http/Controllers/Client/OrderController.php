@@ -19,7 +19,8 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware("client_auth");
+        $this->middleware("client_auth")->except('callback');
+
         session()->forget('category');
         session()->forget('subcategory');
         session()->forget('subway');
