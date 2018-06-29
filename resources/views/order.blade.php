@@ -1,13 +1,53 @@
 @extends('layouts.app')
 @section('title', 'Поиск')
 @section('styles')
-    <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
-    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/general.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
     {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
     <input type="hidden" style="display: none" id="status" value="{{$order->status}}">
+    @if($order->status == 2)
+        <div class="background-modal" id="modal" @if(session()->has('modal') or session()->has('message')) style="display: block;" @endif>
+            <div class="modal">
+                <a href="javascript:void(0)" class="modal__close" onclick="closeModal()">&times</a>
+                @if(session()->has('message'))
+                    <div style="text-align: -moz-center; text-align: center; padding-top: 1.5rem">
+                        <h4 style="font-size: 1rem; color: #605e5e; font-weight: 600">{{session()->get('message')}}</h4>
+                    </div>
+                @else
+                    <div style="text-align: -moz-center; text-align: center; padding-top: 1.5rem">
+                        <h4 style="font-size: 1rem; color: #605e5e; font-weight: 600">Напишите отзыв на работу мастера</h4>
+                    </div>
+                    <form class="form form--modal" method="post" action="{{route('save_report')}}">
+                        {{csrf_field()}}
+                        <input type="hidden" name="order" value="{{$order->id}}">
+                        <select name="rating" class="form__input-field form__select">
+                            <option value="0" disabled selected>Выберите оценку</option>
+                            <option value="1">1 балл</option>
+                            <option value="2">2 балла</option>
+                            <option value="3">3 балла</option>
+                            <option value="4">4 балла</option>
+                            <option value="5">5 баллов</option>
+                        </select>
+                        @if($errors->has("rating"))
+                            @foreach ($errors->get("rating") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <textarea class="form__input-field" rows="3" name="description" id="description" placeholder="Ввелите Ваш отзыв о работе мастера">{{old('description')}}</textarea>
+                        @if($errors->has("report"))
+                            @foreach ($errors->get("report") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <button type="submit" class="button button--blue button--center button--bold">ОТПРАВИТЬ ОТЗЫВ</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+    @endif
     <div class="background-modal" id="modal">
         <div class="modal">
             <div class="row">

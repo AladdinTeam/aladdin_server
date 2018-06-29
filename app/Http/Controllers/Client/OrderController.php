@@ -8,6 +8,7 @@ use App\Client;
 use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Order;
+use App\Report;
 use App\Subcategory;
 use App\Subway;
 use Exception;
@@ -248,7 +249,7 @@ class OrderController extends Controller
             }
         }
 
-        return redirect('/order/'.$order->id);
+        return redirect('/order/'.$order->id)->with('modal', 'true');
     }
 
     public function escalateOrder(Request $request){
@@ -263,6 +264,8 @@ class OrderController extends Controller
         if($deal->status == 'escalated'){
             $order->update(['status' => -2]);
         }
+
+        return redirect('/order/'.$order->id)->with('modal', 'true');
     }
 
     public function confirmAdditionalService(Request $request){
@@ -299,6 +302,36 @@ class OrderController extends Controller
         } else {
             return json_encode(['check' => false]);
         }
+    }
+
+    public function saveReport(Request $request){
+        $validator = Validator::make($request->all(),
+            [
+                'rating' => 'required|min:1|max:5',
+                'report' => 'required'
+            ],
+            [
+                'rating.required' => 'Поставьте оценку',
+                'rating.min' => 'Поставьте корректную оценку',
+                'rating.max' => 'Поставьте корректную оценку',
+                'report.required' => 'Введите, пожалуйста, отзыв'
+            ]);
+        //$validator->validate();
+        if($validator->fails()) {
+            return redirect('/order/'.$request->order)->with('modal', 'true');
+        }
+
+        $order = Order::find($request->order);
+
+        Report::create([
+            'master_id' => $order->work_master_id,
+            'client_id' => $order->client_id,
+            'order_id' => $order->id,
+            'rating' => $request->rating,
+            'report' => $request->report
+        ]);
+
+        return redirect('/order/'.$order->id)->with('message', 'Отзыв успешно сохранен');
     }
 
     public function callback(Request $request){

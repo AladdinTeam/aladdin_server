@@ -40,6 +40,10 @@ class Order extends Model
         return $this->hasMany(Additional_Service::class);
     }
 
+    public function order_photos(){
+        return $this->hasMany(OrderPhoto::class);
+    }
+
     public function report() {
         return $this->hasOne(Report::class);
     }

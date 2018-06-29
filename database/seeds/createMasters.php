@@ -39,14 +39,14 @@ class createMasters extends Seeder
     public function run()
     {
         //factory(App\Master_Info::class, 2)->create();
-        factory(App\Master::class, 100)->create()->each(function ($u){
+        factory(App\Master::class, 2)->create()->each(function ($u){
             $u->master_info()->save(factory(App\Master_Info::class)->make());
             $u->subcategories()->saveMany($this->getSubcategories());
             $u->subways()->saveMany($this->getSubways());
             //$u->orders()->saveMany(factory(App\Order::class, ))
         });
 
-        DB::table('masters')->insert(
+        /*DB::table('masters')->insert(
             [
                 'sc_id' => 2554,
                 'phone' => 79213877640,
@@ -55,6 +55,6 @@ class createMasters extends Seeder
                 'first_name' => 'Victor',
                 'last_name' => 'Volkov',
             ]
-        );
+        );*/
     }
 }
