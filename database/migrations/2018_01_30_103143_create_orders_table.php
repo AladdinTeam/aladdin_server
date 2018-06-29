@@ -29,7 +29,7 @@ class CreateOrdersTable extends Migration
             $table->date("end_date")->nullable();
             $table->text("address")->nullable();
             $table->tinyInteger('safety');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("work_master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");

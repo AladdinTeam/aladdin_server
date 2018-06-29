@@ -60,16 +60,16 @@ class OrderController extends Controller
     }
 
     private function getWaitingOrders($id) {
-        //$orders = Order::where('master_id', $id)->where('status', 0)->get();
         $master = Master::find($id);
         $orders = $master->orders;
-//        echo $orders;
+//        return $orders;
+        $sortedOrders = [];
         foreach($orders as $key=>$order) {
-            if($order->status != 0) {
-                $orders->forget($key);
+            if($order->status == 0) {
+                $sortedOrders[] = $order;
             }
         }
-        return $this->constructOrders($orders);
+        return $this->constructOrders($sortedOrders);
     }
 
     private function getPrivateOrders($id) {
@@ -78,7 +78,7 @@ class OrderController extends Controller
     }
 
     private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '<>', $id)->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
         $sortedOrders = [];
         foreach($orders as $key=>$order) {
             $shit = $order->masters()->where('master_id', $id)->first();

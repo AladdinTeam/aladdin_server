@@ -10,6 +10,7 @@ use App\Master_Info;
 use Illuminate\Http\Request;
 use App\AddLibraries\SmsWrapper;
 use App\AddLibraries\ErrorCode;
+use Illuminate\Support\Facades\Storage;
 
 //TODO: Приделать отправление данных о пользователе при авторизации
 
@@ -164,12 +165,14 @@ class AuthorizationController extends Controller
                     "token_until" => date('Y-m-d H:i:s', (strtotime(date("Y-m-d H:i:s")) + 86400 * 5))]);
 
                 if ($request->user_type == 1) {
+                    $avatar_url = asset(Storage::url($user->photos()->where('is_avatar', 1)->first()->name));
                     $subcategories = $user->subcategories()->select('name', 'image_url')->get()->toArray();
                     $masterSubways = $user->subways()->get();
                     $masterServices = $user->services()->get();
                     $masterInfo = $user->master_info()->first()->toArray();
                     $user_arr = array_merge(
                         $user->toArray(),
+                        ["avatar_url" => $avatar_url],
                         ["subcategories" => $subcategories],
                         ["subways" => $masterSubways],
                         ["prices" => $masterServices],
