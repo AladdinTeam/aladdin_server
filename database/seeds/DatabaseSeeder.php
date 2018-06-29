@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
         $this->call(createSubway::class);
         $this->call(createCategory::class);
         $this->call(createSubcategory::class);
-        $this->call(createClients::class);
-        $this->call(createMasters::class);
-        $this->call(createOrders::class);
-        $this->call(createReports::class);
-        $this->call(createServices::class);
-        $this->call(createTests::class);
+        //$this->call(createClients::class);
+        //$this->call(createMasters::class);
+        //$this->call(createOrders::class);
+        //$this->call(createReports::class);
+        //$this->call(createServices::class);
+        //$this->call(createTests::class);
     }
 }
