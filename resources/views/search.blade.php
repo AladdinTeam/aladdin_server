@@ -4,12 +4,13 @@
 @extends('layouts.app')
 @section('title', 'Поиск')
 @section('styles')
-    <link href="{{asset('css/general.less')}}" type="text/css" rel="stylesheet/less"/>
-    <link href="{{asset('css/styles.less')}}" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/general.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
     {{--<link href="{{asset('css/search.less')}}" type="text/css" rel="stylesheet/less"/>--}}
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
+    <div style="background-color: #f6f8fa">
     <div class="third-block--optional">
         <div class="third-block__container">
             <div class="row">
@@ -149,7 +150,7 @@
                                     <img class="profile__img" src="{{asset('img/complete-order.png')}}">
                                 </div>
                                 <div class="col-10 align-self-center">
-                                    <p class="profile__quality">Выполненных заданий {{$master->work_orders()->where('status', 3)->count()}}{{--34 выполненных задания--}}</p>
+                                    <p class="profile__quality">ВЫПОЛНЕННЫХ ЗАДАНИЙ - {{$master->work_orders()->where('status', 3)->count()}}{{--34 выполненных задания--}}</p>
                                 </div>
                             </div>
                             <div class="row profile__qualities">
@@ -157,7 +158,7 @@
                                     <img class="profile__img" src="{{asset('img/positive-report.png')}}">
                                 </div>
                                 <div class="col-10 align-self-center">
-                                    <p class="profile__quality">92% положительных отзывов</p>
+                                    <p class="profile__quality">ПОЛОЖИТЕЛЬНЫХ ОТЗЫВОВ - 92%</p>
                                 </div>
                             </div>
                             @if($master->safety == 1)
@@ -166,7 +167,7 @@
                                         <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
                                     </div>
                                     <div class="col-10 align-self-center">
-                                        <p class="profile__quality">Работает через безопасную сделку</p>
+                                        <p class="profile__quality">РАБОТАЕТ ЧЕРЕЗ БЕЗОПАСНУЮ СДЕЛКУ</p>
                                     </div>
                                 </div>
                             @endif
@@ -174,7 +175,7 @@
                         <div class="col-12">
                             <p class="profile__about">{{$master->about}}{{--Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!--}}</p>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 button-wrapper button-wrapper--small-margin">
                             <button class="button button--center button--blue" onclick="location.href = '/profile/{{$master->id}}'">Цены и отзывы</button>
                         </div>
                     </div>
@@ -184,6 +185,7 @@
                 Выберите интересующую Вас категорию
             @endif
         </div>
+    </div>
     </div>
 {{--<div class="placeholder">
 <div class="row">

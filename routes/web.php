@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'LandingController@index1');
+Route::get('/', 'LandingController@index');
 Route::get('/profile/{id}', 'ProfileController@index');
 Route::get('/soon', 'SoonController@index');
 
@@ -57,8 +57,13 @@ Route::post('escalate_order', 'Client\OrderController@escalateOrder')->name('esc
 Route::post('/confirm_additional_service', 'Client\OrderController@confirmAdditionalService')->name('confirm_additional_service');
 Route::post('/cancel_additional_service', 'Client\OrderController@cancelAdditionalService')->name('cancel_additional_service');
 Route::get('/check_order_status', 'Client\OrderController@checkOrderStatus');
+Route::post('/save_report', 'Client\OrderController@saveReport')->name('save_report');
 
 Route::get('/callback', 'Client\OrderController@callback');
+
+Route::get('/customers', function (){
+    return view('for_customers');
+});
 
 //Route::get('/master', 'SearchController@getMasters');
 
