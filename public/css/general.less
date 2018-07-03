@@ -3,6 +3,14 @@
 @sm_screen: 992px;
 @lg_screen: 1200px;
 
+@blue_color: #00b0ff;
+@light_grey_color: #f6f8fa;
+@white: #ffffff;
+@black_text: #2f2e2e;
+@light_grey_text: #a0a09f;
+@dark_grey_text: #858585;
+@grey_border: #e0e0e0;
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800i');
 
 * {
@@ -14,12 +22,82 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+.before-nav{
+
+  background-color: @light_grey_color;
+  border-bottom: 1px solid @grey_border;
+
+  &__container {
+    padding: 5px 0;
+    display: none;
+
+    @media only screen and (min-width: @big_tablet) {
+      display: flex;
+      padding: 5px 20px 5px 15px;
+    }
+
+    @media only screen and (min-width: @sm_screen) {
+      padding: 0 4.8%;
+    }
+
+    @media only screen and (min-width: @lg_screen) {
+      //padding: 0 5%;
+      width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  &__block {
+
+    &__img-block{
+      display: -moz-inline-block;
+      display: inline;
+
+      &--half-width{
+        width: 40%;
+
+        @media only screen and (min-width: @big_tablet){
+          width: 50%;
+        }
+      }
+    }
+
+    &__text-block{
+      display: -moz-inline-block;
+      display: inline;
+
+      &--half-width{
+        width: 60%;
+
+        @media only screen and (min-width: @big_tablet){
+          width: 50%;
+        }
+      }
+    }
+
+    &__img{
+      height: 35px;
+      margin-top: 5px;
+    }
+
+    &__text{
+      font-size: 0.8rem;
+      color: @light_grey_text;
+      padding-left: 10px;
+
+      &--small-whitespace{
+        padding-left: 2px;
+      }
+    }
+  }
+}
+
 .nav {
   height: 60px;
-  background-color: #eceff1;
+  background-color: @white;
 
   @media only screen and (min-width: @big_tablet){
-    height: 85px;
+    height: 70px;
   }
 
   @media only screen and (min-width: @sm_screen){
@@ -27,7 +105,9 @@
   }
 
   @media only screen and (min-width: @lg_screen){
-    padding: 0 5%;
+    //padding: 0 5%;
+    width: 1200px;
+    margin: 0 auto;
   }
 }
 
@@ -41,8 +121,8 @@
   @media only screen and (min-width: @big_tablet){
     display: inline-block;
     float: left;
-    margin-top: 12px;
-    height: 60px;
+    margin-top: 7px;
+    height: 55px;
     width: auto;
     //margin: 0;
   }
@@ -66,8 +146,8 @@
   @media only screen and (min-width: @big_tablet) {
     display: inline-block;
     float: right;
-    height: 85px;
-    line-height: 85px;
+    height: 55px;
+    line-height: 55px;
     width: 75%;
 
 
@@ -75,8 +155,8 @@
       display: inline-block;
       float: right;
       padding: 0 2%;
-      height: 50px;
-      line-height: 50px;
+      height: 35px;
+      line-height: 35px;
       margin-top: 17px;
       font-size: 0.9rem;
       font-weight: 400;

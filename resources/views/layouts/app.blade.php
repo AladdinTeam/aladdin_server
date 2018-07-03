@@ -13,6 +13,40 @@
     <![endif]-->
 </head>
 <body>
+<div class="before-nav">
+    <div class="row before-nav__container">
+        <div class="col before-nav__block">
+            <div class="row">
+                <div class="before-nav__block__img-block">
+                    <img class="before-nav__block__img" src="{{asset('img/before-nav-1.png')}}">
+                </div>
+                <div class="before-nav__block__text-block align-self-center">
+                    <p class="before-nav__block__text">8 (800) 550 16 45</p>
+                </div>
+            </div>
+        </div>
+        <div class="col before-nav__block">
+            <div class="row">
+                <div class="before-nav__block__img-block before-nav__block__img-block--half-width">
+                    <img class="before-nav__block__img"  style="float: right" src="{{asset('img/before-nav-2.png')}}">
+                </div>
+                <div class="before-nav__block__text-block before-nav__block__text-block--half-width align-self-center">
+                    <p class="before-nav__block__text">mail@vsealaddin.ru</p>
+                </div>
+            </div>
+        </div>
+        <div class="col before-nav__block">
+            <div class="row"  style="float: right">
+                <div class="before-nav__block__img-block">
+                    <img class="before-nav__block__img" src="{{asset('img/before-nav-3.png')}}">
+                </div>
+                <div class="before-nav__block__text-block align-self-center">
+                    <p class="before-nav__block__text before-nav__block__text--small-whitespace">Санкт-Петербург</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <nav class="nav">
     <a href="/"><img class="logo" src="{{asset('img/true_logo.png')}}"></a>
     <div class="menu">

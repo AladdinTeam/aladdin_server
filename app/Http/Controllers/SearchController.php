@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Client;
+use App\Http\Requests\UploadPhotoRequest;
 use App\Libraries\SafeCrow\SafeCrow;
 use App\Master;
 use App\Order;
+use App\OrderPhoto;
 use App\Subcategory;
 use App\Subway;
 use DateTime;
@@ -367,7 +369,7 @@ class SearchController extends Controller
         return redirect()->action('SearchController@saveOrder');
     }
 
-    public function saveFullOrder(Request $request){
+    public function saveFullOrder(UploadPhotoRequest $request){
         $validator = Validator::make($request->all(),
             [
                 'category' => "required|numeric|min:1",
@@ -419,7 +421,7 @@ class SearchController extends Controller
                 "status" => 0
             ]);
         } else {
-            Order::create(
+            $order = Order::create(
                 [
                     'sc_id' => 1,
                     'master_id' => $master_id,
@@ -438,6 +440,17 @@ class SearchController extends Controller
 //                "free" => (isset($data["free"])) ? 1 : 0,
                 ]);
         }
+        if($request->has('files')) {
+            foreach ($request->file('files') as $file) {
+                $filename = $file->store('public/OrderPhoto/'.$order->id);
+                OrderPhoto::create([
+                    'order_id' => $order->id,
+                    'name' => $filename
+                    //'original_name' => $file->getClientOriginalName()
+                ]);
+            }
+        }
+        unset($file);
         return redirect('/orders');
     }
 
