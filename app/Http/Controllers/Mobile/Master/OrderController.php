@@ -24,7 +24,7 @@ class OrderController extends Controller
         switch ($request->order_type) {
             case 0: {
                 $personal_orders = $this::getPrivateOrders($master->id);
-                $pull_orders = $this::getOrdersFromPull($master->id, $master->subcategories()->pluck('subcategory_id'));
+                $pull_orders = $this::getOrdersFromPull($master->id, $master->master_info()->first()->card_id, $master->subcategories()->pluck('subcategory_id'));
                 $orders = [$personal_orders, $pull_orders];
                 break;
             }
@@ -49,6 +49,25 @@ class OrderController extends Controller
         );
     }
 
+    private function getPrivateOrders($id) {
+        $orders = Order::where('master_id', $id)->where('status', 0)->get();
+        return $this->constructOrders($orders);
+    }
+
+    private function getOrdersFromPull($id, $cardId, $subcategories) {
+        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
+        $sortedOrders = [];
+        foreach($orders as $key=>$order) {
+            $shit = $order->masters()->where('master_id', $id)->first();
+            if ($shit == null) {
+                if (!($cardId == null && $order->safety)) {
+                    $sortedOrders[] = $order;
+                }
+            }
+        }
+        return $this->constructOrders($sortedOrders);
+    }
+
     private function getHistoryOrders($id) {
         $history_orders = Order::where('work_master_id', $id)->where('status', 3)->get();
         return $this->constructOrders($history_orders);
@@ -65,23 +84,6 @@ class OrderController extends Controller
         $sortedOrders = [];
         foreach($orders as $key=>$order) {
             if($order->status == 0) {
-                $sortedOrders[] = $order;
-            }
-        }
-        return $this->constructOrders($sortedOrders);
-    }
-
-    private function getPrivateOrders($id) {
-        $orders = Order::where('master_id', $id)->where('status', 0)->get();
-        return $this->constructOrders($orders);
-    }
-
-    private function getOrdersFromPull($id, $subcategories) {
-        $orders = Order::where('master_id', '!=', $id)->orWhereNull('master_id')->where('status', 0)->whereIn('subcategory_id', $subcategories)->get();
-        $sortedOrders = [];
-        foreach($orders as $key=>$order) {
-            $shit = $order->masters()->where('master_id', $id)->first();
-            if($shit == null) {
                 $sortedOrders[] = $order;
             }
         }
