@@ -30,27 +30,25 @@ a{
 
 .first-block{
   margin: 0;
-  background-image: url("../img/first_block-background.jpg");
-  background-position: bottom center;
+  background: url("../img/first_block-background.jpg") bottom center;
   background-size: cover;
-  text-align: center;
-  padding: 15% 3%;
 
-  @media only screen and (min-width: @tablet){
-    padding: 10% 9%;
+  &--container {
+    text-align: center;
+    padding: 15% 3%;
+
+    @media only screen and (min-width: @tablet) {
+      padding: 10% 9%;
+    }
+
+    @media only screen and (min-width: @big_tablet) {
+      padding: 8% 10%;
+    }
+
+    @media only screen and (min-width: @sm_screen) {
+      padding: 8% 15%;
+    }
   }
-
-  @media only screen and (min-width: @big_tablet){
-    padding: 8% 10%;
-  }
-
-  @media only screen and (min-width: @sm_screen){
-    padding: 8% 15%;
-  }
-
-  /*@media only screen and (min-width: @lg_screen){
-    padding: 8% ;
-  }*/
 
   &__header{
     color: white;
@@ -324,9 +322,20 @@ a{
 
   &__text{
     font-size: 0.8rem;
+    color: @white;
 
     @media only screen and (min-width: @sm_screen){
       font-size: 1.2rem;
+    }
+
+    &--small{
+      font-size: 0.75rem;
+      margin-top: 25px;
+    }
+
+    &--link{
+      color: @white;
+      text-decoration: underline;
     }
   }
 }
@@ -363,7 +372,7 @@ a{
     }
 
     @media only screen and (min-width: @lg_screen){
-      width: 75%;
+      width: 1200px;
     }
   }
 
@@ -453,11 +462,47 @@ a{
     }
 
     @media only screen and (min-width: @big_tablet){
-      width: 80%;
+      width: 85%;
     }
 
-    @media only screen and (min-width: @sm_screen){
-      width: 70%;
+
+
+    @media only screen and (min-width: @lg_screen){
+      width: 980px;
+      padding-top: 8%;
+    }
+
+    &--right{
+      padding: 0;
+      width: 100%;
+
+      @media only screen and (min-width: @tablet){
+        width: 70%;
+      }
+
+      @media only screen and (min-width: @big_tablet){
+        width: 100%;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        //padding: 0 0 0 50px;
+        padding: 0 0 0 60px;
+      }
+    }
+
+    &--snake{
+
+      @media only screen and (min-width: @big_tablet){
+        width: 80%;
+      }
+
+      @media only screen and (min-width: @sm_screen){
+        width: 65%;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        width: 800px;
+      }
     }
   }
 
@@ -471,7 +516,7 @@ a{
     color: @black_text;
 
     @media only screen and (min-width: @mini_phone){
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
 
     &--blue{
@@ -483,7 +528,7 @@ a{
     }
 
     @media only screen and (min-width: @sm_screen){
-      font-size: 1.5rem;
+      font-size: 2.1rem;
       margin-bottom: 3%;
     }
 
@@ -505,7 +550,7 @@ a{
 .rel-block{
   display: none;
 
-  @media only screen and (min-width: @sm_screen){
+  @media only screen and (min-width: @big_tablet){
     display: flex;
     display: -moz-flex;
   }
@@ -515,7 +560,7 @@ a{
 
   display: block;
 
-  @media only screen and (min-width: @sm_screen){
+  @media only screen and (min-width: @big_tablet){
     display: none;
   }
 
@@ -580,6 +625,10 @@ a{
   &__item{
     margin-bottom: 45px;
 
+    &--big-bottm-margin{
+      margin-bottom: 70px;
+    }
+
     &:last-child{
       //margin-bottom: 0;
     }
@@ -592,6 +641,36 @@ a{
     @media only screen and (min-width: @mini_phone){
       height: 40px;
       margin-left: 5px;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      height: 45px;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      height: 50px;
+    }
+
+    &--larger{
+      @media only screen and (min-width: @tablet){
+        height: 50px;
+        float: right;
+        margin-right: 10px;
+      }
+
+      @media only screen and (min-width: @big_tablet){
+        height: 40px;
+        float: left;
+        //margin-right: 10px;
+      }
+
+      @media only screen and (min-width: @sm_screen){
+        height: 50px;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        height: 60px;
+      }
     }
 
     &--customer{
@@ -626,6 +705,17 @@ a{
       padding-left: 1%;
     }
 
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1rem;
+      padding-left: 5%;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      //font-size: 1.1rem;
+      font-weight: 700;
+      padding-left: 10%;
+    }
+
     &--customer{
       @media only screen and (min-width: @tablet){
         padding-left: 10px;
@@ -658,7 +748,23 @@ a{
     }
 
     @media only screen and (min-width: @tablet){
+      padding-left: 6% ;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      padding-left: 8%;
+    }
+
+    &--without-padding{
       padding-left: 1%;
+
+      @media only screen and (min-width: @sm_screen){
+        padding-left: 5%;
+      }
+
+      @media only screen and (min-width: @sm_screen){
+        padding-left: 10%;
+      }
     }
 
     &--allowed{
@@ -682,10 +788,14 @@ a{
 }
 
 .text-block{
-  margin-top: 55px;
+  margin: 45px 15px 0;
 
   @media only screen and (min-width: @sm_screen){
-    margin: 55px 45px 0;
+    //margin: 55px 45px 0;
+  }
+
+  @media only screen and (min-width: @sm_screen){
+    margin: 45px 35px 0;
   }
 
   &__text{
@@ -693,9 +803,22 @@ a{
     font-size: 0.75rem;
     font-weight: 300;
     line-height: 1.3rem;
+    //text-align: center;
+    //text-align: -moz-center;
 
     @media only screen and (min-width: @mini_phone){
       font-size: 0.85rem;
+    }
+
+    @media only screen and (min-width: @big_tablet){
+      text-align: center;
+      text-align: -moz-center;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      margin: 45px 70px 0;
+      font-size: 0.9rem;
+      font-weight: 400;
     }
 
 
@@ -724,7 +847,7 @@ a{
     }
 
     @media only screen and (min-width: @lg_screen){
-      width: 60%;
+      width: 800px;
     }
 
     &--additional{
@@ -747,9 +870,14 @@ a{
     }
 
     &--with-form{
+
       @media only screen and (min-width: @sm_screen){
         width: 90%;
         margin: 0 auto;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        width: 1000px;
       }
     }
   }
@@ -758,7 +886,7 @@ a{
     //background-color: #00b0ff;
     text-align: center;
     text-align: -moz-center;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 500;
     color: @black_text;
     padding: 7%;
@@ -773,15 +901,27 @@ a{
 
     @media only screen and (min-width: @big_tablet){
       padding: 5% 7%;
+      text-align: left;
+      text-align: -moz-left;
+      font-size: 1.2rem;
     }
 
     @media only screen and (min-width: @sm_screen){
       padding: 4% 5%;
+      font-size: 1.5rem;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      font-size: 2rem;
     }
   }
 
   &__list{
     padding: 40px 20px;
+
+    @media only screen and (min-width: @big_tablet){
+      padding: 40px 0;
+    }
   }
 }
 
@@ -789,16 +929,20 @@ a{
   //background-color: #eceff1;
   background-color: @white;
   padding: 35px 30px;
-  text-align: center;
-  text-align: -moz-center;
+  //text-align: center;
+  //text-align: -moz-center;
   //margin-bottom: 5%;
 
   &__header{
-    padding: 0 20px;
     color: @black_text;
     font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: 20px;
+
+    @media only screen and (min-width: @big_tablet){
+      text-align: -moz-left;
+      text-align: left;
+    }
   }
 
   &__error{
@@ -979,11 +1123,11 @@ a{
     }
 
     @media only screen and (min-width: @sm_screen){
-      width: 70%;
+      width: 85%;
     }
 
     @media only screen and (min-width: @lg_screen){
-      width: 60%;
+      width: 1100px;
     }
 
     &--full-width{
@@ -1013,11 +1157,8 @@ a{
 
   &--slaider{
     width: 100%;
-    padding: 0 30px;
+    padding: 0 20px;
 
-    @media only screen and (min-width: @tablet){
-      padding: 0 70px;
-    }
   }
 
 
@@ -1652,6 +1793,12 @@ a{
 /* Hide the images by default */
 .mySlides {
   display: none;
+  width: 90%;
+  margin: 0 auto;
+
+  @media only screen and (min-width: @lg_screen){
+    width: 95%;
+  }
 }
 
 /* Next & previous buttons */
@@ -1683,42 +1830,6 @@ a{
 .prev:hover, .next:hover {
   //background-color: rgba(0,0,0,0.8);
 }
-
-/* Caption text */
-//.text {
-//  color: #f2f2f2;
-//  font-size: 15px;
-//  padding: 8px 12px;
-//  position: absolute;
-//  bottom: 8px;
-//  width: 100%;
-//  text-align: center;
-//}
-//
-///* Number text (1/3 etc) */
-//.numbertext {
-//  color: #f2f2f2;
-//  font-size: 12px;
-//  padding: 8px 12px;
-//  position: absolute;
-//  top: 0;
-//}
-//
-///* The dots/bullets/indicators */
-//.dot {
-//  cursor: pointer;
-//  height: 15px;
-//  width: 15px;
-//  margin: 0 2px;
-//  background-color: #bbb;
-//  border-radius: 50%;
-//  display: inline-block;
-//  transition: background-color 0.6s ease;
-//}
-//
-//.active, .dot:hover {
-//  background-color: #717171;
-//}
 
 /* Fading animation */
 .fade {

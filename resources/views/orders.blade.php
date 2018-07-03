@@ -46,7 +46,7 @@
                 <div style="text-align: -moz-center; text-align: center; padding-top: 1.5rem">
                     <h4 style="font-size: 1rem; color: #605e5e; font-weight: 600">Завершите заполнение заявки</h4>
                 </div>
-                <form class="form form--modal" method="post" action="{{route('save_full_order')}}">
+                <form class="form form--modal" method="post" action="{{route('save_full_order')}}" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <input type="hidden" name="order" id="order">
                     <select id="categories" name="category" class="form__input-field form__select">
@@ -100,6 +100,12 @@
                     <input type="number" class="form__input-field" placeholder="Предпологаемый бюджет" name="amount" id="amount" value="{{old('amount')}}">
                     @if($errors->has("amount"))
                         @foreach ($errors->get("amount") as $error)
+                            <label class="form__error">{{$error}}</label>
+                        @endforeach
+                    @endif
+                    <input type="file" name="files[]" class="form__input-field" multiple>
+                    @if($errors->has("files"))
+                        @foreach ($errors->get("files") as $error)
                             <label class="form__error">{{$error}}</label>
                         @endforeach
                     @endif

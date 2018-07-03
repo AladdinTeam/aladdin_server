@@ -7,9 +7,10 @@
 @endsection
 @section("body")
     <div class="first-block">
-        <h3 class="first-block__header">Обращайтесь к грамотным исполнителям и совершайте безопасные сделки</h3>
-        <h3 class="first-block__subheader">Поможем поручить бытовые задачи с оплатой за результат</h3>
-        {{--<p class="first_block_paragraph"><u>Санкт-Петербург</u></p>--}}
+        <div class="first-block--container">
+            <h3 class="first-block__header">Обращайтесь к грамотным исполнителям и совершайте безопасные сделки</h3>
+            <h3 class="first-block__subheader">Поможем поручить бытовые задачи с оплатой за результат</h3>
+        </div>
     </div>
     <div class="second-block">
         <div class="second-block__container">
@@ -128,11 +129,11 @@
         </div>
     </div>
     <div class="fourth-block">
-        <div class="fourth-block__container">
-            <h1 class="fourth-block__header">Найдите подходящего специалиста за <span class="fourth-block__header--blue">12 минут</span></h1>
+        <div class="fourth-block__container fourth-block__container--snake">
+            <h1 class="fourth-block__header"><span class="fourth-block__header--blue">4 шага</span> к идеальному исполнителю</h1>
             <div class="row rel-block">
                 <div class="col-6">
-                    <div class="list-block--bordered" style="margin-top: 10px">
+                    <div class="list-block--bordered">
                         <h2 class="list-block__header">1. Расскажите о задаче</h2>
                         <p class="list-block__text">Вкратце <a class="list-block__text--link" href="#">опишите</a> с какой проблемой или задачей вы столкнулись</p>
                     </div>
@@ -140,7 +141,7 @@
                 <div class="col-6">
                     <img class="list-block__img--2" src="{{asset('img/1.png')}}">
                 </div>
-                <div class="col-6" style="margin-top: 40px">
+                <div class="col-6" style="margin-top: 25px">
                     <img class="list-block__img--2--right" src="{{asset('img/2.png')}}">
                 </div>
                 <div class="col-6">
@@ -160,24 +161,14 @@
                 <div class="col-6" style="margin-top: 20px">
                     <img class="list-block__img--2" src="{{asset('img/3.png')}}">
                 </div>
-                <div class="col-6" style="margin-top: 30px">
-                    <img class="list-block__img--2--right" src="{{asset('img/2.png')}}">
+                <div class="col-6">
+                    <img class="list-block__img--2--right" style="width: 150px; height: auto;" src="{{asset('img/4.png')}}">
                 </div>
                 <div class="col-6">
                     <div class="list-block--bordered">
                         <h2 class="list-block__header">4. Утвердите условия</h2>
                         <p class="list-block__text">После выбора исполнителя мы предоставим его контактный телефон для уточнения деталей</p>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="col-12 list-block--bordered">
-                        <h2 class="list-block__header">5. Платите наличными или картой</h2>
-                        <p class="list-block__text">Оплата по карте через <a class="list-block__text--link" href="#">безопасную сделку</a>
-                            позволит вернуть деньги, если что-то пойдет не так, а также получить компенсацию</p>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <img class="list-block__img--2" style="width: 150px; height: auto; margin-top: 20px" src="{{asset('img/5.png')}}">
                 </div>
             </div>
             <div class="row list-block">
@@ -232,67 +223,70 @@
         </div>
     </div>
     <div class="why-block">
-        <a href="{{url('/best_price#form')}}">
-        <div class="why-block__container">
-            <button class="button button--blue button--bordered button--big-font">Попробуйте, это бесплатно</button>
-            {{--<h1 class="why-block__header why-block__header--one-header">Это удобно</h1>--}}
-            {{--<p class="why-block__text">Aladdin позволит бесплатно найти надежных исполнителей для решения бытовых задач, а также оплатить услуги после успешного завершения работ</p>--}}
-        </div>
-        </a>
+        {{--<a href="{{url('/best_price#form')}}">--}}
+            <div class="why-block__container">
+                <button class="button button--blue button--bordered button--big-font">Попробуйте, это бесплатно</button>
+                {{--<h1 class="why-block__header why-block__header--one-header">Это удобно</h1>--}}
+                <p class="why-block__text why-block__text--small">Вы также можете найти исполнителя вручную через <a href="{{url('/search#form')}}" class="why-block__text--link">поиск</a></p>
+            </div>
+
+        {{--</a>--}}
     </div>
     <div class="fourth-block">
         <div class="fourth-block__container">
-            <div class="list">
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="row list__item">
-                            <div class="col-2">
-                                <img class="list__img" src="{{asset('img/fourth-block-2-1.png')}}">
+            {{--<div class="fourth-block__container fourth-block__container--right">--}}
+                <div class="list">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-5">
+                            <div class="row list__item list__item--big-bottm-margin">
+                                <div class="col-2">
+                                    <img class="list__img list__img--larger" src="{{asset('img/fourth-block-2-1.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    <h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>
+                                    <p class="list__text list__text--without-padding"><nobr>На Aladdin исполнители сами высылают</nobr><br><nobr>вам свои предложения</nobr></p>
+                                </div>
                             </div>
-                            <div class="col-10">
-                                <h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>
-                                <p class="list__text"><nobr>На Aladdin исполнители сами высылают</nobr><br><nobr>вам свои предложения</nobr></p>
-                            </div>
-                        </div>
-                        <div class="row list__item">
-                            <div class="col-2">
-                                <img class="list__img" src="{{asset('img/fourth-block-2-2.png')}}">
-                            </div>
-                            <div class="col-10">
-                                <h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>
-                                <p class="list__text"><nobr>Каждое предложение уже содержит</nobr><br><nobr>цену, сроки и условия работы</nobr></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="row list__item">
-                            <div class="col-2">
-                                <img class="list__img" src="{{asset('img/fourth-block-2-3.png')}}">
-                            </div>
-                            <div class="col-10">
-                                <h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>
-                                <p class="list__text"><nobr>Заполните заявку и сразу же начните</nobr><br><nobr>получать предложения</nobr></p>
+                            <div class="row list__item list__item--big-bottm-margin">
+                                <div class="col-2">
+                                    <img class="list__img list__img--larger" src="{{asset('img/fourth-block-2-2.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    <h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>
+                                    <p class="list__text list__text--without-padding"><nobr>Каждое предложение уже содержит</nobr><br><nobr>цену, сроки и условия работы</nobr></p>
+                                </div>
                             </div>
                         </div>
-                        <div class="row list__item">
-                            <div class="col-2">
-                                <img class="list__img" src="{{asset('img/fourth-block-2-4.png')}}">
+                        <div class="col-12 col-md-6 col-lg-5 offset-lg-2">
+                            <div class="row list__item list__item--big-bottm-margin">
+                                <div class="col-2">
+                                    <img class="list__img list__img--larger" src="{{asset('img/fourth-block-2-3.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    <h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>
+                                    <p class="list__text list__text--without-padding"><nobr>Заполните заявку и сразу же начните</nobr><br><nobr>получать предложения</nobr></p>
+                                </div>
                             </div>
-                            <div class="col-10">
-                                <h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>
-                                <p class="list__text"><nobr>У исполнителей Aladdin низкие цены из-за</nobr><br><nobr>отсутствия затрат на рекламу и офис</nobr></p>
+                            <div class="row list__item list__item--big-bottm-margin">
+                                <div class="col-2">
+                                    <img class="list__img list__img--larger" src="{{asset('img/fourth-block-2-4.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    <h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>
+                                    <p class="list__text list__text--without-padding"><nobr>У исполнителей Aladdin низкие цены из-за</nobr><br><nobr>отсутствия затрат на рекламу и офис</nobr></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            {{--</div>--}}
             <div class="text-block">
                 <p class="text-block__text">Каждый исполнитель проходит процедуру <a href="#" class="text-block__text--link">верификации</a>, а возможность оплаты услуг после успешного завершения работ делает Aladdin по настоящему безопасным решением для заказчиков. </p>
             </div>
         </div>
     </div>
     <div class="fifth-block" id="search_form">
-        <div class="fifth-block__container">
+        <div class="fifth-block__container--with-form">
             {{--<div class="fifth-block__header">--}}
             <h1 class="fifth-block__header">Расскажите о задаче прямо сейчас и получите первые предложения от специалистов Санкт-Петербурга уже через <span class="fifth-block__header--blue">7 минут</span>, это бесплатно</h1>
             {{--</div>--}}
@@ -300,7 +294,7 @@
         <div class="row fifth-block__container--with-form">
             <div class="col-12 col-md-6">
                 <form class="form" method="post" action="{{route('miniOrder')}}">
-                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
+                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ.<br>ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
                     {{csrf_field()}}
                     <input type="hidden" name="st" value="1">
                     <select name="category" id="categories" class="form__input-field form__select">
@@ -376,48 +370,48 @@
                 </form>
             </div>
             <div class="col-12 col-md-6">
-            <div class="fifth-block__container--additional">
-                <div class="col-12 fifth-block__list">
-                    <div class="list">
-                        <div class="row list__item">
-                            <div class="col-2 align-self-center">
-                                <img class="list__img" src="{{asset('img/fifth-block-1.png')}}">
+                <div class="fifth-block__container--additional">
+                    <div class="col-12 fifth-block__list">
+                        <div class="list">
+                            <div class="row list__item">
+                                <div class="col-2 col-sm-1 align-self-center">
+                                    <img class="list__img" src="{{asset('img/fifth-block-1.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
+                                    <p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>
+                                </div>
                             </div>
-                            <div class="col-10">
-                                {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
-                                <p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>
+                            <div class="row list__item">
+                                <div class="col-2 col-sm-1 align-self-center">
+                                    <img class="list__img" src="{{asset('img/fifth-block-2.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
+                                    <p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row list__item">
-                            <div class="col-2 align-self-center">
-                                <img class="list__img" src="{{asset('img/fifth-block-2.png')}}">
+                            <div class="row list__item">
+                                <div class="col-2 col-sm-1 align-self-center">
+                                    <img class="list__img" src="{{asset('img/fourth-block-4.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
+                                    <p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>
+                                </div>
                             </div>
-                            <div class="col-10">
-                                {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
-                                <p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
-                            </div>
-                        </div>
-                        <div class="row list__item">
-                            <div class="col-2 align-self-center">
-                                <img class="list__img" src="{{asset('img/fourth-block-4.png')}}">
-                            </div>
-                            <div class="col-10">
-                                {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
-                                <p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>
-                            </div>
-                        </div>
-                        <div class="row list__item">
-                            <div class="col-2 align-self-center">
-                                <img class="list__img" src="{{asset('img/fourth-block-5.png')}}">
-                            </div>
-                            <div class="col-10">
-                                {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
-                                <p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>
+                            <div class="row list__item">
+                                <div class="col-2 col-sm-1 align-self-center">
+                                    <img class="list__img" src="{{asset('img/fourth-block-5.png')}}">
+                                </div>
+                                <div class="col-10">
+                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
+                                    <p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -427,7 +421,7 @@
             <div class="slideshow-container">
 
                 <!-- Full-width images with number and caption text -->
-                <div class="mySlides{{-- fade--}}">
+                <div class="mySlides fade">
                     <div class="row">
                         <div class="col-12 col-md-6 report report--slaider">
                             <div class="row">
@@ -455,7 +449,7 @@
                         <div class="col-12 col-md-6 report report--slaider">
                             <div class="row">
                                 <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-cleaning.png')}}">
+                                    <img class="report__img" src="{{asset('img/category-cleaning-1.png')}}">
                                 </div>
                                 <div class="col-10">
                                     <p class="report__text">
@@ -474,12 +468,12 @@
                     </div>
                 </div>
 
-                <div class="mySlides{{-- fade--}}">
+                <div class="mySlides fade">
                     <div class="row">
                         <div class="col-12 col-md-6 report report--slaider">
                             <div class="row">
                                 <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-transportision.png')}}">
+                                    <img class="report__img" src="{{asset('img/category-transportision-1.png')}}">
                                 </div>
                                 <div class="col-10">
                                     <p class="report__text">
@@ -524,14 +518,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{--<div class="mySlides fade">
-                    <div class="numbertext">3 / 3</div>
-                    <img src="img3.jpg" style="width:100%">
-                    <div class="text">Caption Three</div>
-                </div>--}}
-
-                <!-- Next and previous buttons -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
