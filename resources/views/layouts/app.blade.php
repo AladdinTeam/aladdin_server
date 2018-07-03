@@ -27,11 +27,15 @@
         </div>
         <div class="col before-nav__block">
             <div class="row">
-                <div class="before-nav__block__img-block before-nav__block__img-block--half-width">
-                    <img class="before-nav__block__img"  style="float: right" src="{{asset('img/before-nav-2.png')}}">
-                </div>
-                <div class="before-nav__block__text-block before-nav__block__text-block--half-width align-self-center">
-                    <p class="before-nav__block__text">mail@vsealaddin.ru</p>
+                <div class="col-9 offset-3">
+                    <div class="row">
+                    <div class="before-nav__block__img-block">
+                        <img class="before-nav__block__img" src="{{asset('img/before-nav-2.png')}}">
+                    </div>
+                    <div class="before-nav__block__text-block align-self-center">
+                        <p class="before-nav__block__text">mail@vsealaddin.ru</p>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

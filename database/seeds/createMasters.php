@@ -39,7 +39,7 @@ class createMasters extends Seeder
     public function run()
     {
         //factory(App\Master_Info::class, 2)->create();
-        factory(App\Master::class, 2)->create()->each(function ($u){
+        factory(App\Master::class, 1)->create()->each(function ($u){
             $u->master_info()->save(factory(App\Master_Info::class)->make());
             $u->subcategories()->saveMany($this->getSubcategories());
             $u->subways()->saveMany($this->getSubways());

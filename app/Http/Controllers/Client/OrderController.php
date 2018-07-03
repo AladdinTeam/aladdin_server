@@ -160,7 +160,7 @@ class OrderController extends Controller
 
             $deal = json_decode(SafeCrow::preAuth(
                 $order->sc_id,
-                'http://aladdin.hoolee/after_pay'
+                'http://vsealaddin.ru/after_pay'
             ));
 
             if(isset($deal->errors)){
@@ -185,7 +185,7 @@ class OrderController extends Controller
 
     public function afterPay(Request $request){
         $order_id = explode('_', $request->orderId);
-        $order = Order::where('sc_id', $order_id[0]);
+        $order = Order::where('sc_id', $order_id[0])->first();
         $order->update(['status' => 5]);
         //$order->update(['work_master_id' => Crypt::decryptString($request->session()->get('master'))]);
         //$order->update(['amount' => Crypt::decryptString($request->session()->get('price'))]);

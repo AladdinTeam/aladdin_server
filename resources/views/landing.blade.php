@@ -103,8 +103,7 @@
     </div>
     <div class="why-block">
         <div class="why-block__container">
-            <h1 class="why-block__header">Почему?</h1>
-            <p class="why-block__text">Aladdin позволит бесплатно найти надежных исполнителей для решения бытовых задач, а также оплатить услуги после успешного завершения работ</p>
+            <p class="why-block__text" style="font-weight: 200">На Aladdin вы бесплатно найдете надежных исполнителей для решения бытовых задач, а также сможете оплатить услуги после успешного завершения работ</p>
         </div>
     </div>
     <div class="third-block">
@@ -133,39 +132,47 @@
             <h1 class="fourth-block__header"><span class="fourth-block__header--blue">4 шага</span> к идеальному исполнителю</h1>
             <div class="row rel-block">
                 <div class="col-6">
-                    <div class="list-block--bordered">
+                    <div class="list-block--bordered list-block--bordered--right-margin">
                         <h2 class="list-block__header">1. Расскажите о задаче</h2>
                         <p class="list-block__text">Вкратце <a class="list-block__text--link" href="#">опишите</a> с какой проблемой или задачей вы столкнулись</p>
                     </div>
                 </div>
                 <div class="col-6">
-                    <img class="list-block__img--2" src="{{asset('img/1.png')}}">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2" src="{{asset('img/1.png')}}">
+                    </div>
                 </div>
                 <div class="col-6" style="margin-top: 25px">
-                    <img class="list-block__img--2--right" src="{{asset('img/2.png')}}">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2--right" src="{{asset('img/2.png')}}">
+                    </div>
                 </div>
                 <div class="col-6">
-                    <div class="list-block--bordered">
+                    <div class="list-block--bordered list-block--bordered--left-margin">
                         <h2 class="list-block__header">2. Получите предложения</h2>
                         <p class="list-block__text">Задачу увидят все исполнители Aladdin и сразу же начнут предлагать свои цены и сроки.
                             <a class="list-block__text--link" href="#">Подробнее об исполнителях</a></p>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="list-block--bordered">
+                    <div class="list-block--bordered list-block--bordered--right-margin">
                         <h2 class="list-block__header">3. Выберите подходящее</h2>
                         <p class="list-block__text">Выбирайте исходя из цены, рейтинга, отзывов или вашей интуиции.
                             Все исполнители <a class="list-block__text--link" href="#">проверены</a> и готовы к работе.</p>
                     </div>
                 </div>
                 <div class="col-6" style="margin-top: 20px">
-                    <img class="list-block__img--2" src="{{asset('img/3.png')}}">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2" src="{{asset('img/3.png')}}">
+                    </div>
                 </div>
                 <div class="col-6">
-                    <img class="list-block__img--2--right" style="width: 150px; height: auto;" src="{{asset('img/4.png')}}">
+                    <div class="list-block--bordered--right-margin">
+                        <img class="list-block__img--2--right" style="width: 150px; height: auto;" src="{{asset('img/4.png')}}">
+                    </div>
                 </div>
                 <div class="col-6">
-                    <div class="list-block--bordered">
+                    <div class="list-block--bordered list-block--bordered--left-margin">
                         <h2 class="list-block__header">4. Утвердите условия</h2>
                         <p class="list-block__text">После выбора исполнителя мы предоставим его контактный телефон для уточнения деталей</p>
                     </div>
