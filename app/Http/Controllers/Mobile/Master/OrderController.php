@@ -62,7 +62,6 @@ class OrderController extends Controller
     private function getWaitingOrders($id) {
         $master = Master::find($id);
         $orders = $master->orders;
-//        return $orders;
         $sortedOrders = [];
         foreach($orders as $key=>$order) {
             if($order->status == 0) {
