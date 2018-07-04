@@ -235,7 +235,7 @@ class OrderController extends Controller
             $deal = json_decode(SafeCrow::cardPaySupplier($master->master_info->card_id, $master->sc_id, $service->sc_id));
 
             if($deal->supplier_payout_method_type == 'CreditCard'){
-                SafeCrow::closeOrder($order->sc_id);
+                SafeCrow::closeOrder($service->sc_id);
             }
         }
 
@@ -256,16 +256,20 @@ class OrderController extends Controller
         $order = Order::find($request->order);
 
         foreach ($order->additional_services as $service){
-            SafeCrow::escalateOrder($service->id, 'The customer is unhappy');
+            SafeCrow::escalateOrder($service->sc_id, 'The customer is unhappy');
         }
 
-        $deal = json_decode(SafeCrow::escalateOrder($order->id, 'The customer is unhappy'));
+        $deal = json_decode(SafeCrow::escalateOrder($order->sc_id, 'The customer is unhappy'));
+
+        if(isset($deal->errors)){
+            $deal = json_decode(SafeCrow::getOrder($order->sc_id));
+        }
 
         if($deal->status == 'escalated'){
             $order->update(['status' => -2]);
         }
 
-        return redirect('/order/'.$order->id)->with('modal', 'true');
+        //return redirect('/order/'.$order->id)->with('modal', 'true');
     }
 
     public function confirmAdditionalService(Request $request){

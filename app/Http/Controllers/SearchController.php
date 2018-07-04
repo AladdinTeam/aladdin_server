@@ -324,7 +324,7 @@ class SearchController extends Controller
                 'phone' => 'required|min:17|max:17',
                 //'price' => "required|numeric|min:1",
                 'header' => "required",
-                'amount' => "required|numeric"
+                'amount' => "required|numeric|min:100"
             ],
             [
                 'category.required' => "Выберите категорию",
@@ -337,7 +337,8 @@ class SearchController extends Controller
                 'phone.min' => 'Введите корректный номер телефона',
                 'phone.max' => 'Введите корректный номер телефона',
                 'amount.required' => "Введите сумму",
-                'amount.numeric' => 'Введите число'
+                'amount.numeric' => 'Введите число',
+                'amount.min' => 'Сумма должна быть больше 100 рублей'
             ]);
         //$validator->validate();
         if($validator->fails()) {

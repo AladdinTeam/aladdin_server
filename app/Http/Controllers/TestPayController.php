@@ -21,8 +21,8 @@ class TestPayController extends Controller
 //        print_r(json_decode(SafeCrow::createDeal(2541, 2542, 11000, 'Просто3'))->id);
         //print_r(json_decode(SafeCrow::addUserCard(2542, 'http://vsealaddin.ru/api/order/add_card_id')));
 //        print_r(json_decode(SafeCrow::addUserCard(2542, 'http://192.168.43.207/api/order/add_card_id')));
-        print_r(json_decode(SafeCrow::showUserCards(2554)));
-//        print_r(json_decode(SafeCrow::getOrder()));
+        //print_r(json_decode(SafeCrow::showUserCards(2554)));
+        print_r(json_decode(SafeCrow::getOrder(9471)));
         //print_r(json_decode(SafeCrow::preAuth(9366, 'http://vsealaddin.ru')));
         //print_r(json_decode(SafeCrow::confirmPreAuth(8305)));
         //print_r(json_decode(SafeCrow::releasePreAuth(8305)));  //Ошибка "missing keyword terminal"
