@@ -31,6 +31,7 @@ class ErrorCode
     const CODE_16 = ["code" => 16, "message" => "Passport photo empty"]; //Нет фото пасспорта
     const CODE_17 = ["code" => 17, "message" => "Order with this id not found"]; //Отсутствует заказ с таким id
     const CODE_18 = ["code" => 18, "message" => "Incorrect order status"]; //Некорректный статус заказа
+    const CODE_19 = ["code" => 19, "message" => "Additional services was not accepted or rejected"]; //Доп. услуги не были приянты или отклонены
 
     /*const CODE_2 = "User already register";
     const CODE_3 = "Invalid phone";

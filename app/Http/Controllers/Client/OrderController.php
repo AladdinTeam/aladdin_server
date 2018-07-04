@@ -160,7 +160,7 @@ class OrderController extends Controller
 
             $deal = json_decode(SafeCrow::preAuth(
                 $order->sc_id,
-                'http://aladdin.hoolee/after_pay'
+                'http://vsealaddin.ru/after_pay'
             ));
 
             if(isset($deal->errors)){
@@ -185,7 +185,7 @@ class OrderController extends Controller
 
     public function afterPay(Request $request){
         $order_id = explode('_', $request->orderId);
-        $order = Order::where('sc_id', $order_id[0]);
+        $order = Order::where('sc_id', $order_id[0])->first();
         $order->update(['status' => 5]);
         //$order->update(['work_master_id' => Crypt::decryptString($request->session()->get('master'))]);
         //$order->update(['amount' => Crypt::decryptString($request->session()->get('price'))]);
@@ -235,7 +235,7 @@ class OrderController extends Controller
             $deal = json_decode(SafeCrow::cardPaySupplier($master->master_info->card_id, $master->sc_id, $service->sc_id));
 
             if($deal->supplier_payout_method_type == 'CreditCard'){
-                SafeCrow::closeOrder($order->sc_id);
+                SafeCrow::closeOrder($service->sc_id);
             }
         }
 
@@ -256,16 +256,20 @@ class OrderController extends Controller
         $order = Order::find($request->order);
 
         foreach ($order->additional_services as $service){
-            SafeCrow::escalateOrder($service->id, 'The customer is unhappy');
+            SafeCrow::escalateOrder($service->sc_id, 'The customer is unhappy');
         }
 
-        $deal = json_decode(SafeCrow::escalateOrder($order->id, 'The customer is unhappy'));
+        $deal = json_decode(SafeCrow::escalateOrder($order->sc_id, 'The customer is unhappy'));
+
+        if(isset($deal->errors)){
+            $deal = json_decode(SafeCrow::getOrder($order->sc_id));
+        }
 
         if($deal->status == 'escalated'){
             $order->update(['status' => -2]);
         }
 
-        return redirect('/order/'.$order->id)->with('modal', 'true');
+        //return redirect('/order/'.$order->id)->with('modal', 'true');
     }
 
     public function confirmAdditionalService(Request $request){
@@ -280,7 +284,7 @@ class OrderController extends Controller
 
         $service->update(['sc_id' => $deal->id]);
 
-        $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://aladdin.hoolee/order/'.$service->order->id));
+        $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://vsealaddin.ru/order/'.$service->order->id));
 
         $service->update(['confirmed' => 1]);
 

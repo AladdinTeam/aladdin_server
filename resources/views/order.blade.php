@@ -73,6 +73,14 @@
                     <button class="button button--full-container" onclick="closeModal()">Отмена</button>
                 </div>
             </div>
+            @if($order->safety == 1)
+                <div class="row">
+                    <div class="col-12" style="text-align: -moz-center; text-align: center;">
+                        <p style="padding: 0 15px 0.8rem; font-size: 0.8rem">Нажимая кнопку "Подтвердить", вы принимаете условия
+                            <a href="https://www.safecrow.ru/term" target="_blank" style="color: #00b0ff">оферты</a> </p>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="row search__container">
@@ -93,7 +101,7 @@
                 @if($order->status == 5)
                     <div class="hint-list hint-list--border-bottom">
                         <h1 class="hint-list__header">Всё устроило, можно выполнять</h1>
-                        <div class="row" style="padding: 25px 10px">
+                        <div class="row" style="padding: 20px 10px">
                             <div class="col ">
                                 <form method="post" action="{{route('pay_order')}}">
                                     {{csrf_field()}}

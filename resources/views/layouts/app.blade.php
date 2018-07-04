@@ -27,11 +27,15 @@
         </div>
         <div class="col before-nav__block">
             <div class="row">
-                <div class="before-nav__block__img-block before-nav__block__img-block--half-width">
-                    <img class="before-nav__block__img"  style="float: right" src="{{asset('img/before-nav-2.png')}}">
-                </div>
-                <div class="before-nav__block__text-block before-nav__block__text-block--half-width align-self-center">
-                    <p class="before-nav__block__text">mail@vsealaddin.ru</p>
+                <div class="col-9 offset-3">
+                    <div class="row">
+                    <div class="before-nav__block__img-block">
+                        <img class="before-nav__block__img" src="{{asset('img/before-nav-2.png')}}">
+                    </div>
+                    <div class="before-nav__block__text-block align-self-center">
+                        <p class="before-nav__block__text">mail@vsealaddin.ru</p>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,35 +52,37 @@
     </div>
 </div>
 <nav class="nav">
-    <a href="/"><img class="logo" src="{{asset('img/true_logo.png')}}"></a>
-    <div class="menu">
-        {{--<div class="menu__item"><span class="phone">8(800) 550 16 45</span></div>--}}
-        @if(isset($name))
-            <div class="menu__item menu__item--name dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
-                <div class="dropdown-content">
-                    <a href="/orders">Мои заказы</a>
-                    <a href="/logout">Выход</a>
+    <div class="nav-container">
+        <a href="/"><img class="logo" src="{{asset('img/true_logo.png')}}"></a>
+        <div class="menu">
+            {{--<div class="menu__item"><span class="phone">8(800) 550 16 45</span></div>--}}
+            @if(isset($name))
+                <div class="menu__item menu__item--name dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
+                    <div class="dropdown-content">
+                        <a href="/orders">Мои заказы</a>
+                        <a href="/logout">Выход</a>
+                    </div>
                 </div>
-            </div>
-        @else
-            <div class="menu__item"><span onclick="location.href = '/login'">Мои заказы</span></div>
-        @endif
-        <div class="menu__item"><span>Исполнителям</span></div>
-        <div class="menu__item"><span>Заказчикам</span></div>
-        <div class="menu__item"><span onclick="location.href='/search'">Найти специалиста</span></div>
-    </div>
-    <img class="menu-icon" onclick="openNav()" src="{{asset('img/icon-menu.png')}}">
-    <div class="sidenav" id="sidenav">
-        <a href="javascript:void(0)" class="sidenav__close" onclick="closeNav()">&times</a>
-        <a href="/search" class="sidenav__item">Найти специалиста</a>
-        <a href="#" class="sidenav__item">Заказчикам</a>
-        <a href="#" class="sidenav__item">Исполнителям</a>
-        @if(isset($name))
-            <a href="/orders" class="sidenav__item">Мои заказы</a>
-            <a href="/logout" class="sidenav__item">Выход</a>
-        @else
-            <a href="/login" class="sidenav__item">Мои заказы</a>
-        @endif
+            @else
+                <div class="menu__item"><span onclick="location.href = '/login'">Мои заказы</span></div>
+            @endif
+            <div class="menu__item"><span>Исполнителям</span></div>
+            <div class="menu__item"><span>Заказчикам</span></div>
+            <div class="menu__item"><span onclick="location.href='/search'">Найти специалиста</span></div>
+        </div>
+        <img class="menu-icon" onclick="openNav()" src="{{asset('img/icon-menu.png')}}">
+        <div class="sidenav" id="sidenav">
+            <a href="javascript:void(0)" class="sidenav__close" onclick="closeNav()">&times</a>
+            <a href="/search" class="sidenav__item">Найти специалиста</a>
+            <a href="#" class="sidenav__item">Заказчикам</a>
+            <a href="#" class="sidenav__item">Исполнителям</a>
+            @if(isset($name))
+                <a href="/orders" class="sidenav__item">Мои заказы</a>
+                <a href="/logout" class="sidenav__item">Выход</a>
+            @else
+                <a href="/login" class="sidenav__item">Мои заказы</a>
+            @endif
+        </div>
     </div>
 </nav>
 @yield("body")
