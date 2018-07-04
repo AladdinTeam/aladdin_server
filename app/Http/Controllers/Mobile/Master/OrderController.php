@@ -176,10 +176,17 @@ class OrderController extends Controller
     public function completeOrder(Request $request) {
         $order = Order::find($request->order_id);
         if ($order->status == 1) {
-            $order->increment('status');
-            return response()->json(
-                ErrorCode::sendStatus(ErrorCode::CODE_1)
-            );
+            $services = $order->additional_services()->where('confirmed', 0)->count();
+            if($services == 0) {
+                $order->increment('status');
+                return response()->json(
+                    ErrorCode::sendStatus(ErrorCode::CODE_1)
+                );
+            } else {
+                return response()->json(
+                    ErrorCode::sendStatus(ErrorCode::CODE_19)
+                );
+            }
         } else {
             return response()->json(
                 ErrorCode::sendStatus(ErrorCode::CODE_18)
