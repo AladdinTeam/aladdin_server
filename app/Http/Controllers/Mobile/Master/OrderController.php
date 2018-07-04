@@ -83,7 +83,7 @@ class OrderController extends Controller
         $orders = $master->orders;
         $sortedOrders = [];
         foreach($orders as $key=>$order) {
-            if($order->status == 0) {
+            if($order->status == 0 || $order->status == 5) {
                 $sortedOrders[] = $order;
             }
         }
