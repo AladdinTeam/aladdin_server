@@ -251,6 +251,12 @@ a{
     }
   }
 
+  &--price{
+    margin: 20px 0;
+    width: 100%;
+    padding: 5px 5px;
+  }
+
   &--orange{
     background-color: #f57c00;
     color: @white;
@@ -352,8 +358,8 @@ a{
   background-color: @light_grey_color;
 
   &--optional{
-    padding-top: 3%;
-    background-color: #fafafa;
+    //padding-top: 3%;
+    background-color: @white;
     display: none;
 
     @media only screen and (min-width: @big_tablet){
@@ -380,6 +386,7 @@ a{
     }
 
     @media only screen and (min-width: @lg_screen){
+      padding: 75px 0 70px;
       width: 1200px;
     }
   }
@@ -473,11 +480,24 @@ a{
       width: 85%;
     }
 
-
-
     @media only screen and (min-width: @lg_screen){
       width: 980px;
       padding-top: 8%;
+    }
+
+    &--mini{
+      @media only screen and (min-width: @big_tablet){
+        width: 90%;
+      }
+
+      @media only screen and (min-width: @sm_screen){
+        padding-left: 20px;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        width: 90%;
+        padding-top: 8%;
+      }
     }
 
     &--right{
@@ -579,8 +599,8 @@ a{
   &--bordered{
     border-radius: 5px;
     border: 1px solid @grey_border;
-    padding: 30px 5%;
-    //height: 120px;
+    padding: 25px 5%;
+    height: 160px;
     //align-content: center;
 
     &--right-margin{
@@ -607,13 +627,13 @@ a{
 
     &--2{
       float: left;
-      //height: 150px;
+      height: 200px;
       margin-left: 15px;
       margin-bottom: 15px;
 
       &--right{
         float: right;
-        //height: 150px;
+        height: 200px;
         margin-right: 15px;
         margin-bottom: 15px;
       }
@@ -672,6 +692,12 @@ a{
 
     @media only screen and (min-width: @lg_screen){
       height: 50px;
+    }
+
+    &--best-price{
+      @media only screen and (min-width: @sm_screen){
+        height: 35px;
+      }
     }
 
     &--larger{
@@ -737,6 +763,16 @@ a{
       //font-size: 1.1rem;
       font-weight: 700;
       padding-left: 10%;
+    }
+
+    &--best-price{
+      @media only screen and (min-width: @sm_screen){
+        font-size: 0.8rem;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        font-size: 0.9rem;
+      }
     }
 
     &--customer{
@@ -903,6 +939,19 @@ a{
         width: 1000px;
       }
     }
+
+    &--best-price{
+      width: 100%;
+      margin: 0 auto;
+
+      @media only screen and (min-width: @sm_screen){
+        width: 90%;
+      }
+
+      @media only screen and (min-width: @lg_screen){
+        width: 1150px;
+      }
+    }
   }
 
   &__header{
@@ -930,7 +979,7 @@ a{
     }
 
     @media only screen and (min-width: @sm_screen){
-      padding: 4% 5%;
+      padding: 35px ;
       font-size: 1.5rem;
     }
 
@@ -951,7 +1000,7 @@ a{
 .form{
   //background-color: #eceff1;
   background-color: @white;
-  padding: 35px 30px;
+  padding: 30px 30px;
   //text-align: center;
   //text-align: -moz-center;
   //margin-bottom: 5%;
@@ -965,6 +1014,7 @@ a{
     @media only screen and (min-width: @big_tablet){
       text-align: -moz-left;
       text-align: left;
+      font-size: 0.7rem;
     }
   }
 
@@ -976,13 +1026,22 @@ a{
   }
 
   @media only screen and (min-width: @tablet){
-    padding: 4% 10%;
+    padding: 4% 6%;
   }
 
   @media only screen and (min-width: @sm_screen){
     width: 85%;
-    margin: 4% auto 4%;
+    margin: 4% 0 4% 35px;
     //margin-top: 4%;
+  }
+
+  &--best-price{
+
+    @media only screen and (min-width: @sm_screen){
+      width: 95%;
+      margin: 4% 0 4% 35px;
+      //margin-top: 4%;
+    }
   }
 
   &--modal{
@@ -1042,6 +1101,20 @@ a{
     width: 100%;
     padding: 5px;
     margin: 10px auto;
+
+    &--one-row{
+      margin: 0;
+    }
+
+    &__div{
+      &:first-child{
+        padding-right: 5px;
+      }
+
+      &:last-child{
+        padding-left: 5px;
+      }
+    }
   }
 
   &__note{
@@ -1066,6 +1139,7 @@ a{
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    color: @black_text;
   }
 
   /* Hide the browser's default checkbox */
@@ -1139,7 +1213,8 @@ a{
     margin: 0 auto;
     text-align: center;
     text-align: -moz-center;
-    padding-bottom: 3%;
+    //padding-bottom: 3%;
+    padding: 5% 0;
 
     @media only screen and (min-width: @tablet){
       width: 90%;
@@ -1151,6 +1226,7 @@ a{
 
     @media only screen and (min-width: @lg_screen){
       width: 1100px;
+      padding: 3.5%;
     }
 
     &--full-width{
@@ -1162,6 +1238,11 @@ a{
     font-size: 1.25rem;
     font-weight: 500;
     margin: 35px auto 15px;
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1.9rem;
+      margin-bottom: 35px;
+    }
   }
 }
 
@@ -1183,8 +1264,6 @@ a{
     padding: 0 20px;
 
   }
-
-
 
   @media only screen and (min-width: @sm_screen){
     padding: 2% 4%;
@@ -1231,7 +1310,7 @@ a{
   &__text{
     margin-top: 4%;
     padding-right: 2%;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #605e5e;
     font-style: italic;
 
@@ -1276,6 +1355,7 @@ a{
 
     @media only screen and (min-width: @sm_screen){
       width: 80%;
+      margin: 5% auto;
     }
   }
 
@@ -1321,8 +1401,8 @@ a{
 
   &__img{
     display: inline-block;
-    width: 90%;
-    padding-left: 5%;
+    width: 70%;
+    padding-left: 15%;
   }
 }
 
@@ -1376,29 +1456,30 @@ a{
     margin: 0 auto;
   }
 
-  &__item{
-    border: 2px solid #cccccc;
-
-    &:first-child{
-      border-right: none;
-    }
-  }
-
   &__button {
-    background-color: #eceff1;
-    border: none;
+    background-color: @white;
+    border: 1px solid @grey_border;
     height: 100%;
     width: 100%;
     //padding: 3%;
     cursor: pointer;
     outline: none;
     font-size: 0.95rem;
-    font-weight: 600;
-    color: #a0a09f;
+    font-weight: 500;
+    color: @light_grey_text;
 
     &--active {
+      border: none;
       background-color: #00b0ff;
       color: white;
+    }
+
+    &--left{
+      border-radius: 5px 0 0 5px;
+    }
+
+    &--right{
+      border-radius: 0 5px 5px 0;
     }
 
     @media only screen and (min-width: @big_tablet){
@@ -1406,6 +1487,10 @@ a{
     }
 
     @media only screen and (min-width: @sm_screen){
+      font-size: 0.8rem;
+    }
+
+    @media only screen and (min-width: @lg_screen){
       font-size: 0.9rem;
     }
   }
@@ -1474,7 +1559,10 @@ a{
     width: 80%;
     border: none;
     margin-top: 5%;
+  }
 
+  @media only screen and (min-width: @lg_screen){
+    width: 1150px;
   }
 }
 
@@ -1485,6 +1573,7 @@ a{
   /*-webkit-box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);
   -moz-box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);
   box-shadow: 0px 2px 6px 1px rgba(77,77,77,1);*/
+  border-radius: 5px;
   margin-bottom: 10px;
 
   &__container{
@@ -1524,33 +1613,57 @@ a{
   }
 
   &__name{
-    color: #00b0ff;
-    font-size: 1.5rem;
-    margin-bottom: 3%;
+    color: @blue_color;
+    font-size: 1.2rem;
+    padding-left: 8%;
+    //margin-bottom: 3%;
+
+    &__div{
+      margin-bottom: 10px;
+    }
 
     &--link{
-      color: #00b0ff;
+      color: @blue_color;
       font-size: 1.5rem;
       //margin-bottom: 20px;
       //padding-bottom: 15px;
       text-decoration: none;
       text-decoration: -moz-none;
     }
+
+    &--min{
+      @media only screen and (min-width: @tablet){
+        display: none;
+      }
+    }
+
+    &--max{
+      display: none;
+
+      @media only screen and (min-width: @tablet){
+        display: inline;
+      }
+    }
   }
 
   &__avatar{
     width: 110px;
-    border: 4px solid white;
-    -webkit-box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
-    -moz-box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
-    box-shadow: 0px 0px 1px 1px rgba(77,77,77,1);
+    display: block;
+    margin: 0 auto;
+    border: 2px solid @grey_border;
+
+    @media only screen and (min-width: @tablet){
+      width: 100%;
+    }
 
     @media only screen and (min-width: @big_tablet){
+      margin-top: 7px;
       width: 100px;
     }
 
     @media only screen and (min-width: @lg_screen){
-      width: 140px;
+      //margin-top: 15px;
+      width: 100%;
     }
   }
 
@@ -1574,9 +1687,11 @@ a{
   }
 
   &__about {
+    margin-left: 8%;
     margin-top: 4%;
-    font-size: 0.95rem;
-    color: #a0a09f;
+    font-size: 0.8rem;
+    color: @dark_grey_text;
+    font-style: oblique;
   }
 }
 

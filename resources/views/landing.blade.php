@@ -168,7 +168,7 @@
                 </div>
                 <div class="col-6">
                     <div class="list-block--bordered--right-margin">
-                        <img class="list-block__img--2--right" style="width: 150px; height: auto;" src="{{asset('img/4.png')}}">
+                        <img class="list-block__img--2--right" style="height: 150px; margin-top: 20px" src="{{asset('img/4.png')}}">
                     </div>
                 </div>
                 <div class="col-6">
@@ -301,7 +301,7 @@
         <div class="row fifth-block__container--with-form">
             <div class="col-12 col-md-6">
                 <form class="form" method="post" action="{{route('miniOrder')}}">
-                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ.<br>ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
+                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
                     {{csrf_field()}}
                     <input type="hidden" name="st" value="1">
                     <select name="category" id="categories" class="form__input-field form__select">
@@ -350,18 +350,26 @@
                             <label class="form__error">{{$error}}</label>
                         @endforeach
                     @endif
-                    <input id="phone" name="phone" class="form__input-field" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
-                    @if($errors->has("phone"))
-                        @foreach ($errors->get("phone") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <input type="number" class="form__input-field" name="amount" placeholder="Предполагаемый бюджет" value="{{old('amount')}}">
-                    @if($errors->has("amount"))
-                        @foreach ($errors->get("amount") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form__input-field__div">
+                            <input id="phone" name="phone" class="form__input-field form__input-field--one-row" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
+                            @if($errors->has("phone"))
+                                @foreach ($errors->get("phone") as $error)
+                                    <label class="form__error">{{$error}}</label>
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="col-12 col-sm-6 form__input-field__div">
+                            <input type="number" class="form__input-field form__input-field--one-row" name="amount" placeholder="{{--Предполагаемый б--}}Бюджет" value="{{old('amount')}}">
+                            @if($errors->has("amount"))
+                                @foreach ($errors->get("amount") as $error)
+                                    <label class="form__error">{{$error}}</label>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+
+
                     <textarea class="form__input-field" rows="3" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>
                     @if($errors->has("header"))
                         @foreach ($errors->get("header") as $error)

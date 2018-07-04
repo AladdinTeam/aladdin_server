@@ -10,161 +10,554 @@ use Illuminate\Support\Facades\Request;
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js" ></script>
 @endsection
 @section('body')
-    <div class="third-block--optional">
-        <div class="third-block__container">
-            <div class="row">
-                <div class="item col-12 col-sm-6 col-md-4">
-                    <img class="item__img" src="{{asset('img/third-block-1.png')}}">
-                    <h3 class="item__header">База проверенных,<br>ответственных специалистов</h3>
-                    <p class="item__text">Исполнители проходят <span><a href="#" class="item__text--alloted">верификацию</a></span>, имеют образование и владеют сервисным этикетом</p>
-                </div>
-                <div class="item col-12 col-sm-6 col-md-4">
-                    <img class="item__img" src="{{asset('img/third-block-2.png')}}">
-                    <h3 class="item__header">Вернём деньги в случае некачественного сервиса</h3>
-                    <p class="item__text">Воспользуйтесь <span><a href="#" class="item__text--alloted">безопасной сделкой</a></span>, чтобы защититься от любых невзгод</p>
-                </div>
-                <div class="item col-12 col-sm-6 offset-sm-3 offset-md-0 col-md-4">
-                    <img class="item__img" src="{{asset('img/third-block-3.png')}}">
-                    <h3 class="item__header">Найдём лучшую цену для любой задачи</h3>
-                    <p class="item__text">Специалисты сами предложат свои услуги, останется только выбрать</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row search__container" id="form">
-        <div class="col-12 col-md-5 search-panel">
-            <div class="row tab">
-                <div class="col-4 tab__item">
-                    <button class="tab__button" onclick="location.href='/search#form'">Исполнители</button>
-                </div>
-                <div class="col-8 tab__item">
-                    <button class="tab__button tab__button--active" onclick="location.href='/best_price#form'">Поиск лучшего предложения</button>
+    <div style="background-color: #f6f8fa">
+        <div class="third-block--optional">
+            <div class="third-block__container">
+                <div class="row">
+                    <div class="item col-12 col-md-6 col-lg-4">
+                        <img class="item__img" src="{{asset('img/third-block-1.png')}}">
+                        <h3 class="item__header"><nobr>База проверенных,</nobr><br><nobr>ответственных исполнителей</nobr></h3>
+                        <p class="item__text"><nobr>Исполнители проходят <span><a href="#" class="item__text--alloted">верификацию</a></span>, имеют</nobr><br><nobr>образование и владеют сервисным этикетом</nobr></p>
+                    </div>
+                    <div class="item col-12 col-md-6 col-lg-4">
+                        <img class="item__img" src="{{asset('img/third-block-2.png')}}">
+                        <h3 class="item__header"><nobr>Вернём деньги в случае</nobr><br><nobr>некачественного сервиса</nobr></h3>
+                        <p class="item__text"><nobr>Воспользуйтесь <span><a href="#" class="item__text--alloted">безопасной сделкой</a></span>,</nobr><br><nobr>чтобы защититься от любых невзгод</nobr></p>
+                    </div>
+                    <div class="item col-12 col-md-6 offset-md-3 offset-lg-0 col-lg-4">
+                        <img class="item__img" src="{{asset('img/third-block-3.png')}}">
+                        <h3 class="item__header"><nobr>Найдём лучшую цену</nobr><br><nobr>для любой задачи</nobr></h3>
+                        <p class="item__text"><nobr>Специалисты сами предложат свои</nobr><br><nobr>услуги, останется только выбрать</nobr></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="fifth-block" id="search_form">
-        <div class="fifth-block__container">
-            {{--<div class="fifth-block__header">--}}
-            <h1 class="fifth-block__header">Расскажите о задаче прямо сейчас и получите первые предложения от специалистов Санкт-Петербурга уже через <span class="fifth-block__header--blue">7 минут</span>, это бесплатно</h1>
-            {{--</div>--}}
+        <div class="find">
+            <p class="find__text">Находите исполнителей вручную или заполните форму для поиска лучшего предложения</p>
         </div>
-        <div class="row fifth-block__container--with-form">
-            <div class="col-12 col-md-6">
-                <form class="form" method="post" action="{{route('miniOrder')}}">
-                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
-                    {{csrf_field()}}
-                    <input type="hidden" name="st" value="1">
-                    <select name="category" id="categories" class="form__input-field form__select">
-                        @if(old('category') != null)
-                            {{--<option value="0" disabled selected>Выберите категорию</option>--}}
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>
-                            @endforeach
-                        @else
-                            <option value="0" disabled selected>Выберите категорию</option>
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+        <div class="row search__container" id="form">
+            <div class="col-12 col-md-5 search-panel">
+                <div class="row tab">
+                    <div class="col-4 tab__item">
+                        <button class="tab__button" onclick="location.href='/search#form'">Исполнители</button>
+                    </div>
+                    <div class="col-8 tab__item">
+                        <button class="tab__button tab__button--active" onclick="location.href='/best_price#form'">Поиск лучшего предложения</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fifth-block" id="search_form">
+            <div class="fifth-block__container--with-form fifth-block__container--best-price">
+                {{--<div class="fifth-block__header">--}}
+                <h1 class="fifth-block__header">Найдите лучшую цену за <span class="fifth-block__header--blue">12 минут</span></h1>
+                {{--</div>--}}
+            </div>
+            <div class="row fifth-block__container--with-form fifth-block__container--best-price">
+                <div class="col-12 col-md-4">
+                    <form class="form form--best-price" method="post" action="{{route('miniOrder')}}">
+                        {{--<h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>--}}
+                        {{csrf_field()}}
+                        <input type="hidden" name="st" value="1">
+                        <select name="category" id="categories" class="form__input-field form__select">
+                            @if(old('category') != null)
+                                {{--<option value="0" disabled selected>Выберите категорию</option>--}}
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>
+                                @endforeach
+                            @else
+                                <option value="0" disabled selected>Выберите категорию</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @if($errors->has("category"))
+                            @foreach ($errors->get("category") as $error)
+                                <label class="form__error">{{$error}}</label>
                             @endforeach
                         @endif
-                    </select>
-                    @if($errors->has("category"))
-                        @foreach ($errors->get("category") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <select name="subcategory" id="subcategories" class="form__input-field form__select">
-                        @if (old('category') != null)
-                            <?php
-                            $subcategories = App\Subcategory::where('category_id', old('category'))->get();
-                            if(old('subcategory') != 0){
-                                foreach ($subcategories as $subcategory){
-                                    if($subcategory->id == old('subcategory')){
-                                        echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
-                                    } else {
+                        <select name="subcategory" id="subcategories" class="form__input-field form__select">
+                            @if (old('category') != null)
+                                <?php
+                                $subcategories = App\Subcategory::where('category_id', old('category'))->get();
+                                if(old('subcategory') != 0){
+                                    foreach ($subcategories as $subcategory){
+                                        if($subcategory->id == old('subcategory')){
+                                            echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
+                                        } else {
+                                            echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                        }
+                                    }
+                                } else {
+                                    echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
+                                    foreach ($subcategories as $subcategory){
                                         echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
                                     }
                                 }
-                            } else {
-                                echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
-                                foreach ($subcategories as $subcategory){
-                                    echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
-                                }
-                            }
-                            ?>
-                        @else
-                            <option value="0" disabled selected>Выберите подкатегорию</option>
+                                ?>
+                            @else
+                                <option value="0" disabled selected>Выберите подкатегорию</option>
+                            @endif
+                        </select>
+                        @if($errors->has("subcategory"))
+                            @foreach ($errors->get("subcategory") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
                         @endif
-                    </select>
-                    @if($errors->has("subcategory"))
-                        @foreach ($errors->get("subcategory") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <input id="phone" name="phone" class="form__input-field" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
-                    @if($errors->has("phone"))
-                        @foreach ($errors->get("phone") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <input type="number" class="form__input-field" name="amount" placeholder="Предполагаемый бюджет" value="{{old('amount')}}">
-                    @if($errors->has("amount"))
-                        @foreach ($errors->get("amount") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <textarea class="form__input-field" rows="3" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>
-                    @if($errors->has("header"))
-                        @foreach ($errors->get("header") as $error)
-                            <label class="form__error">{{$error}}</label>
-                        @endforeach
-                    @endif
-                    <label class="form__container">Работа через безопасную сделку
-                        <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
-                        <span class="form__checkmark"></span>
-                    </label>
-                    <button type="submit" class="button button--blue button--center button--full-container">Продолжить</button>
-                    <p class="form__note">Мы не передаём информацию третьим лицам</p>
-                </form>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 form__input-field__div">
+                                <input id="phone" name="phone" class="form__input-field form__input-field--one-row" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
+                                @if($errors->has("phone"))
+                                    @foreach ($errors->get("phone") as $error)
+                                        <label class="form__error">{{$error}}</label>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <div class="col-12 col-sm-6 form__input-field__div">
+                                <input type="number" class="form__input-field form__input-field--one-row" name="amount" placeholder="{{--Предполагаемый б--}}Бюджет" value="{{old('amount')}}">
+                                @if($errors->has("amount"))
+                                    @foreach ($errors->get("amount") as $error)
+                                        <label class="form__error">{{$error}}</label>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <textarea class="form__input-field" rows="3" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>
+                        @if($errors->has("header"))
+                            @foreach ($errors->get("header") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <label class="form__container">Работа через безопасную сделку
+                            <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
+                            <span class="form__checkmark"></span>
+                        </label>
+                        <button type="submit" class="button button--blue button--center button--full-container">Продолжить</button>
+                        <p class="form__note">Мы не передаём информацию третьим лицам</p>
+                    </form>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="fourth-block">
+                        <div class="fourth-block__container fourth-block__container--mini">
+                            {{--<div class="fourth-block__container fourth-block__container--right">--}}
+                            <div class="list">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-5">
+                                        <div class="row list__item list__item--big-bottm-margin">
+                                            <div class="col-2">
+                                                <img class="list__img list__img--best-price" src="{{asset('img/fourth-block-2-1.png')}}">
+                                            </div>
+                                            <div class="col-10">
+                                                <h4 class="list__header list__header--best-price"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>
+                                                <p class="list__text list__text--without-padding"><nobr>На Aladdin исполнители сами высылают</nobr><br><nobr>вам свои предложения</nobr></p>
+                                            </div>
+                                        </div>
+                                        <div class="row list__item list__item--big-bottm-margin">
+                                            <div class="col-2">
+                                                <img class="list__img list__img--best-price" src="{{asset('img/fourth-block-2-2.png')}}">
+                                            </div>
+                                            <div class="col-10">
+                                                <h4 class="list__header list__header--best-price"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>
+                                                <p class="list__text list__text--without-padding"><nobr>Каждое предложение уже содержит</nobr><br><nobr>цену, сроки и условия работы</nobr></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-5 offset-lg-2">
+                                        <div class="row list__item list__item--big-bottm-margin">
+                                            <div class="col-2">
+                                                <img class="list__img list__img--best-price" src="{{asset('img/fourth-block-2-3.png')}}">
+                                            </div>
+                                            <div class="col-10">
+                                                <h4 class="list__header list__header--best-price"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>
+                                                <p class="list__text list__text--without-padding"><nobr>Заполните заявку и сразу же начните</nobr><br><nobr>получать предложения</nobr></p>
+                                            </div>
+                                        </div>
+                                        <div class="row list__item list__item--big-bottm-margin">
+                                            <div class="col-2">
+                                                <img class="list__img list__img--best-price" src="{{asset('img/fourth-block-2-4.png')}}">
+                                            </div>
+                                            <div class="col-10">
+                                                <h4 class="list__header list__header--best-price"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>
+                                                <p class="list__text list__text--without-padding"><nobr>У исполнителей Aladdin низкие цены из-за</nobr><br><nobr>отсутствия затрат на рекламу и офис</nobr></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="fifth-block__container--additional">
-                    <div class="col-12 fifth-block__list">
-                        <div class="list">
-                            <div class="row list__item">
-                                <div class="col-2 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fifth-block-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
-                                    <p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>
-                                </div>
+        </div>
+
+        {{--<div class="fifth-block" id="search_form">--}}
+            {{--<div class="fifth-block__container">--}}
+                {{--<div class="fifth-block__header">--}}
+                {{--<h1 class="fifth-block__header">Расскажите о задаче прямо сейчас и получите первые предложения от специалистов Санкт-Петербурга уже через <span class="fifth-block__header--blue">7 минут</span>, это бесплатно</h1>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="row fifth-block__container--with-form">--}}
+                {{--<div class="col-12 col-md-6">--}}
+                    {{--<form class="form" method="post" action="{{route('miniOrder')}}">--}}
+                        {{--<h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>--}}
+                        {{--{{csrf_field()}}--}}
+                        {{--<input type="hidden" name="st" value="1">--}}
+                        {{--<select name="category" id="categories" class="form__input-field form__select">--}}
+                            {{--@if(old('category') != null)--}}
+                                {{--<option value="0" disabled selected>Выберите категорию</option>--}}
+                                {{--@foreach($categories as $category)--}}
+                                    {{--<option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>--}}
+                                {{--@endforeach--}}
+                            {{--@else--}}
+                                {{--<option value="0" disabled selected>Выберите категорию</option>--}}
+                                {{--@foreach($categories as $category)--}}
+                                    {{--<option value="{{$category->id}}">{{$category->name}}</option>--}}
+                                {{--@endforeach--}}
+                            {{--@endif--}}
+                        {{--</select>--}}
+                        {{--@if($errors->has("category"))--}}
+                            {{--@foreach ($errors->get("category") as $error)--}}
+                                {{--<label class="form__error">{{$error}}</label>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        {{--<select name="subcategory" id="subcategories" class="form__input-field form__select">--}}
+                            {{--@if (old('category') != null)--}}
+                                <?php
+                                /*$subcategories = App\Subcategory::where('category_id', old('category'))->get();
+                                if(old('subcategory') != 0){
+                                    foreach ($subcategories as $subcategory){
+                                        if($subcategory->id == old('subcategory')){
+                                            echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
+                                        } else {
+                                            echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                        }
+                                    }
+                                } else {
+                                    echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
+                                    foreach ($subcategories as $subcategory){
+                                        echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                    }
+                                }*/
+                                ?>
+                            {{--@else--}}
+                                {{--<option value="0" disabled selected>Выберите подкатегорию</option>--}}
+                            {{--@endif--}}
+                        {{--</select>--}}
+                        {{--@if($errors->has("subcategory"))--}}
+                            {{--@foreach ($errors->get("subcategory") as $error)--}}
+                                {{--<label class="form__error">{{$error}}</label>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        {{--<input id="phone" name="phone" class="form__input-field" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">--}}
+                        {{--@if($errors->has("phone"))--}}
+                            {{--@foreach ($errors->get("phone") as $error)--}}
+                                {{--<label class="form__error">{{$error}}</label>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        {{--<input type="number" class="form__input-field" name="amount" placeholder="Предполагаемый бюджет" value="{{old('amount')}}">--}}
+                        {{--@if($errors->has("amount"))--}}
+                            {{--@foreach ($errors->get("amount") as $error)--}}
+                                {{--<label class="form__error">{{$error}}</label>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        {{--<textarea class="form__input-field" rows="3" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>--}}
+                        {{--@if($errors->has("header"))--}}
+                            {{--@foreach ($errors->get("header") as $error)--}}
+                                {{--<label class="form__error">{{$error}}</label>--}}
+                            {{--@endforeach--}}
+                        {{--@endif--}}
+                        {{--<label class="form__container">Работа через безопасную сделку--}}
+                            {{--<input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>--}}
+                            {{--<span class="form__checkmark"></span>--}}
+                        {{--</label>--}}
+                        {{--<button type="submit" class="button button--blue button--center button--full-container">Продолжить</button>--}}
+                        {{--<p class="form__note">Мы не передаём информацию третьим лицам</p>--}}
+                    {{--</form>--}}
+                {{--</div>--}}
+                {{--<div class="col-12 col-md-6">--}}
+                    {{--<div class="fifth-block__container--additional">--}}
+                        {{--<div class="col-12 fifth-block__list">--}}
+                            {{--<div class="list">--}}
+                                {{--<div class="row list__item">--}}
+                                    {{--<div class="col-2 align-self-center">--}}
+                                        {{--<img class="list__img" src="{{asset('img/fifth-block-1.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10">--}}
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
+                                        {{--<p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="row list__item">--}}
+                                    {{--<div class="col-2 align-self-center">--}}
+                                        {{--<img class="list__img" src="{{asset('img/fifth-block-2.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10">--}}
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
+                                        {{--<p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="row list__item">--}}
+                                    {{--<div class="col-2 align-self-center">--}}
+                                        {{--<img class="list__img" src="{{asset('img/fourth-block-4.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10">--}}
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
+                                        {{--<p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="row list__item">--}}
+                                    {{--<div class="col-2 align-self-center">--}}
+                                        {{--<img class="list__img" src="{{asset('img/fourth-block-5.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10">--}}
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
+                                        {{--<p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    </div>
+    <div class="fourth-block">
+        <div class="fourth-block__container fourth-block__container--snake">
+            <h1 class="fourth-block__header">Как это работает</h1>
+            <div class="row rel-block">
+                <div class="col-6">
+                    <div class="list-block--bordered list-block--bordered--right-margin">
+                        <h2 class="list-block__header">1. Расскажите о задаче</h2>
+                        <p class="list-block__text">Вкратце <a class="list-block__text--link" href="#">опишите</a> с какой проблемой или задачей вы столкнулись</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2" src="{{asset('img/1.png')}}">
+                    </div>
+                </div>
+                <div class="col-6" style="margin-top: 25px">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2--right" src="{{asset('img/2.png')}}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="list-block--bordered list-block--bordered--left-margin">
+                        <h2 class="list-block__header">2. Получите предложения</h2>
+                        <p class="list-block__text">Задачу увидят все исполнители Aladdin и сразу же начнут предлагать свои цены и сроки.
+                            <a class="list-block__text--link" href="#">Подробнее об исполнителях</a></p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="list-block--bordered list-block--bordered--right-margin">
+                        <h2 class="list-block__header">3. Выберите подходящее</h2>
+                        <p class="list-block__text">Выбирайте исходя из цены, рейтинга, отзывов или вашей интуиции.
+                            Все исполнители <a class="list-block__text--link" href="#">проверены</a> и готовы к работе.</p>
+                    </div>
+                </div>
+                <div class="col-6" style="margin-top: 20px">
+                    <div class="list-block--bordered--left-margin">
+                        <img class="list-block__img--2" src="{{asset('img/3.png')}}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="list-block--bordered--right-margin">
+                        <img class="list-block__img--2--right" style="height: 150px; margin-top: 20px" src="{{asset('img/4.png')}}">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="list-block--bordered list-block--bordered--left-margin">
+                        <h2 class="list-block__header">4. Утвердите условия</h2>
+                        <p class="list-block__text">После выбора исполнителя мы предоставим его контактный телефон для уточнения деталей</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row list-block">
+                <div class="col-12 list-block--bordered">
+                    <h2 class="list-block__header">1. Расскажите о задаче</h2>
+                    <p class="list-block__text">Вкратце <a class="list-block__text--link" href="#">опишите</a> с какой проблемой или задачей вы столкнулись</p>
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12">
+                    <img class="list-block__img" src="{{asset('img/fourth-block-1.png')}}">
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12 list-block--bordered">
+                    <h2 class="list-block__header">2. Получите предложения</h2>
+                    <p class="list-block__text">Задачу увидят все исполнители Aladdin и сразу же начнут предлагать свои цены и сроки.
+                        <a class="list-block__text--link" href="#">Подробнее об исполнителях</a></p>
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12">
+                    <img class="list-block__img" src="{{asset('img/fourth-block-2.png')}}">
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12 list-block--bordered">
+                    <h2 class="list-block__header">3. Выберите подходящее</h2>
+                    <p class="list-block__text">Выбирайте исходя из цены, рейтинга, отзывов или вашей интуиции.
+                        Все исполнители <a class="list-block__text--link" href="#">проверены</a> и готовы к работе.</p>
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12">
+                    <img class="list-block__img" src="{{asset('img/fourth-block-3.png')}}">
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12 list-block--bordered">
+                    <h2 class="list-block__header">4. Утвердите условия</h2>
+                    <p class="list-block__text">После выбора исполнителя мы предоставим его контактный телефон для уточнения деталей</p>
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12">
+                    <img class="list-block__img" src="{{asset('img/fourth-block-4.png')}}">
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12 list-block--bordered">
+                    <h2 class="list-block__header">5. Платите наличными или картой</h2>
+                    <p class="list-block__text">Оплата по карте через <a class="list-block__text--link" href="#">безопасную сделку</a>
+                        позволит вернуть деньги, если что-то пойдет не так, а также получить компенсацию</p>
+                </div>
+                <div class="col-6 list-block--fixed-height list-block--right-border"></div>
+                <div class="col-12">
+                    <img class="list-block__img" src="{{asset('img/fourth-block-5.png')}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background-color: #f6f8fa">
+        <div class="fifth-block" id="search_form">
+            <div class="fifth-block__container--with-form">
+                {{--<div class="fifth-block__header">--}}
+                <h1 class="fifth-block__header">Расскажите о задаче прямо сейчас и получите первые предложения от специалистов Санкт-Петербурга уже через <span class="fifth-block__header--blue">7 минут</span>, это бесплатно</h1>
+                {{--</div>--}}
+            </div>
+            <div class="row fifth-block__container--with-form">
+                <div class="col-12 col-md-6">
+                    <form class="form" method="post" action="{{route('miniOrder')}}">
+                        <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
+                        {{csrf_field()}}
+                        <input type="hidden" name="st" value="1">
+                        <select name="category" id="categories" class="form__input-field form__select">
+                            @if(old('category') != null)
+                                {{--<option value="0" disabled selected>Выберите категорию</option>--}}
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" @if(old('category')==$category->id) selected @endif>{{$category->name}}</option>
+                                @endforeach
+                            @else
+                                <option value="0" disabled selected>Выберите категорию</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        @if($errors->has("category"))
+                            @foreach ($errors->get("category") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <select name="subcategory" id="subcategories" class="form__input-field form__select">
+                            @if (old('category') != null)
+                                <?php
+                                $subcategories = App\Subcategory::where('category_id', old('category'))->get();
+                                if(old('subcategory') != 0){
+                                    foreach ($subcategories as $subcategory){
+                                        if($subcategory->id == old('subcategory')){
+                                            echo '<option value="'.$subcategory->id.'" selected>'.$subcategory->name.'</option>';
+                                        } else {
+                                            echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                        }
+                                    }
+                                } else {
+                                    echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
+                                    foreach ($subcategories as $subcategory){
+                                        echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
+                                    }
+                                }
+                                ?>
+                            @else
+                                <option value="0" disabled selected>Выберите подкатегорию</option>
+                            @endif
+                        </select>
+                        @if($errors->has("subcategory"))
+                            @foreach ($errors->get("subcategory") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <div class="row">
+                            <div class="col-12 col-sm-6 form__input-field__div">
+                                <input id="phone" name="phone" class="form__input-field form__input-field--one-row" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
+                                @if($errors->has("phone"))
+                                    @foreach ($errors->get("phone") as $error)
+                                        <label class="form__error">{{$error}}</label>
+                                    @endforeach
+                                @endif
                             </div>
-                            <div class="row list__item">
-                                <div class="col-2 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fifth-block-2.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
-                                    <p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
-                                </div>
+                            <div class="col-12 col-sm-6 form__input-field__div">
+                                <input type="number" class="form__input-field form__input-field--one-row" name="amount" placeholder="{{--Предполагаемый б--}}Бюджет" value="{{old('amount')}}">
+                                @if($errors->has("amount"))
+                                    @foreach ($errors->get("amount") as $error)
+                                        <label class="form__error">{{$error}}</label>
+                                    @endforeach
+                                @endif
                             </div>
-                            <div class="row list__item">
-                                <div class="col-2 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fourth-block-4.png')}}">
+                        </div>
+
+
+                        <textarea class="form__input-field" rows="3" name="header" placeholder="Что требуется сделать? Например, починить кран или доставить посылку">{{old('header')}}</textarea>
+                        @if($errors->has("header"))
+                            @foreach ($errors->get("header") as $error)
+                                <label class="form__error">{{$error}}</label>
+                            @endforeach
+                        @endif
+                        <label class="form__container">Работа через безопасную сделку
+                            <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
+                            <span class="form__checkmark"></span>
+                        </label>
+                        <button type="submit" class="button button--blue button--center button--full-container">Продолжить</button>
+                        <p class="form__note">Мы не передаём информацию третьим лицам</p>
+                    </form>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="fifth-block__container--additional">
+                        <div class="col-12 fifth-block__list">
+                            <div class="list">
+                                <div class="row list__item">
+                                    <div class="col-2 col-sm-1 align-self-center">
+                                        <img class="list__img" src="{{asset('img/fifth-block-1.png')}}">
+                                    </div>
+                                    <div class="col-10">
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
+                                        <p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>
+                                    </div>
                                 </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
-                                    <p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>
+                                <div class="row list__item">
+                                    <div class="col-2 col-sm-1 align-self-center">
+                                        <img class="list__img" src="{{asset('img/fifth-block-2.png')}}">
+                                    </div>
+                                    <div class="col-10">
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
+                                        <p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row list__item">
-                                <div class="col-2 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fourth-block-5.png')}}">
+                                <div class="row list__item">
+                                    <div class="col-2 col-sm-1 align-self-center">
+                                        <img class="list__img" src="{{asset('img/fourth-block-4.png')}}">
+                                    </div>
+                                    <div class="col-10">
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
+                                        <p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>
+                                    </div>
                                 </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
-                                    <p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>
+                                <div class="row list__item">
+                                    <div class="col-2 col-sm-1 align-self-center">
+                                        <img class="list__img" src="{{asset('img/fourth-block-5.png')}}">
+                                    </div>
+                                    <div class="col-10">
+                                        {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
+                                        <p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

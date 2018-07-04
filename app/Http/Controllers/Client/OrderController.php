@@ -280,7 +280,7 @@ class OrderController extends Controller
 
         $service->update(['sc_id' => $deal->id]);
 
-        $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://aladdin.hoolee/order/'.$service->order->id));
+        $deal = json_decode(SafeCrow::payOrder($service->sc_id, 'http://vsealaddin.ru/order/'.$service->order->id));
 
         $service->update(['confirmed' => 1]);
 
