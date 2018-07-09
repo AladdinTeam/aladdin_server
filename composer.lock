@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5455abb4b7f6851729f50ef9a1e17b8d",
+    "content-hash": "8048ca07cc94ad4f97c80f8c5be382ae",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -812,16 +812,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.31.1",
+            "version": "1.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41"
+                "reference": "64563e2b9f69e4db1b82a60e81efa327a30ff343"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/385780c8ca2dbfd25452666e3f55e8dc1df58c41",
-                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/64563e2b9f69e4db1b82a60e81efa327a30ff343",
+                "reference": "64563e2b9f69e4db1b82a60e81efa327a30ff343",
                 "shasum": ""
             },
             "require": {
@@ -863,7 +863,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-06-25T13:15:16+00:00"
+            "time": "2018-07-05T06:59:26+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -918,16 +918,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.15",
+            "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09"
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/10bcb46e8f3d365170f6de9d05245aa066b81f09",
-                "reference": "10bcb46e8f3d365170f6de9d05245aa066b81f09",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
+                "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
                 "shasum": ""
             },
             "require": {
@@ -963,7 +963,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-06-08T15:26:40+00:00"
+            "time": "2018-07-04T16:31:37+00:00"
         },
         {
             "name": "predis/predis",
@@ -1232,6 +1232,56 @@
             "time": "2018-06-10T17:57:20+00:00"
         },
         {
+            "name": "pubnub/pubnub",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pubnub/php.git",
+                "reference": "1a3b5350e9767f9553ab3d88d75ae543b7fff652"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pubnub/php/zipball/1a3b5350e9767f9553ab3d88d75ae543b7fff652",
+                "reference": "1a3b5350e9767f9553ab3d88d75ae543b7fff652",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^1.0",
+                "php": ">=5.6.0",
+                "rmccue/requests": ">=1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PubNub\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PubNub",
+                    "email": "support@pubnub.com"
+                }
+            ],
+            "description": "The Only Global Network For Real-Time Data -- PubNub!",
+            "homepage": "http://www.pubnub.com/",
+            "keywords": [
+                "ajax",
+                "api",
+                "push",
+                "real time",
+                "real-time",
+                "realtime"
+            ],
+            "time": "2017-06-08T17:49:44+00:00"
+        },
+        {
             "name": "ramsey/uuid",
             "version": "3.7.3",
             "source": {
@@ -1312,17 +1362,66 @@
             "time": "2018-01-20T00:28:24+00:00"
         },
         {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v6.1.0",
+            "name": "rmccue/requests",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587"
+                "url": "https://github.com/rmccue/Requests.git",
+                "reference": "87932f52ffad70504d93f04f15690cf16a089546"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587",
-                "reference": "0ff595e1d9d7d1c929b2a5f7b774bbcfbbd81587",
+                "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+                "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "requests/test-server": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Requests": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan McCue",
+                    "homepage": "http://ryanmccue.info"
+                }
+            ],
+            "description": "A HTTP library written in PHP, for human beings.",
+            "homepage": "http://github.com/rmccue/Requests",
+            "keywords": [
+                "curl",
+                "fsockopen",
+                "http",
+                "idna",
+                "ipv6",
+                "iri",
+                "sockets"
+            ],
+            "time": "2016-10-13T00:11:37+00:00"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v6.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
+                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
                 "shasum": ""
             },
             "require": {
@@ -1368,7 +1467,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2018-07-02T20:24:38+00:00"
+            "time": "2018-07-04T11:12:44+00:00"
         },
         {
             "name": "symfony/console",

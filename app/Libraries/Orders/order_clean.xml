@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <steps>
+        <step>
+            <name>Place</name>
+            <variant type="radio">Квартира</variant>
+            <variant type="radio">Частная постройка</variant>
+            <variant type="radio">Офис</variant>
+            <variant type="radio">Нежилое помощение</variant>
+            <condition name="Офис, Нежилое помещение">
+                How match square
+            </condition>
+            <next>
+                How match room
+            </next>
+        </step>
+        <step>
+            <name>How match room</name>
+            <variant type="radio">1 комната</variant>
+            <variant type="radio">2 комнаты</variant>
+            <variant type="radio">3 комнаты</variant>
+            <variant type="radio">4 комнаты и больше</variant>
+            <next>
+                Type of cleaning
+            </next>
+        </step>
+        <step>
+            <name>How match square</name>
+            <variant type="radio">0-50 кв.м</variant>
+            <variant type="radio">50-70 кв.м</variant>
+            <variant type="radio">70-90 кв.м</variant>
+            <variant type="radio">110-130кв.м</variant>
+            <next>
+                Type of cleaning
+            </next>
+        </step>
+    </steps>
