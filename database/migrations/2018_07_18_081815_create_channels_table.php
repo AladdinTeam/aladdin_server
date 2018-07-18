@@ -17,11 +17,13 @@ class CreateChannelsTable extends Migration
             $table->increments('id');
             $table->integer('master_id')->index()->unsigned()->nullable();
             $table->integer('client_id')->index()->unsigned()->nullable();
+            $table->integer('order_id')->index()->unsigned();
             $table->string('channel');
             $table->timestamps();
 
             $table->foreign("master_id")->references("id")->on("masters")->onDelete("cascade")->onUpdate("cascade");
             $table->foreign("client_id")->references("id")->on("clients")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("order_id")->references("id")->on("orders")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 
