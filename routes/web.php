@@ -77,5 +77,9 @@ Route::get('/next_step', 'SearchController@nextStepOrder');
 Route::get('/prev_step', 'SearchController@prevStepOrder');
 Route::get('/test_pubnub', 'TestPubnubController@index');
 
+Route::get('/chat', function (){
+    return view('chat');
+});
+
 //Route::get('/master', 'SearchController@getMasters');
 

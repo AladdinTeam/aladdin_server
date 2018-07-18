@@ -115,43 +115,94 @@
         publish();
         function publish() {
 
-            pubnub = new PubNub({
-                publishKey : 'pub-c-be21b986-aa4e-4906-ada6-c40f640e011c',
-                subscribeKey : 'sub-c-3b2fe186-836a-11e8-b9aa-969f058f0c4c'
+            let pubnub = new PubNub({
+                publishKey : 'pub-c-1d7544c9-c8bb-470f-ad7c-fcb707268c43',
+                subscribeKey : 'sub-c-b2d7d7ba-84f1-11e8-9542-023dfa3e4dae',
+                //uuid: 1
             });
 
-            function publishSampleMessage() {
+            function pub() {
+                for (var i = 0; i < 500; i++) {
+                    // publish 500 messages...
+                    pubnub.publish({
+                        channel : 'Channel-1123',
+                        message : {
+                            title: "title",
+                            mes: "message : " + i
+                        }
+                    });
+                }
+            }
+
+            function servicePublish() {
+                pubnub.publish({
+                    channel: 'Channel-1123',
+                    message: {
+                        message_id: 25,
+                        user: "client",
+                        is_service: true
+                    }
+                });
+            }
+
+            /*function publishSampleMessage() {
                 console.log("Since we're publishing on subscribe connectEvent, we're sure we'll receive the following publish.");
                 let publishConfig = {
                     channel : "Channel-1123",
                     message: {
                         title: "greeting",
                         description: "hello world!"
-                    }
+                    },
+                    storeInHistory: false,
                 };
                 pubnub.publish(publishConfig, function(status, response) {
                     console.log(status, response);
                 })
-            }
+            }*/
 
             pubnub.addListener({
                 status: function(statusEvent) {
                     if (statusEvent.category === "PNConnectedCategory") {
-                        publishSampleMessage();
+                        //publishSampleMessage();
+                        pubnub.history(
+                            {
+                                channel: "Channel-1123",
+                                count: 100, // how many items to fetch
+                                stringifiedTimeToken: true, // false is the default
+                            },
+                            function (status, response) {
+                                console.log(response);
+                            }
+                        );
+                        //pub();
                     }
                 },
                 message: function(msg) {
-                    console.log(msg.message.title);
-                    console.log(msg.message.description);
+                    /*console.log(msg/!*.message*!//!*.title*!/);
+                    //console.log(msg.message.description);*/
+                    if(!msg.message.is_service){
+                        servicePublish();
+                        //console.log('gg');
+                    }
+                    //
                 },
                 presence: function(presenceEvent) {
-                    // handle presence
                 }
             });
+
             console.log("Subscribing..");
-            pubnub.subscribe({
-                channels: ['Channel-1123']
-            });
+            pubnub.subscribe(
+                {
+                    channels: ['Channel-1123'],
+                    withPresence: true
+                },
+                function (status, response) {
+                    console.log(response);
+                    console.log(status);
+                }
+            );
+
+
         }
     </script>
 @endsection
