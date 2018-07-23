@@ -561,3 +561,50 @@
         </div>
     </div>--}}
 @endsection
+@section('scripts')
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.2.js"></script>
+    <script>
+        console.log('gg');
+        publish();
+        function publish() {
+
+            pubnub = new PubNub({
+                publishKey : 'pub-c-1d7544c9-c8bb-470f-ad7c-fcb707268c43',
+                subscribeKey : 'sub-c-b2d7d7ba-84f1-11e8-9542-023dfa3e4dae'
+            });
+
+            // function publishSampleMessage() {
+            //     console.log("Since we're publishing on subscribe connectEvent, we're sure we'll receive the following publish.");
+            //     let publishConfig = {
+            //         channel : "Channel-1123",
+            //         message: {
+            //             title: "greeting",
+            //             description: "hello world!"
+            //         }
+            //     };
+            //     pubnub.publish(publishConfig, function(status, response) {
+            //         console.log(status, response);
+            //     })
+            // }
+
+            pubnub.addListener({
+                status: function(statusEvent) {
+                    if (statusEvent.category === "PNConnectedCategory") {
+                        //publishSampleMessage();
+                    }
+                },
+                message: function(msg) {
+                    console.log(msg.message.title);
+                    console.log(msg.message.description);
+                },
+                presence: function(presenceEvent) {
+                    // handle presence
+                }
+            });
+            //console.log("Subscribing..");
+            pubnub.subscribe({
+                channels: ['Channel-1123']
+            });
+        }
+    </script>
+@endsection

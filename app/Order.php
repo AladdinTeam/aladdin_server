@@ -47,4 +47,8 @@ class Order extends Model
     public function report() {
         return $this->hasOne(Report::class);
     }
+
+    public function channels(){
+        return $this->hasMany(Channel::class);
+    }
 }

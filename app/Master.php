@@ -67,4 +67,8 @@ class Master extends Model implements AuthenticatableContract
     public function subways() {
         return $this->belongsToMany(Subway::class);
     }
+
+    public function channels() {
+        return $this->hasMany(Channel::class);
+    }
 }

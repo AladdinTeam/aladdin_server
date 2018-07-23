@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Client;
 use App\Http\Requests\UploadPhotoRequest;
-use App\Libraries\SafeCrow\SafeCrow;
+use App\Libraries;
 use App\Master;
 use App\Order;
 use App\OrderPhoto;
@@ -14,6 +14,7 @@ use App\Subway;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
@@ -21,7 +22,7 @@ class SearchController extends Controller
 
     public function __construct()
     {
-          $this->middleware("client_auth")->only("saveOrder");
+          //$this->middleware("client_auth")->only("saveOrder");
     }
 
     public function index(Request $request){
@@ -543,5 +544,285 @@ class SearchController extends Controller
     public function hh()
     {
         return view('home');
+    }
+
+    public function nextStepOrder(Request $request){
+        $radioAndCheckbox = '<label class="form__container">%s
+                    <input type="%s" name="%s" value="%s">
+                    <span class="form__checkmark %s"></span>
+                  </label>';
+
+        $textarea = '<textarea class="form__input-field" name="%s" placeholder="%s" rows="3"></textarea>';
+
+        $subway = '<select id="subways" name="subway" class="form__input-field form__select">\n'.
+                    '            <option selected disabled>Выберите метро</option>\n'.
+                    '            <option>Автово</option>\n'.
+                    '            <option>Адмиралтейская</option>\n'.
+                    '            <option>Академическая</option>\n'.
+                    '            <option>Балтийская</option>\n'.
+                    '            <option>Бухарестская</option>\n'.
+                    '            <option>Василеостровская</option>\n'.
+                    '            <option>Владимирская</option>\n'.
+                    '            <option>Волковская</option>\n'.
+                    '            <option>Выборгская</option>\n'.
+                    '            <option>Горьковская</option>\n'.
+                    '            <option>Гостиный двор</option>\n'.
+                    '            <option>Гражданский проспект</option>\n'.
+                    '            <option>Девяткино</option>\n'.
+                    '            <option>Достоевская</option>\n'.
+                    '            <option>Елизаровская</option>\n'.
+                    '            <option>Звёздная</option>\n'.
+                    '            <option>Звенигородская</option>\n'.
+                    '            <option>Кировский завод</option>\n'.
+                    '            <option>Комендантский проспект</option>\n'.
+                    '            <option>Крестовский остров</option>\n'.
+                    '            <option>Купчино</option>\n'.
+                    '            <option>Ладожская</option>\n' .
+                    '            <option>Ленинский проспект</option>\n'.
+                    '            <option>Лесная</option>\n'.
+                    '            <option>Лиговский проспект</option>\n'.
+                    '            <option>Ломоносовская</option>\n'.
+                    '            <option>Маяковская</option>\n'.
+                    '            <option>Международная</option>\n'.
+                    '            <option>Московская</option>\n'.
+                    '            <option>Московские ворота</option>\n'.
+                    '            <option>Нарвская</option>\n'.
+                    '            <option>Невский проспект</option>\n'.
+                    '            <option>Новочеркасская</option>\n'.
+                    '            <option>Обводный канал</option>\n'.
+                    '            <option>Обухово</option>\n'.
+                    '            <option>Озерки</option>\n'.
+                    '            <option>Парк Победы</option>\n'.
+                    '            <option>Парнас</option>\n'.
+                    '            <option>Петроградская</option>\n'.
+                    '            <option>Пионерская</option>\n'.
+                    '            <option>Площадь Александра Невского 1</option>\n'.
+                    '            <option>Площадь Александра Невского 2</option>\n'.
+                    '            <option>Площадь Восстания</option>\n'.
+                    '            <option>Площадь Ленина</option>\n'.
+                    '            <option>Площадь Мужества</option>\n'.
+                    '            <option>Политехническая</option>\n'.
+                    '            <option>Приморская</option>\n'.
+                    '            <option>Пролетарская</option>\n'.
+                    '            <option>Проспект Большевиков</option>\n'.
+                    '            <option>Проспект Ветеранов</option>\n'.
+                    '            <option>Проспект Просвещения</option>\n'.
+                    '            <option>Пушкинская</option>\n'.
+                    '            <option>Рыбацкое</option>\n'.
+                    '            <option>Садовая</option>\n'.
+                    '            <option>Сенная площадь</option>\n'.
+                    '            <option>Спасская</option>\n'.
+                    '            <option>Спортивная</option>\n'.
+                    '            <option>Старая Деревня</option>\n'.
+                    '            <option>Технологический институт 1</option>\n'.
+                    '            <option>Технологический институт 2</option>\n'.
+                    '            <option>Удельная</option>\n'.
+                    '            <option>Улица Дыбенко</option>\n'.
+                    '            <option>Фрунзенская</option>\n'.
+                    '            <option>Чёрная речка</option>\n'.
+                    '            <option>Чернышевская</option>\n'.
+                    '            <option>Чкаловская</option>\n'.
+                    '            <option>Электросила</option>\n'.
+                    '        </select>';
+
+        $input = '<input class="form__input-field" name="%s" placeholder="%s">';
+
+        $template = '<p style="display: none;">Сантехника</p>'.
+                    '        <h1 id="%d" style="font-size: 1.3rem; color: #2f2e2e;padding-left: 10px">%s</h1>';
+
+        $f = Storage::get('Order\order_clean.xml');
+        $xml = simplexml_load_string($f) or die ("Error: Cannot create object");
+        $i = 0;
+
+        if(!isset($request->name)){
+            $request->name = $xml->step[(int)$request->id]->name;
+        }
+
+        foreach ($xml->step as $step){
+            if($step->name == $request->name){
+                break;
+            }
+            $i++;
+        }
+
+
+        $nextStep = $i+1;
+        //echo $xml->step[$i]->name;
+        if($xml->step[$i]->conditions == '') {
+            $nextStep = (int)($xml->step[$i]->next);
+        } else {
+            //dd($request->step);
+            foreach ($xml->step[$i]->conditions->children() as $condition){
+                $name = $condition->name;
+                $val = explode('/', $condition->value);
+                foreach ($request->step as $key=>$value){
+                   if($name == $key){
+                       foreach ($val as $v){
+                           if($value == $v){
+                               $nextStep = (int)($condition->next);
+                               break;
+                           }
+                       }
+                   }
+                }
+            }
+        }
+
+        //echo $xml->step[(int)$nextStep]->name;
+
+        $template = sprintf($template, $xml->step[$nextStep]['number'], $xml->step[$nextStep]->name);
+
+        foreach ($xml->step[$nextStep]->variant as $variant){
+            $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
+            $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
+        }
+
+        echo $template;
+
+
+
+
+        /*echo $request->name;
+        print_r($request->step);*/
+    }
+
+    public function prevStepOrder(Request $request){
+        $radioAndCheckbox = '<label class="form__container">%s
+                    <input type="%s" name="%s" value="%s">
+                    <span class="form__checkmark %s"></span>
+                  </label>';
+
+        $textarea = '<textarea class="form__input-field" name="%s" placeholder="%s" rows="3"></textarea>';
+
+        $subway = '<select id="subways" name="subway" class="form__input-field form__select">\n'.
+            '            <option selected disabled>Выберите метро</option>\n'.
+            '            <option>Автово</option>\n'.
+            '            <option>Адмиралтейская</option>\n'.
+            '            <option>Академическая</option>\n'.
+            '            <option>Балтийская</option>\n'.
+            '            <option>Бухарестская</option>\n'.
+            '            <option>Василеостровская</option>\n'.
+            '            <option>Владимирская</option>\n'.
+            '            <option>Волковская</option>\n'.
+            '            <option>Выборгская</option>\n'.
+            '            <option>Горьковская</option>\n'.
+            '            <option>Гостиный двор</option>\n'.
+            '            <option>Гражданский проспект</option>\n'.
+            '            <option>Девяткино</option>\n'.
+            '            <option>Достоевская</option>\n'.
+            '            <option>Елизаровская</option>\n'.
+            '            <option>Звёздная</option>\n'.
+            '            <option>Звенигородская</option>\n'.
+            '            <option>Кировский завод</option>\n'.
+            '            <option>Комендантский проспект</option>\n'.
+            '            <option>Крестовский остров</option>\n'.
+            '            <option>Купчино</option>\n'.
+            '            <option>Ладожская</option>\n' .
+            '            <option>Ленинский проспект</option>\n'.
+            '            <option>Лесная</option>\n'.
+            '            <option>Лиговский проспект</option>\n'.
+            '            <option>Ломоносовская</option>\n'.
+            '            <option>Маяковская</option>\n'.
+            '            <option>Международная</option>\n'.
+            '            <option>Московская</option>\n'.
+            '            <option>Московские ворота</option>\n'.
+            '            <option>Нарвская</option>\n'.
+            '            <option>Невский проспект</option>\n'.
+            '            <option>Новочеркасская</option>\n'.
+            '            <option>Обводный канал</option>\n'.
+            '            <option>Обухово</option>\n'.
+            '            <option>Озерки</option>\n'.
+            '            <option>Парк Победы</option>\n'.
+            '            <option>Парнас</option>\n'.
+            '            <option>Петроградская</option>\n'.
+            '            <option>Пионерская</option>\n'.
+            '            <option>Площадь Александра Невского 1</option>\n'.
+            '            <option>Площадь Александра Невского 2</option>\n'.
+            '            <option>Площадь Восстания</option>\n'.
+            '            <option>Площадь Ленина</option>\n'.
+            '            <option>Площадь Мужества</option>\n'.
+            '            <option>Политехническая</option>\n'.
+            '            <option>Приморская</option>\n'.
+            '            <option>Пролетарская</option>\n'.
+            '            <option>Проспект Большевиков</option>\n'.
+            '            <option>Проспект Ветеранов</option>\n'.
+            '            <option>Проспект Просвещения</option>\n'.
+            '            <option>Пушкинская</option>\n'.
+            '            <option>Рыбацкое</option>\n'.
+            '            <option>Садовая</option>\n'.
+            '            <option>Сенная площадь</option>\n'.
+            '            <option>Спасская</option>\n'.
+            '            <option>Спортивная</option>\n'.
+            '            <option>Старая Деревня</option>\n'.
+            '            <option>Технологический институт 1</option>\n'.
+            '            <option>Технологический институт 2</option>\n'.
+            '            <option>Удельная</option>\n'.
+            '            <option>Улица Дыбенко</option>\n'.
+            '            <option>Фрунзенская</option>\n'.
+            '            <option>Чёрная речка</option>\n'.
+            '            <option>Чернышевская</option>\n'.
+            '            <option>Чкаловская</option>\n'.
+            '            <option>Электросила</option>\n'.
+            '        </select>';
+
+        $input = '<input class="form__input-field" name="%s" placeholder="%s">';
+
+        $template = '<p style="display: none;">Сантехника</p>'.
+            '        <h1 id="%d" style="font-size: 1.3rem; color: #2f2e2e;padding-left: 10px">%s</h1>';
+
+        $f = Storage::get('Order\order_clean.xml');
+        $xml = simplexml_load_string($f) or die ("Error: Cannot create object");
+        $i = 0;
+
+        if(!isset($request->id)) {
+            foreach ($xml->step as $step) {
+                if ($step->name == $request->name) {
+                    break;
+                }
+                $i++;
+            }
+        } else {
+            $i = $request->id;
+        }
+
+
+        /*$nextStep = $i+1;
+        //echo $xml->step[$i]->name;
+        if($xml->step[$i]->conditions == '') {
+            $nextStep = (int)($xml->step[$i]->next);
+        } else {
+            //dd($request->step);
+            foreach ($xml->step[$i]->conditions->children() as $condition){
+                $name = $condition->name;
+                $val = explode('/', $condition->value);
+                foreach ($request->step as $key=>$value){
+                    if($name == $key){
+                        foreach ($val as $v){
+                            if($value == $v){
+                                $nextStep = (int)($condition->next);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+
+        //echo $xml->step[(int)$nextStep]->name;
+
+        $template = sprintf($template, $xml->step[(int)$i]['number'], $xml->step[(int)$i]->name);
+
+        foreach ($xml->step[(int)$i]->variant as $variant){
+            $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
+            $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
+        }
+
+        echo $template;
+
+
+
+
+        /*echo $request->name;
+        print_r($request->step);*/
     }
 }
