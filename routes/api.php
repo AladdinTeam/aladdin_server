@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::group(["prefix" => "chat", "namespace" => "Mobile\Master"], function () {
-    Route::post("/get_channels", "ChatController@getChannels")->middleware('master_auth_api');
+    Route::post('/get_channels', 'ChatController@getChannels')->middleware('master_auth_api');
 });
 
 Route::group(["prefix" => "order", "namespace" => "Mobile\Master"], function () {
