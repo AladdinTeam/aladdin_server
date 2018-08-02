@@ -200,13 +200,17 @@ $('#filters').click(function () {
 }*/
 
 function openNav() {
-    document.getElementById("sidenav").style.width = "300px";
-    document.getElementById("menuButton").style.display = 'none';
+    if(document.getElementById("sidenav").style.width !== '300px'){
+        document.getElementById("sidenav").style.width = "300px";
+        document.getElementById("menuButton").style.display = 'none';
+    } else {
+        document.getElementById("sidenav").style.width = "0";
+        document.getElementById("menuButton").style.display = '';
+    }
 }
 
 function closeNav(){
-    document.getElementById("sidenav").style.width = "0";
-    document.getElementById("menuButton").style.display = '';
+
 }
 
 /*function tapOnSearchTab(evt, id) {

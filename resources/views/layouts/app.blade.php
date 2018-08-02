@@ -13,7 +13,7 @@
     <![endif]-->
 </head>
 <body>
-<div class="before-nav">
+{{--<div class="before-nav">
     <div class="row before-nav__container">
         <div class="col before-nav__block">
             <div class="row">
@@ -50,12 +50,15 @@
             </div>
         </div>
     </div>
-</div>
+</div>--}}
 <nav class="nav">
     <div class="nav-container">
-        <a href="/"><img class="logo" src="{{asset('img/true_logo.png')}}"></a>
+        <a href="/"><img class="logo" src="{{asset('img/logo376.png')}}"></a>
         <div class="menu">
-            {{--<div class="menu__item"><span class="phone">8(800) 550 16 45</span></div>--}}
+            <div class="menu__item menu__item--active"><span onclick="location.href='/services'">Услуги</span></div>
+            <div class="menu__item"><span>О проекте</span></div>
+            {{--<div class="menu__item"><span onclick="location.href='/search'">Найти специалиста</span></div>
+            <div class="menu__item"><span class="phone">8(800) 550 16 45</span></div>--}}
             @if(isset($name))
                 <div class="menu__item menu__item--name dropdown" style="position: relative"><span>{{$name}}<img class="menu__item__img" src="{{asset('img/dropdown.png')}}"></span>
                     <div class="dropdown-content">
@@ -66,16 +69,32 @@
             @else
                 <div class="menu__item"><span onclick="location.href = '/login'">Мои заказы</span></div>
             @endif
-            <div class="menu__item"><span>Исполнителям</span></div>
-            <div class="menu__item"><span>Заказчикам</span></div>
-            <div class="menu__item"><span onclick="location.href='/search'">Найти специалиста</span></div>
+        </div>
+        <div class="menu menu--right">
+            <div class="menu__item--non-click">
+                <div class="row">
+                    <div class="col-3">
+                        <img class="menu__img" src="{{asset('img/geo.png')}}">
+                    </div>
+                    <div class="col-8 align-self-center">
+                        <p style="font-size: 0.9rem; font-weight: 600"><nobr>Санкт-Петербург</nobr></p>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: -30px">
+                    <div class="col-3">
+                        <img class="menu__img" src="{{asset('img/vibrophone.png')}}">
+                    </div>
+                    <div class="col-8 align-self-center">
+                        <p style="font-size: 0.9rem; font-weight: 600"><nobr>8(800) 550 16 45</nobr></p>
+                    </div>
+                </div>
+            </div>
         </div>
         <img class="menu-icon" onclick="openNav()" src="{{asset('img/icon-menu.png')}}">
         <div class="sidenav" id="sidenav">
-            <a href="javascript:void(0)" class="sidenav__close" onclick="closeNav()">&times</a>
-            <a href="/search" class="sidenav__item">Найти специалиста</a>
-            <a href="#" class="sidenav__item">Заказчикам</a>
-            <a href="#" class="sidenav__item">Исполнителям</a>
+            {{--<a href="javascript:void(0)" class="sidenav__close" onclick="closeNav()">&times</a>--}}
+            <a href="#" class="sidenav__item">Услуги</a>
+            <a href="#" class="sidenav__item">О проекте</a>
             @if(isset($name))
                 <a href="/orders" class="sidenav__item">Мои заказы</a>
                 <a href="/logout" class="sidenav__item">Выход</a>
@@ -89,27 +108,42 @@
 <footer class="footer">
     <div class="footer__container">
         <div class="row">
-            <div class="col-12 col-sm-4 block">
-                <h3 class="block__header">Клиентам</h3>
-                <p class="block__item"><a class="block__link" href="#">Как работает Aladdin</a></p>
-                <p class="block__item"><a class="block__link" href="#">Об исполнителях</a></p>
-                <p class="block__item"><a class="block__link" href="#">Гарантии и безопасность</a></p>
+            <div class="col-12 col-sm-6 col-lg-3 block">
+                <h1 class="block__phone">8(800) 550-16-45</h1>
+                <h1 class="block__phone">to@mytasker.ru</h1>
+                <p class="block__item"><a class="block__link" href="#">О проекте</a></p>
+                <p class="block__item"><a class="block__link" href="#">Как это работает</a></p>
                 <p class="block__item"><a class="block__link" href="#">Безопасная сделка</a></p>
-                <p class="block__item"><a class="block__link" href="#">Частые вопросы</a></p>
             </div>
-            <div class="col-12 col-sm-4 block">
-                <h3 class="block__header">Исполнителям</h3>
-                <p class="block__item"><a class="block__link" href="#">Aladdin для исполнителей</a></p>
-                <p class="block__item"><a class="block__link" href="#">Стать партнёром</a></p>
-                <p class="block__item"><a class="block__link" href="#">Условия работы</a></p>
+            <div class="col-12 col-sm-6 col-lg-3 block block--whitespaced">
+                {{--<h3 class="block__header">Исполнителям</h3>--}}
+                <p class="block__item"><a class="block__link" href="#">Оферта</a></p>
+                <p class="block__item"><a class="block__link" href="#">Пользовательское соглашение</a></p>
             </div>
-            <div class="col-12 col-sm-4 block block--right">
-                <h1 class="block__phone">8 (800) 550-16-45</h1>
-                <p class="block__item block__item--lighter">info@vsealaddin.ru</p>
-                <p class="block__item block__item--spaced"><a class="block__link block__link--lighter" href="#"><u>Пользовательское соглашение</u></a></p>
-                <p class="block__item block__item--lighter">2017 - 2018</p>
-                <p class="block__item block__item--lighter">ООО "Аладдин Рус"</p>
-                <p class="block__item block__item--lighter">&copy; Все права защищены</p>
+            <div class="col-12 col-sm-12 col-lg-6 block block--whitespaced2">
+                <div class="row">
+                    <div class="col-5 offset-1 col-sm-3 offset-sm-3 col-lg-4 offset-lg-2">
+                        <img class="footer__img" src="{{asset('img/spark.png')}}">
+                    </div>
+                    <div class="col-5 col-sm-3 col-lg-4">
+                        <img class="footer__img" src="{{asset('img/cossa.png')}}">
+                    </div>
+                    <div class="col-5 offset-1 col-sm-3 offset-sm-3 col-lg-4 offset-lg-2">
+                        <img class="footer__img" src="{{asset('img/rusbase.png')}}">
+                    </div>
+                    <div class="col-5 col-sm-3 col-lg-4">
+                        <img class="footer__img" src="{{asset('img/delpet.png')}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background-color: #f6f8fa">
+        <div class="footer__container">
+            <div class="row">
+                <div class="col-12">
+                    <p style="font-size: 0.9rem; font-weight: 600; padding: 10px">&copy; 2018 Tasker. Все права защищены.</p>
+                </div>
             </div>
         </div>
     </div>

@@ -115,13 +115,24 @@
         publish();
         function publish() {
 
+            let channel = [<?php
+                use App\Channel;
+                use Illuminate\Support\Facades\Crypt;
+                $channels = Channel::where('client_id', Crypt::decryptString(session('id')))->get();
+                $str = '';
+                foreach ($channels as $channel){
+                    $str = '"'.$channel->channel.'"';
+                }
+                echo $str;
+            ?>];
+
             let pubnub = new PubNub({
                 publishKey : 'pub-c-1d7544c9-c8bb-470f-ad7c-fcb707268c43',
                 subscribeKey : 'sub-c-b2d7d7ba-84f1-11e8-9542-023dfa3e4dae',
                 //uuid: 1
             });
 
-            function pub() {
+            /*function pub() {
                 for (var i = 0; i < 500; i++) {
                     // publish 500 messages...
                     pubnub.publish({
@@ -132,7 +143,7 @@
                         }
                     });
                 }
-            }
+            }*/
 
             function servicePublish() {
                 pubnub.publish({
@@ -164,7 +175,7 @@
                 status: function(statusEvent) {
                     if (statusEvent.category === "PNConnectedCategory") {
                         //publishSampleMessage();
-                        pubnub.history(
+                        /*pubnub.history(
                             {
                                 channel: "Channel-1123",
                                 count: 100, // how many items to fetch
@@ -173,17 +184,18 @@
                             function (status, response) {
                                 console.log(response);
                             }
-                        );
+                        );*/
                         //pub();
                     }
                 },
                 message: function(msg) {
+                    console.log(msg.message.type);
                     /*console.log(msg/!*.message*!//!*.title*!/);
                     //console.log(msg.message.description);*/
-                    if(!msg.message.is_service){
+                    /*if(!msg.message.is_service){
                         servicePublish();
                         //console.log('gg');
-                    }
+                    }*/
                     //
                 },
                 presence: function(presenceEvent) {
@@ -193,7 +205,7 @@
             console.log("Subscribing..");
             pubnub.subscribe(
                 {
-                    channels: ['Channel-1123'],
+                    channels: channel,
                     withPresence: true
                 },
                 function (status, response) {

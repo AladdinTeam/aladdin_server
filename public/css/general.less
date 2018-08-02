@@ -3,7 +3,7 @@
 @sm_screen: 992px;
 @lg_screen: 1200px;
 
-@blue_color: #00b0ff;
+@blue_color: #42a5f5;
 @light_grey_color: #f6f8fa;
 @white: #ffffff;
 @black_text: #2f2e2e;
@@ -100,16 +100,17 @@
   background-color: @white;
 
   @media only screen and (min-width: @big_tablet){
-    height: 70px;
+    height: 95px;
+    width: 80%;
+    margin: 0 auto;
   }
 
   @media only screen and (min-width: @sm_screen){
-    padding: 0 3%;
   }
 
   @media only screen and (min-width: @lg_screen){
     //padding: 0 5%;
-    width: 1200px;
+    width: 1000px;
     margin: 0 auto;
   }
 }
@@ -118,7 +119,8 @@
   height: 55px;
   width: 140px;
   display: block;
-  margin: auto;
+  //margin: auto;
+  margin-left: 10px;
   //width: fit-content;
 
   @media only screen and (min-width: @big_tablet){
@@ -133,10 +135,12 @@
 
 .menu-icon{
   display: block;
+  float: right;
   height: 27px;
-  margin-left: 20px;
+  //margin-left: 20px;
   position: relative;
-  margin-top: -40px;
+  margin-top: -45px;
+  margin-right: 10px;
 
   @media only screen and (min-width: @big_tablet){
     display: none;
@@ -148,24 +152,42 @@
 
   @media only screen and (min-width: @big_tablet) {
     display: inline-block;
-    float: right;
+    margin-top: 7px;
+    //float: right;
+    margin-left: 50px;
     height: 55px;
     line-height: 55px;
-    width: 75%;
+    //width: 75%;
+
+    &__img{
+      height: 25px;
+      margin-top: 20px;
+      padding-left: 5px;
+    }
+
+    &--right{
+      float: right;
+      margin-left: 0;
+      width: 180px;
+    }
 
 
     &__item {
       display: inline-block;
-      float: right;
-      padding: 0 2%;
+      //float: right;
+      padding: 0 10px;
       height: 35px;
       line-height: 35px;
       margin-top: 17px;
       font-size: 0.9rem;
-      font-weight: 400;
+      font-weight: 600;
       //color: #dcdcdc;
       //color: white;
       cursor: pointer;
+
+      &--non-click{
+        color: #00b0ff;
+      }
 
       &--name{
         min-width: 120px;
@@ -189,12 +211,13 @@
 
       &:hover{
         //background-color: whitesmoke;
-        color: #00b0ff;
+        color: @blue_color;
       }
 
       &--active {
         //border: 2px solid #2195f3;
-        padding: 1% 5%;
+        color: @blue_color;
+        //padding: 1% 5%;
       }
     }
   }
@@ -244,7 +267,6 @@
 }
 
 .footer{
-  background-color: #eceff1;
 
   &__container{
     width: 90%;
@@ -254,13 +276,18 @@
       width: 95%;
     }
 
-    @media only screen and (min-width: @sm_screen){
-      width: 75%;
+    @media only screen and (min-width: @big_tablet){
+      width: 80%;
     }
 
     @media only screen and (min-width: @lg_screen){
-      width: 60%;
+      width: 1000px;
+      margin: 60px auto 0;
     }
+  }
+
+  &__img{
+    width: 100%;
   }
 }
 
@@ -268,8 +295,41 @@
   padding: 15px 0;
 
   @media only screen and (min-width: @tablet){
-    padding: 20px 2%;
+    padding: 20px 35px 10px;
   }
+
+  @media only screen and (min-width: @sm_screen){
+    padding: 20px 0 10px;
+  }
+
+  &--whitespaced{
+    padding: 15px 0;
+
+    @media only screen and (min-width: @tablet){
+      padding: 5.9rem 0 10px;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      padding: 7.4rem 35px 10px;
+    }
+
+    @media only screen and (min-width: @lg_screen){
+      padding: 7.5rem 35px 10px;
+    }
+  }
+
+  &--whitespaced2{
+    padding: 15px 0;
+
+    @media only screen and (min-width: @tablet){
+      padding: 0px;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      padding: 4.5rem 35px 10px;
+    }
+  }
+
 
   &--right{
     @media only screen and (min-width: @tablet){
@@ -288,13 +348,14 @@
   }
 
   &__item{
+    color: @dark_grey_text;
     margin-top: 2%;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 0.95rem;
 
     @media only screen and (min-width: @tablet){
-      margin-top: 3%;
-      font-size: 0.85rem;
+      margin-top: 5%;
+      font-size: 0.9rem;
     }
 
     &--lighter{
@@ -311,7 +372,7 @@
   }
 
   &__link{
-    color: #2f2e2e;
+    color: @black_text;
     text-decoration: none;
     text-decoration: -moz-none;
 
@@ -321,14 +382,24 @@
   }
 
   &__phone{
-    color: #00b0ff;
-    font-weight: 600;
+    color: #6CA5F5;
+    font-weight: 500;
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 
     @media only screen and (min-width: @tablet){
       font-size: 1.3rem;
-      margin-bottom: 1.3rem;
+    }
+
+    @media only screen and (min-width: @sm_screen){
+      font-size: 1.7rem;
+      margin-bottom: 0.5rem;
+    }
+
+    &:last-of-type{
+      @media only screen and (min-width: @sm_screen){
+        margin-bottom: 2rem;
+      }
     }
   }
 }

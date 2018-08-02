@@ -630,8 +630,13 @@ class SearchController extends Controller
         $template = '<p style="display: none;">Сантехника</p>'.
                     '        <h1 id="%d" style="font-size: 1.3rem; color: #2f2e2e;padding-left: 10px">%s</h1>';
 
-        $f = Storage::get('Order\order_clean.xml');
+        $f = Storage::get('Order\\'.$request->file.'.xml');
         $xml = simplexml_load_string($f) or die ("Error: Cannot create object");
+
+        if($request->begin){
+            $xml->step[0]->name;
+        }
+        /*$xml = simplexml_load_string($f) or die ("Error: Cannot create object");
         $i = 0;
 
         if(!isset($request->name)){

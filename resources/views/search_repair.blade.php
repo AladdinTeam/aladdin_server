@@ -1,5 +1,5 @@
 <?php
-    use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Request;
 ?>
 @extends('layouts.app')
 @section('title', 'Поиск')
@@ -14,7 +14,7 @@
         <div class="first-block--container" style="position:relative;z-index: 0;">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="first-block__header">Профессиональные исполнители по уборке в Санкт-Петербурге</h3>
+                    <h3 class="first-block__header">Профессиональные исполнители по мелкому ремонту в Санкт-Петербурге</h3>
                     <h3 class="first-block__subheader desktop">Обращайтесь к услугам профессиональных исполнителей Tasker.</h3>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="first-block--container first-block--container--search" style="position:absolute; top:0; left:0;z-index: 2">
             <div class="row">
                 <div class="offset-9 col-3">
-                    <img style="width: 100%" src="{{asset('img/location-cleaning-hand.png')}}">
+                    <img style="width: 100%" src="{{asset('img/hand-2620237_960_720.png')}}">
                 </div>
             </div>
         </div>
@@ -32,14 +32,14 @@
             <div class="first-block--container first-block--container--search">
                 <div class="row">
                     <div class="col-5 offset-7">
-                        <img style="width: 100%" src="{{asset('img/location-cleaning-hand.png')}}">
+                        <img style="width: 100%" src="{{asset('img/hand-2620237_960_720.png')}}">
                     </div>
                 </div>
             </div>
             <div class="first-block--container">
                 <div class="row">
                     <div class="col-12" style="margin-top: -60px">
-                        <h3 class="first-block__header" style="font-size: 1.4rem; padding-right: 25px">Профессиональные исполнители по уборке в Санкт-Петербурге</h3>
+                        <h3 class="first-block__header" style="font-size: 1.4rem; padding-right: 25px">Профессиональные исполнители по мелкому ремонту в Санкт-Петербурге</h3>
                         <h3 class="first-block__subheader desktop">Обращайтесь к услугам профессиональных исполнителей Tasker.</h3>
                     </div>
                 </div>
@@ -596,7 +596,7 @@
                 url: '/next_step',
                 data: {file: file, begin:true},
                 success: function (html) {
-                    
+
                 }
             });
         })

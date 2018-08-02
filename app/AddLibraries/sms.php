@@ -23,7 +23,7 @@ class Sms
 		// constants
 		// !!! Edit these contants after you receive an account from SMS Traffic !!!
 		$smstraffic_login = "mobileup";
-		$smstraffic_password = "jawefode";
+		$smstraffic_password = "Aladd!n3234";
 		$max_parts = 1; // set to 2 or more if you want messages to be split into several SMS automatically
 		
 		$host = "api.smstraffic.ru";

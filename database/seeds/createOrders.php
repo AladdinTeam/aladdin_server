@@ -28,7 +28,7 @@ class createOrders extends Seeder
      */
     public function run()
     {
-        factory(App\Order::class, 300)->create()->each(function ($u){
+        factory(App\Order::class, 1)->create()->each(function ($u){
             $u->masters()->attach($this->getMasters($u), ['commentary' => 'Комментарий', 'price' => random_int(200, 9000), 'date' => '2018-06-14']);
             //$u->subways()->saveMany($this->getSubways());
             //$u->orders()->saveMany(factory(App\Order::class, ))

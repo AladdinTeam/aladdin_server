@@ -11,11 +11,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'LandingController@index1');
+Route::get('/', 'LandingController@index');
+Route::get('/land', 'LandingController@index1');
+Route::get('/services', 'LandingController@services');
 Route::get('/profile/{id}', 'ProfileController@index');
 Route::get('/soon', 'SoonController@index');
 
 Route::group(["prefix" => "search"], function (){
+    Route::get('/repair', function (){
+        return view('search_repair');
+    });
     Route::get('/', 'SearchController@index');
     //Route::post('/best_price', 'SearchController@bestPrice')->name('best_price');
     Route::get('/save_order', 'SearchController@saveOrder');
@@ -77,9 +82,8 @@ Route::get('/next_step', 'SearchController@nextStepOrder');
 Route::get('/prev_step', 'SearchController@prevStepOrder');
 Route::get('/test_pubnub', 'TestPubnubController@index');
 
-Route::get('/chat', function (){
-    return view('chat');
-});
+Route::get('/chat', 'ChatController@showPage');
+Route::post('/upload_chat_file', 'ChatController@uploadFile');
 
 //Route::get('/master', 'SearchController@getMasters');
 

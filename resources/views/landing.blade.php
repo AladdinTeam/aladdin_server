@@ -1,133 +1,495 @@
 @extends('layouts.app')
-@section("title", "Aladdin")
+@section("title", "Tasker")
 @section("styles")
-    <link href="{{asset('css/styles.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
     <link href="{{asset('css/general.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
+    <link href="{{asset('css/styles.less')}}?v=001" type="text/css" rel="stylesheet/less"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.0/less.min.js"></script>
 @endsection
 @section("body")
     <div class="first-block">
         <div class="first-block--container">
-            <h3 class="first-block__header">Обращайтесь к грамотным исполнителям и совершайте безопасные сделки</h3>
-            <h3 class="first-block__subheader">Поможем поручить бытовые задачи с оплатой за результат</h3>
+            <h3 class="first-block__header">Надежный и доступный способ сохранить уют в доме</h3>
+            <h3 class="first-block__subheader">Обращайтесь к услугам профессиональных исполнителей Tasker</h3>
+            <div class="row tiles">
+                <div class="col-6 col-md-3">
+                    <a href="{{url('search/repair')}}">
+                        <div class="tiles--item">
+                            <div class="category">
+                                <img class="category--img" src="{{asset('img/master-hour.jpg')}}">
+                                <h1 class="category--header" >Мастер на час</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a href="{{url('search/repair')}}">
+                        <div class="tiles--item">
+                            <div class="category">
+                                <img class="category--img" src="{{asset('img/furniture-assembly.jpg')}}">
+                                <h1 class="category--header" >Сборка мебели</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a href="{{url('search/repair')}}">
+                        <div class="tiles--item">
+                            <div class="category">
+                                <img class="category--img" src="{{asset('img/electrician.jpg')}}">
+                                <h1 class="category--header" >Электрик</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a href="{{url('search')}}">
+                        <div class="tiles--item">
+                            <div class="category">
+                                <img class="category--img" src="{{asset('img/apartment-cleaning.jpg')}}">
+                                <h1 class="category--header" >Уборка</h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <div class="tiles--item tiles--item--without-shadow">
+                        <button class="button button--blue button--full-container button--big" onclick="location.href='/services'">Все услуги</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="second-block">
-        <div class="second-block__container">
-            <div class="second-block__header">На Aladdin часто ищут</div>
-            <div class="second-block__subheader">Исполнители Санкт-Петербурга</div>
-            <div class="row">
-                <div class="col-12 col-sm-6 col-lg-3 category">
-                    <div class="row">
-                        <div class="col-2">
-                            <img class="category__img" src="{{ asset('img/category-repair.png') }}">
-                        </div>
-                        <div class="col-10 ">
-                            <a class="category__header" href="{{url('/search')}}">Мелкий ремонт</a>
-                        </div>
-                        <div class="col-10 offset-2 subcategory">
-                            <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=1')}}">Сантехник</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=2')}}">Электрик</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=3')}}">Мастер на час</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=4')}}">Отделочные работы</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=5')}}">Сборка и ремонт мебели</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3 category">
-                    <div class="row">
-                        <div class="col-2">
-                            <img class="category__img" src="{{ asset('img/category-courier.png') }}">
-                        </div>
-                        <div class="col-10 ">
-                            <a class="category__header" href="/search">Курьер</a>
-                        </div>
-                        <div class="col-10 offset-2 subcategory">
-                            <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=6">Пешком</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=7">На авто</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=8">Купить и доставить</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=9">Курьер на день</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=10">Срочная доставка</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-3 category">
-                    <div class="row">
-                        <div class="col-2">
-                            <img class="category__img" src="{{ asset('img/category-cleaning.png') }}">
-                        </div>
-                        <div class="col-10 ">
-                            <a class="category__header" href="/search">Уборка</a>
-                        </div>
-                        <div class="col-10 offset-2 subcategory">
-                            <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=11">Влажная уборка</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=12">Вывоз мусора</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=13">Генеральная уборка</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=14">Мытье окон</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=15">Глажка</a></li>
-                            </ul>
+    <div class="first-block first-block--color">
+        <div class="first-block--container">
+            <h3 class="first-block__header first-block__header--min">Находите специалистов бесплатно</h3>
+            <h3 class="first-block__subheader first-block__subheader--min">Проверенные исполнители Tasker в вашем городе </h3>
+            <div class="row tiles">
+                <div class="col-6 col-md-3">
+                    <div class="tiles--item">
+                        <div class="master">
+                            <div class="row master__about">
+                                <div class="col-12">
+                                    <h1 class="master__name">Геннадий И.</h1>
+                                </div>
+                                <div class="col-12">
+                                    <img class="master__photo" src="{{asset('img/photo_2017-09-13_18-50-29.jpg')}}">
+                                </div>
+                                <div class="col-12">
+                                    <div class="master__rating">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row master__about--desktop">
+                                <div class="col-4">
+                                    <img class="master__photo master__photo--desktop" src="{{asset('img/photo_2017-09-13_18-50-29.jpg')}}">
+                                </div>
+                                <div class="col-8">
+                                    <h1 class="master__name master__name--desktop">Геннадий И.</h1>
+                                    <div class="master__rating master__rating--desktop">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="master__service">Мастер на час</h1>
+                            <p class="master__reports">98% положительных отзывов</p>
+                            <p class="master__report">"Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3 category">
-                    <div class="row">
-                        <div class="col-2">
-                            <img class="category__img" src="{{ asset('img/category-transportision.png') }}">
+                <div class="col-6 col-md-3">
+                    <div class="tiles--item">
+                        <div class="master">
+                            <div class="row master__about">
+                                <div class="col-12">
+                                    <h1 class="master__name">Иван И.</h1>
+                                </div>
+                                <div class="col-12">
+                                    <img class="master__photo" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                                </div>
+                                <div class="col-12">
+                                    <div class="master__rating">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row master__about--desktop">
+                                <div class="col-4">
+                                    <img class="master__photo master__photo--desktop" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
+                                </div>
+                                <div class="col-8">
+                                    <h1 class="master__name master__name--desktop">Иван И.</h1>
+                                    <div class="master__rating master__rating--desktop">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="master__service">Сантехник</h1>
+                            <p class="master__reports">95% положительных отзывов</p>
+                            <p class="master__report">"Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"</p>
                         </div>
-                        <div class="col-10 ">
-                            <a class="category__header" href="/search">Грузоперевозки</a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tiles--item">
+                        <div class="master">
+                            <div class="row master__about">
+                                <div class="col-12">
+                                    <h1 class="master__name">Владимир П.</h1>
+                                </div>
+                                <div class="col-12">
+                                    <img class="master__photo" src="{{asset('img/photo_2017-09-13_10-46-45.jpg')}}">
+                                </div>
+                                <div class="col-12">
+                                    <div class="master__rating">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row master__about--desktop">
+                                <div class="col-4">
+                                    <img class="master__photo master__photo--desktop" src="{{asset('img/photo_2017-09-13_10-46-45.jpg')}}">
+                                </div>
+                                <div class="col-8">
+                                    <h1 class="master__name master__name--desktop">Владимир П.</h1>
+                                    <div class="master__rating master__rating--desktop">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="master__service">Уборка</h1>
+                            <p class="master__reports">97% положительных отзывов</p>
+                            <p class="master__report">"Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"</p>
                         </div>
-                        <div class="col-10 offset-2 subcategory">
-                            <ul>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=16">Эвакутор</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=17">Помощь в переезде</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=18">Пассажирские перевозки</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=19">Междугородние перевозки</a></li>
-                                <li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=20">Грузчики</a></li>
-                            </ul>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tiles--item">
+                        <div class="master">
+                            <div class="row master__about">
+                                <div class="col-12">
+                                    <h1 class="master__name">Аркадий М.</h1>
+                                </div>
+                                <div class="col-12">
+                                    <img class="master__photo" src="{{asset('img/photo_2017-09-13_15-50-09.jpg')}}">
+                                </div>
+                                <div class="col-12">
+                                    <div class="master__rating">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row master__about--desktop">
+                                <div class="col-4">
+                                    <img class="master__photo master__photo--desktop" src="{{asset('img/photo_2017-09-13_15-50-09.jpg')}}">
+                                </div>
+                                <div class="col-8">
+                                    <h1 class="master__name master__name--desktop">Аркадий М.</h1>
+                                    <div class="master__rating master__rating--desktop">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                        <img class="rating-star" src="{{asset('img/star.png')}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="master__service">Электрик</h1>
+                            <p class="master__reports">92% положительных отзывов</p>
+                            <p class="master__report">"Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 button-wrapper">
-                    <a href="#" class="button button--white-blue-border button--center">ВСЕ СПЕЦИАЛИСТЫ</a>
+                <div class="col-12 col-md-3">
+                    <div class="tiles--item tiles--item--without-shadow">
+                        <button class="button button--blue button--full-container button--big" onclick="location.href='/services'">Начать поиск</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="why-block">
-        <div class="why-block__container">
-            <p class="why-block__text" style="font-weight: 200">На Aladdin вы бесплатно найдете надежных исполнителей для решения бытовых задач, а также сможете оплатить услуги после успешного завершения работ</p>
+    <div class="first-block">
+        <div class="first-block--container">
+            <h3 class="first-block__header first-block__header--desktop first-block__header--min">Поможем найти лучшее предложение услуг среди
+                профессионалов</h3>
+            <div class="mobile">
+                <div class="find-help row">
+                    <div class="col-12">
+                        <img class="find-help__img" src="{{asset('img/one.png')}}">
+                    </div>
+                    <div class="col-12">
+                        <h1 class="find-help__header">Расскажите о задаче</h1>
+                    </div>
+                    <div class="col-12">
+                        <p class="find-help__text">Менее чем за 60 секунд при помощи выбора параметров задачи</p>
+                    </div>
+                </div>
+                <div class="find-help row">
+                    <div class="col-12">
+                        <img class="find-help__img" src="{{asset('img/two.png')}}">
+                    </div>
+                    <div class="col-12">
+                        <h1 class="find-help__header">Получите предложения</h1>
+                    </div>
+                    <div class="col-12">
+                        <p class="find-help__text">Исполнители пришлют свои цены и сроки в ваш личный кабинет</p>
+                    </div>
+                </div>
+                <div class="find-help row">
+                    <div class="col-12">
+                        <img class="find-help__img" src="{{asset('img/three.png')}}">
+                    </div>
+                    <div class="col-12">
+                        <h1 class="find-help__header">Выберите лучшее</h1>
+                    </div>
+                    <div class="col-12">
+                        <p class="find-help__text">Сравните предложения по цене, отзывам или рейтингу, а также общайтесь с исполнителями в мгновенном чате.</p>
+                    </div>
+                </div>
+                <div class="find-help row">
+                    <div class="col-12">
+                        <img class="find-help__img" src="{{asset('img/four.png')}}">
+                    </div>
+                    <div class="col-12">
+                        <h1 class="find-help__header">Оплата картой или наличными</h1>
+                    </div>
+                    <div class="col-12">
+                        <p class="find-help__text">Оплата по карте через <a class="blue-text" href="#">безопасную сделку</a> гарантирует возврат денежный средств, если останетесь недовольны.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="desktop">
+                <div class="row tiles">
+                    <div class="col-6 col-md-3">
+                        <div class="tiles--item tiles--item--fix">
+                            <div class="find-help row">
+                                <div class="col-12">
+                                    <img class="find-help__img" src="{{asset('img/one.png')}}">
+                                </div>
+                                <div class="col-12">
+                                    <h1 class="find-help__header">Расскажите о задаче</h1>
+                                </div>
+                                <div class="col-12">
+                                    <p class="find-help__text">Менее чем за 60 секунд при помощи выбора параметров задачи</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tiles--item tiles--item--fix">
+                            <div class="find-help row">
+                                <div class="col-12">
+                                    <img class="find-help__img" src="{{asset('img/two.png')}}">
+                                </div>
+                                <div class="col-12">
+                                    <h1 class="find-help__header">Получите предложения</h1>
+                                </div>
+                                <div class="col-12">
+                                    <p class="find-help__text">Исполнители пришлют свои цены и сроки в ваш личный кабинет</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tiles--item tiles--item--fix">
+                            <div class="find-help row">
+                                <div class="col-12">
+                                    <img class="find-help__img" src="{{asset('img/three.png')}}">
+                                </div>
+                                <div class="col-12">
+                                    <h1 class="find-help__header">Выберите<br>лучшее</h1>
+                                </div>
+                                <div class="col-12">
+                                    <p class="find-help__text">Сравните предложения по цене, отзывам или рейтингу, а также общайтесь с исполнителями в мгновенном чате.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="tiles--item tiles--item--fix">
+                            <div class="find-help row">
+                                <div class="col-12">
+                                    <img class="find-help__img" src="{{asset('img/four.png')}}">
+                                </div>
+                                <div class="col-12">
+                                    <h1 class="find-help__header">Оплата картой или наличными</h1>
+                                </div>
+                                <div class="col-12">
+                                    <p class="find-help__text">Оплата по карте через <a class="blue-text" href="#">безопасную сделку</a> гарантирует возврат денежный средств, если останетесь недовольны.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{--<div class="second-block">--}}
+        {{--<div class="second-block__container">--}}
+            {{--<div class="second-block__header">На Aladdin часто ищут</div>--}}
+            {{--<div class="second-block__subheader">Исполнители Санкт-Петербурга</div>--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-12 col-sm-6 col-lg-3 category">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col-2">--}}
+                            {{--<img class="category__img" src="{{ asset('img/category-repair.png') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 ">--}}
+                            {{--<a class="category__header" href="{{url('/search')}}">Мелкий ремонт</a>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 offset-2 subcategory">--}}
+                            {{--<ul>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=1')}}">Сантехник</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=2')}}">Электрик</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=3')}}">Мастер на час</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=4')}}">Отделочные работы</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="{{url('/search?subcategory=5')}}">Сборка и ремонт мебели</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="col-12 col-sm-6 col-lg-3 category">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col-2">--}}
+                            {{--<img class="category__img" src="{{ asset('img/category-courier.png') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 ">--}}
+                            {{--<a class="category__header" href="/search">Курьер</a>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 offset-2 subcategory">--}}
+                            {{--<ul>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=6">Пешком</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=7">На авто</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=8">Купить и доставить</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=9">Курьер на день</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=10">Срочная доставка</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="col-12 col-sm-6 col-lg-3 category">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col-2">--}}
+                            {{--<img class="category__img" src="{{ asset('img/category-cleaning.png') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 ">--}}
+                            {{--<a class="category__header" href="/search">Уборка</a>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 offset-2 subcategory">--}}
+                            {{--<ul>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=11">Влажная уборка</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=12">Вывоз мусора</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=13">Генеральная уборка</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=14">Мытье окон</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=15">Глажка</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="col-12 col-sm-6 col-lg-3 category">--}}
+                    {{--<div class="row">--}}
+                        {{--<div class="col-2">--}}
+                            {{--<img class="category__img" src="{{ asset('img/category-transportision.png') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 ">--}}
+                            {{--<a class="category__header" href="/search">Грузоперевозки</a>--}}
+                        {{--</div>--}}
+                        {{--<div class="col-10 offset-2 subcategory">--}}
+                            {{--<ul>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=16">Эвакутор</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=17">Помощь в переезде</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=18">Пассажирские перевозки</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=19">Междугородние перевозки</a></li>--}}
+                                {{--<li class="subcategory__item"><a class="subcategory__item--text" href="/search?subcategory=20">Грузчики</a></li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="row">--}}
+                {{--<div class="col-12 button-wrapper">--}}
+                    {{--<a href="#" class="button button--white-blue-border button--center">ВСЕ СПЕЦИАЛИСТЫ</a>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+    <div class="why-block why-block--big-top-margin">
+        <p class="why-block__text">Популярные услуги</p>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-lg-3 popular-service">
+            <img class="full-container-img" src="{{asset('img/cleaning.jpg')}}">
+            <p class="popular-service__text popular-service__text--one">Уборка<br>квартир</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 popular-service">
+            <img class="full-container-img" src="{{asset('img/handymans.jpg')}}">
+            <p class="popular-service__text popular-service__text--two">Мастер<br>на час</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 popular-service">
+            <img class="full-container-img" src="{{asset('img/painting.jpg')}}">
+            <p class="popular-service__text popular-service__text--three">Покраска<br>стен</p>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 popular-service">
+            <img class="full-container-img" src="{{asset('img/conditioner.jpg')}}">
+            <p class="popular-service__text popular-service__text--four">Установка<br>кондиционера</p>
         </div>
     </div>
     <div class="third-block">
-        <div class="third-block__container">
+        <div class="third-block__container third-block__container--without-header">
             <div class="row">
                 <div class="item col-12 col-md-6 col-lg-4">
                     <img class="item__img" src="{{asset('img/third-block-1.png')}}">
-                    <h3 class="item__header"><nobr>База проверенных,</nobr><br><nobr>ответственных исполнителей</nobr></h3>
-                    <p class="item__text"><nobr>Исполнители проходят <span><a href="#" class="item__text--alloted">верификацию</a></span>, имеют</nobr><br><nobr>образование и владеют сервисным этикетом</nobr></p>
+                    <h3 class="item__header">Ассоциация<br>профессионалов</h3>
+                    <p class="item__text">Исполнители Tasker с опытом работы прошли верификацию и подтвердили навыки отзывами и оценками от реальных клиентов</p>
                 </div>
                 <div class="item col-12 col-md-6 col-lg-4">
                     <img class="item__img" src="{{asset('img/third-block-2.png')}}">
-                    <h3 class="item__header"><nobr>Вернём деньги в случае</nobr><br><nobr>некачественного сервиса</nobr></h3>
-                    <p class="item__text"><nobr>Воспользуйтесь <span><a href="#" class="item__text--alloted">безопасной сделкой</a></span>,</nobr><br><nobr>чтобы защититься от любых невзгод</nobr></p>
+                    <h3 class="item__header">Строгий регламент предоставления услуг</h3>
+                    <p class="item__text">Мы проводим обучение каждого исполнителя по части исполнения услуг, подходу к клиенту и ориентации на результат</p>
                 </div>
                 <div class="item col-12 col-md-6 offset-md-3 offset-lg-0 col-lg-4">
                     <img class="item__img" src="{{asset('img/third-block-3.png')}}">
-                    <h3 class="item__header"><nobr>Найдём лучшую цену</nobr><br><nobr>для любой задачи</nobr></h3>
-                    <p class="item__text"><nobr>Специалисты сами предложат свои</nobr><br><nobr>услуги, останется только выбрать</nobr></p>
+                    <h3 class="item__header">Вернём деньги, если останетесь недовольны</h3>
+                    <p class="item__text">При оплате через безопасную сделку наш сервис вернёт вам деньги, если работа исполнителя не оправдала ожиданий</p>
+                    <p><a href="#" class="blue-text" style="padding: 0 2%;">О БЕЗОПАСНОЙ СДЕЛКЕ</a></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="fourth-block">
+    {{--<div class="fourth-block">
         <div class="fourth-block__container fourth-block__container--snake">
             <h1 class="fourth-block__header"><span class="fourth-block__header--blue">4 шага</span> к идеальному исполнителю</h1>
             <div class="row rel-block">
@@ -230,18 +592,18 @@
         </div>
     </div>
     <div class="why-block">
-        {{--<a href="{{url('/best_price#form')}}">--}}
+        --}}{{--<a href="{{url('/best_price#form')}}">--}}{{--
             <div class="why-block__container">
                 <button class="button button--blue button--bordered button--big-font">Попробуйте, это бесплатно</button>
-                {{--<h1 class="why-block__header why-block__header--one-header">Это удобно</h1>--}}
+                --}}{{--<h1 class="why-block__header why-block__header--one-header">Это удобно</h1>--}}{{--
                 <p class="why-block__text why-block__text--small">Вы также можете найти исполнителя вручную через <a href="{{url('/search#form')}}" class="why-block__text--link">поиск</a></p>
             </div>
 
-        {{--</a>--}}
-    </div>
-    <div class="fourth-block">
+        --}}{{--</a>--}}{{--
+    </div>--}}
+    {{--<div class="fourth-block">
         <div class="fourth-block__container">
-            {{--<div class="fourth-block__container fourth-block__container--right">--}}
+            --}}{{--<div class="fourth-block__container fourth-block__container--right">--}}{{--
                 <div class="list">
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-5">
@@ -286,22 +648,22 @@
                         </div>
                     </div>
                 </div>
-            {{--</div>--}}
+            --}}{{--</div>--}}{{--
             <div class="text-block">
                 <p class="text-block__text">Каждый исполнитель проходит процедуру <a href="#" class="text-block__text--link">верификации</a>, а возможность оплаты услуг после успешного завершения работ делает Aladdin по настоящему безопасным решением для заказчиков. </p>
             </div>
         </div>
-    </div>
-    <div class="fifth-block" id="search_form">
+    </div>--}}
+    <div class="fifth-block fifth-block--form" id="search_form">
         <div class="fifth-block__container--with-form">
             {{--<div class="fifth-block__header">--}}
-            <h1 class="fifth-block__header">Расскажите о задаче прямо сейчас и получите первые предложения от специалистов Санкт-Петербурга уже через <span class="fifth-block__header--blue">7 минут</span>, это бесплатно</h1>
+            <h3 class="first-block__header first-block__header--min2">Получите первые предложения от специалистов с ценами и сроками через <span class="fifth-block__header--blue" style="font-weight: 600">7 минут</span></h3>
             {{--</div>--}}
         </div>
-        <div class="row fifth-block__container--with-form">
-            <div class="col-12 col-md-6">
+        <div class="row fifth-block__container--with-form fifth-block__container--with-form--pad">
+            <div class="col-12 col-md-5">
                 <form class="form" method="post" action="{{route('miniOrder')}}">
-                    <h3 class="form__header">ОФОРМЛЕНИЕ ЗАЯВКИ НЕ ОБЯЗЫВАЕТ ВАС СДЕЛАТЬ ЗАКАЗ. ВЫ СМОЖЕТЕ УДАЛИТЬ ЗАДАЧУ В ЛЮБОЙ МОМЕНТ.</h3>
+                    {{--<h3 class="form__header">Поиск не обязывает вас оформить заказ</h3>--}}
                     {{csrf_field()}}
                     <input type="hidden" name="st" value="1">
                     <select name="category" id="categories" class="form__input-field form__select">
@@ -335,14 +697,14 @@
                                     }
                                 }
                             } else {
-                                echo '<option value="0" disabled selected>Выберите подкатегорию</option>';
+                                echo '<option value="0" disabled selected>Выберите услугу</option>';
                                 foreach ($subcategories as $subcategory){
                                     echo '<option value="'.$subcategory->id.'">'.$subcategory->name.'</option>';
                                 }
                             }
                             ?>
                         @else
-                            <option value="0" disabled selected>Выберите подкатегорию</option>
+                            <option value="0" disabled selected>Выберите услугу</option>
                         @endif
                     </select>
                     @if($errors->has("subcategory"))
@@ -350,7 +712,7 @@
                             <label class="form__error">{{$error}}</label>
                         @endforeach
                     @endif
-                    <div class="row">
+                    {{--<div class="row">
                         <div class="col-12 col-sm-6 form__input-field__div">
                             <input id="phone" name="phone" class="form__input-field form__input-field--one-row" type="text" placeholder="Ваш телефон" value="{{old('phone')}}">
                             @if($errors->has("phone"))
@@ -360,7 +722,7 @@
                             @endif
                         </div>
                         <div class="col-12 col-sm-6 form__input-field__div">
-                            <input type="number" class="form__input-field form__input-field--one-row" name="amount" placeholder="{{--Предполагаемый б--}}Бюджет" value="{{old('amount')}}">
+                            <input type="number" class="form__input-field form__input-field--one-row" name="amount" placeholder="--}}{{--Предполагаемый б--}}{{--Бюджет" value="{{old('amount')}}">
                             @if($errors->has("amount"))
                                 @foreach ($errors->get("amount") as $error)
                                     <label class="form__error">{{$error}}</label>
@@ -379,652 +741,61 @@
                     <label class="form__container">Работа через безопасную сделку
                         <input type="checkbox" name="safety" @if(old('safety') != null) checked @endif>
                         <span class="form__checkmark"></span>
-                    </label>
-                    <button type="submit" class="button button--blue button--center button--full-container">Продолжить</button>
-                    <p class="form__note">Мы не передаём информацию третьим лицам</p>
+                    </label>--}}
+                    <button type="submit" class="button button--blue button--center button--full-container" style="margin-top: 40px">Перейти к поиску</button>
+                    <a href="#" class="form__note">Ознакомится с офертой</a>
                 </form>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-7">
                 <div class="fifth-block__container--additional">
-                    <div class="col-12 fifth-block__list">
-                        <div class="list">
-                            <div class="row list__item">
-                                <div class="col-2 col-sm-1 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fifth-block-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО АНАЛИЗИРОВАТЬ</nobr><br><nobr>ДЕСЯТКИ САЙТОВ И ОБЪЯВЛЕНИЙ</nobr></h4>--}}
-                                    <p class="list__text">Каждое задание набирает от 9 предложений в первый час публикации</p>
-                                </div>
-                            </div>
-                            <div class="row list__item">
-                                <div class="col-2 col-sm-1 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fifth-block-2.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬ ВРЕМЯ</nobr><br><nobr>НА ПОДСЧЁТ СТОИМОСТИ</nobr></h4>--}}
-                                    <p class="list__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
-                                </div>
-                            </div>
-                            <div class="row list__item">
-                                <div class="col-2 col-sm-1 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fourth-block-4.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ОБЩАТЬСЯ С</nobr><br><nobr>ОПЕРАТОРАМИ</nobr></h4>--}}
-                                    <p class="list__text">После выбора предложения мы предоставим телефон исполнителя для уточнения деталей</p>
-                                </div>
-                            </div>
-                            <div class="row list__item">
-                                <div class="col-2 col-sm-1 align-self-center">
-                                    <img class="list__img" src="{{asset('img/fourth-block-5.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    {{--<h4 class="list__header"><nobr>НЕ НУЖНО ТРАТИТЬСЯ НА</nobr><br><nobr>СЕРВИСНЫЕ КОМПАНИИ</nobr></h4>--}}
-                                    <p class="list__text">Безопасная сделка позволит произвести оплату после окончания работ, а также возместить ущерб, узнайте подробнее</p>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 note note--left">
+                            <img class="note__img" src="{{asset('img/note1.png')}}">
+                            <p class="note__text">Каждое задание набирает от 8 предложений в первый час публикации</p>
+                        </div>
+                        <div class="col-12 col-sm-6 note note--right">
+                            <img class="note__img" src="{{asset('img/note2.png')}}">
+                            <p class="note__text">Общайтесь с исполнителями через чат или звоните напрямую</p>
+                        </div>
+                        <div class="col-12 col-sm-6 note note--left">
+                            <img class="note__img" src="{{asset('img/note3.png')}}">
+                            <p class="note__text">Все предложения отобразятся в вашем личном кабинете на Aladdin</p>
+                        </div>
+                        <div class="col-12 col-sm-6 note note--right">
+                            <img class="note__img" src="{{asset('img/note4.png')}}">
+                            <p class="note__text">Выберите исполнителя исходя из цены, рейтинга или отзывов</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="sixth-block">
-        <div class="sixth-block__container">
-            <h1 class="sixth-block__header">Недавние отзывы</h1>
-            <div class="slideshow-container">
-
-                <!-- Full-width images with number and caption text -->
-                <div class="mySlides fade">
-                    <div class="row">
-                        <div class="col-12 col-md-6 report report--slaider">
-                            <div class="row">
-                                <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-repair-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    <p class="report__text">
-                                        "Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__signature">
-                                        Александр, 12.06.2018
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванов Иван</a></p>
-                                    <h3 class="report__header">
-                                        Замена стеклопакета в комнате
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 report report--slaider">
-                            <div class="row">
-                                <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-cleaning-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    <p class="report__text">
-                                        "Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!"
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__signature">Никита, 12.06.2018 </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванова Инна</a></p>
-                                    <h3 class="report__header">Влажная уборка офиса</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mySlides fade">
-                    <div class="row">
-                        <div class="col-12 col-md-6 report report--slaider">
-                            <div class="row">
-                                <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-transportision-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    <p class="report__text">
-                                        Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__signature">
-                                        Никита, 12.06.2018
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванова Инна</a></p>
-                                    <h3 class="report__header">
-                                        Трансфер из Гатчины в СПБ каждый день по будням
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6 report report--slaider">
-                            <div class="row">
-                                <div class="col-2 align-self-center">
-                                    <img class="report__img" src="{{asset('img/category-courier-1.png')}}">
-                                </div>
-                                <div class="col-10">
-                                    <p class="report__text">
-                                        Осталась довольна. Исполнитель был очень вежлив, купил препарат на свои деньги и привёз всё быстро. Мне оставалось только заплатить за доставку и чек.
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__signature">
-                                        Александр, 12.06.2018
-                                    </p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="report__master">Исполнитель <a href="" class="report__master--link">Игорь Морозов</a></p>
-                                    <h3 class="report__header">
-                                        Купить лекарство и привезти на адрес
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            </div>
-            {{--<div class="report">
-                <div class="row">
-                    <div class="col-2 align-self-center">
-                        <img class="report__img" src="{{asset('img/category-repair-1.png')}}">
-                    </div>
-                    <div class="col-10">
-                        <p class="report__text">
-                            "Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__signature">
-                            Александр, 12.06.2018
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванов Иван</a></p>
-                        <h3 class="report__header">
-                            Замена стеклопакета в комнате
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="report">
-                <div class="row">
-                    <div class="col-2 align-self-center">
-                        <img class="report__img" src="{{asset('img/category-cleaning.png')}}">
-                    </div>
-                    <div class="col-10">
-                        <p class="report__text">
-                            "Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!"
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__signature">Никита, 12.06.2018 </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванова Инна</a></p>
-                        <h3 class="report__header">Влажная уборка офиса</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="report">
-                <div class="row">
-                    <div class="col-2 align-self-center">
-                        <img class="report__img" src="{{asset('img/category-transportision.png')}}">
-                    </div>
-                    <div class="col-10">
-                        <p class="report__text">
-                            Клинер прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все мои просьбы. Буду обращаться снова!
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__signature">
-                            Никита, 12.06.2018
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__master">Исполнитель <a href="" class="report__master--link">Иванова Инна</a></p>
-                        <h3 class="report__header">
-                            Трансфер из Гатчины в СПБ каждый день по будням
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="report">
-                <div class="row">
-                    <div class="col-2 align-self-center">
-                        <img class="report__img" src="{{asset('img/category-courier.png')}}">
-                    </div>
-                    <div class="col-10">
-                        <p class="report__text">
-                            Осталась довольна. Исполнитель был очень вежлив, купил препарат на свои деньги и привёз всё быстро. Мне оставалось только заплатить за доставку и чек.
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__signature">
-                            Александр, 12.06.2018
-                        </p>
-                    </div>
-                    <div class="col-12">
-                        <p class="report__master">Исполнитель <a href="" class="report__master--link">Игорь Морозов</a></p>
-                        <h3 class="report__header">
-                            Купить лекарство и привезти на адрес
-                        </h3>
-                    </div>
-                </div>
-            </div>--}}
-        </div>
-    </div>
-    <div class="seventh-block">
-        <div class="seventh-block__header-block">
-            <h1 class="seventh-block__header">Aladdin в СМИ</h1>
-        </div>
-        <div class="seventh-block__container">
-
+    <div class="third-block">
+        <div class="third-block__container">
+            <h3 class="first-block__header first-block__header--min" style="margin-bottom: 50px">Недавние отзывы</h3>
             <div class="row">
-                <div class="col-12 col-sm-6 col-md-3">
-                    <img class="seventh-block__img" src="{{asset('img/rusbase.png')}}">
+                <div class="item col-12 col-md-6 col-lg-4">
+                    <img class="item__img" src="{{asset('img/water.png')}}">
+                    <h3 class="item__header">Валентин, 27.07.18</h3>
+                    <p class="item__text">"Мастер сделал всё как надо, оперативно приехал, сделал замеры, съездил за окном и поставил его на место. И всё это за один день! Спасибо!"</p>
+                    <p class="item__text">---</p>
+                    <p class="item__text">Исполнитель, <span class="blue-text">Иван Иванов</span> </p>
                 </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <img class="seventh-block__img" src="{{asset('img/cossa.png')}}">
+                <div class="item col-12 col-md-6 col-lg-4">
+                    <img class="item__img" src="{{asset('img/key.png')}}">
+                    <h3 class="item__header">Никита, 27.07.18</h3>
+                    <p class="item__text">"Сантехник профессионал, никаких лишних разговоров , увидел проблему и решил, вежливый , пунктуальный , спасибо огромное"</p>
+                    <p class="item__text">---</p>
+                    <p class="item__text">Исполнитель, <span class="blue-text">Иван Иванов</span> </p>
                 </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <img class="seventh-block__img" src="{{asset('img/spark.png')}}">
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <img class="seventh-block__img" src="{{asset('img/delpet.png')}}">
-                </div>
-            </div>
-        </div>
-    </div>
-    {{--<div class="third_block">
-        <div class="row third_block-div  flex-sm-row-reverse ">
-            <div class="col-10 offset-1 col-sm-5 offset-sm-0 col-lg-4 align-self-center third_block-image_div">
-                <img class="third_block-img" src="{{ asset('img/blue-people.png') }}">
-            </div>
-            <div class="col-10 offset-1 col-sm-6 offset-sm-0 col-lg-7">
-                <h1 class="third_block-header">
-                    Не обязательно тратиться на сервисные кампании
-                </h1>
-                <p class="third_block-paragraph1">
-                    На Aladdin вы бесплатно найдете надежного исполнителя, который оперативно справится с бытовой
-                    задачей по разумной цене. <span class="second-parag">Мы тщательно проверяем всех специалистов, ручаясь за качество, и делаем сделки безопасными,
-                    предоставляя вам возможность оплачивать услуги после успешного завершения работ.</span>
-                </p>
-                <p class="third_block-paragraph2">
-                    Мы тщательно проверяем всех специалистов, ручаясь за качество, и делаем сделки безопасными,
-                    предоставляя вам возможность оплачивать услуги после успешного завершения работ.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="fouth_block">
-        <div class="row fourth_block-row">
-            <div class="col-12 col-sm-4 col-xl-3 fourth_block-block">
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-img_div">
-                        <img class="fourth_block-img" src="{{'img/fourth_block-find.png'}}">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-text">
-                        <p class="fourth_block-text-p1"><span style="color: #2195f3">Выберите категорию</span><br>и
-                            уточните детали</p>
-                        <p class="fourth_block-text-p2">Укажите местоположение,<br>цену и срочность</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-1 fourth_block-arrow align-self-center">
-                <img class="fourth_block-arrow_img" src="{{ asset('img/long-right-arrow.png') }}">
-            </div>
-            <div class="col-12 col-sm-4 col-xl-3 fourth_block-block">
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-img_div">
-                        <img class="fourth_block-img" src="{{'img/fourth_block-ancets.png'}}">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-text">
-                        <p class="fourth_block-text-p1"><span style="color: #2195f3">Просмотрите анкеты</span><br>исполнителей
-                        </p>
-                        <p class="fourth_block-text-p2">Читайте отзывы, сравнивайте<br>цены и условия работы</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-1 fourth_block-arrow align-self-center">
-                <img class="fourth_block-arrow_img" src="{{ asset('img/long-right-arrow.png') }}">
-            </div>
-            <div class="col-12 col-sm-4 col-xl-3 fourth_block-block">
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-img_div">
-                        <img class="fourth_block-img" src="{{'img/fourth_block-call.png'}}">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 fourth_block-text">
-                        <p class="fourth_block-text-p1"><span style="color: #2195f3">Связывайтесь</span><br>напрямую</p>
-                        <p class="fourth_block-text-p2">Через заявку или звонок. <br>Платите картой и наличными</p>
-                    </div>
+                <div class="item col-12 col-md-6 offset-md-3 offset-lg-0 col-lg-4">
+                    <img class="item__img" src="{{asset('img/metla.png')}}">
+                    <h3 class="item__header">Виктор, 26.07.18</h3>
+                    <p class="item__text">"Анастасия все сделала хорошо. Был один недочёт, который обещала исправить в следующий раз. А так качество уборки понравилось."</p>
+                    <p class="item__text">---</p>
+                    <p class="item__text">Исполнитель, <span class="blue-text">Иван Иванов</span> </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="third_block third_block_2">
-        <div class="row">
-            <div class="col-10 offset-1">
-                <p class="third_block-paragraph3">Мы тщательно проверяем всех специалистов, ручаясь за качество, и
-                    делаем сделки безопасными, предоставляя вам возможность оплачивать услуги после успешного завершения
-                    работ.</p>
-            </div>
-        </div>
-    </div>
-    <div class="fifth_block">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="fifth_block-header">Не переживайте за дела</h1>
-            </div>
-        </div>
-        <div class="row fifth_block-mobile">
-            <div class="col-12 col-sm-6 fifth_block-item">
-                <div class="row">
-                    <div class="col-12 col-md-3 fifth_block-img_div align-self-start">
-                        <img class="fifth_block-img" src="{{asset('img/land-check.png')}}">
-                    </div>
-                    <div class="col-10 offset-1 col-md-9 offset-md-0">
-                        <h3 class="fifth_block_header_item"><span style="color: #2195f3">Проверяем</span> каждого
-                            специалиста</h3>
-                        <p class="fifth_block_paragraph_item">Все исполнители проходят тестирование на знание сервисного
-                            этикета и процедуру подтверждения навыков</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 fifth_block-item">
-                <div class="row">
-                    <div class="col-12 col-md-3 fifth_block-img_div align-self-start">
-                        <img class="fifth_block-img" src="{{asset('img/land-return.png')}}">
-                    </div>
-                    <div class="col-10 offset-1 col-md-9 offset-md-0">
-                        <h3 class="fifth_block_header_item"><span style="color: #2195f3">Вернём</span> деньги</h3>
-                        <p class="fifth_block_paragraph_item">В случае каких-либо проблем мы вернем вам деньги и
-                            проведем работу с исполнителем.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 fifth_block-item">
-                <div class="row">
-                    <div class="col-12 col-md-3 fifth_block-img_div align-self-start">
-                        <img class="fifth_block-img" src="{{asset('img/land-control.png')}}">
-                    </div>
-                    <div class="col-10 offset-1 col-md-9 offset-md-0">
-                        <h3 class="fifth_block_header_item"><span style="color: #2195f3">Контролируем</span> ход работ
-                        </h3>
-                        <p class="fifth_block_paragraph_item">Следим за пунктуальностью и процессом сделки. Помогаем
-                            разрешать спорные ситуации.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 fifth_block-item">
-                <div class="row">
-                    <div class="col-12 col-md-3 fifth_block-img_div align-self-start">
-                        <img class="fifth_block-img" src="{{asset('img/land-find.png')}}">
-                    </div>
-                    <div class="col-10 offset-1 col-md-9 offset-md-0">
-                        <h3 class="fifth_block_header_item"><span style="color: #2195f3">Найдем</span> лучшую цену</h3>
-                        <p class="fifth_block_paragraph_item">Разошлите задачу всем исполнителям и получить готовые
-                            предложения по цене.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 fifth_block-button_div">
-                <button class="fifth_block-button" type="button">Перейти к поиску</button>
-            </div>
-        </div>
-    </div>
-    <div class="sixth_block">
-        <div class="row sixth_block-main">
-            <div class="col-10 offset-1 col-sm-7 offset-sm-1">
-                <div class="row"><div class="col-11 offset-1"><h2 class="sixth_block-header">Наши исполнители</h2></div></div>
-                <div class="row align-items-center sixth_block-item">
-                    <div class="col-1">
-                        <img class="sixth_block-parag_img" src="{{asset('img/icons-check.png')}}">
-                    </div>
-                    <div class="col-11">
-                        <p class="sixth_block-paragraph">Подтвердили навыки и опыт отзывами и сертификатами</p>
-                    </div>
-                </div>
-                <div class="row align-items-center sixth_block-item">
-                    <div class="col-1">
-                        <img class="sixth_block-parag_img" src="{{asset('img/icons-check.png')}}">
-                    </div>
-                    <div class="col-11">
-                        <p class="sixth_block-paragraph">Предоставили копию паспортных данных</p>
-                    </div>
-                </div>
-                <div class="row align-items-center sixth_block-item">
-                    <div class="col-1">
-                        <img class="sixth_block-parag_img" src="{{asset('img/icons-check.png')}}">
-                    </div>
-                    <div class="col-11">
-                        <p class="sixth_block-paragraph">Имеют образование и владеют сервисным этикетом</p>
-                    </div>
-                </div>
-                <button class="sixth_block-button">Подробнее об исполнителях</button>
-            </div>
-            <div class="col-sm-3 sixth_block-img_div align-self-center">
-                <img class="sixth_block-img" src="{{asset('img/sixth_block.png')}}">
-            </div>
-        </div>
-    </div>
-    <div class="seventh_block">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="seventh_block-header">Лучшая цена за 15 минут</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h3 class="seventh_block-subheader">Разошлите задачу всем исполнителям Aladdin, получите в ответ предложения<br class="display-xl">с ценой и выберете лучшее в личном кабинете</h3>
-            </div>
-        </div>
-        <div class="row seventh_block-body">
-            <div class="col-sm-5 offset-sm-1 seventh_block-hide_part">
-                <div class="row align-items-center seventh_block-item">
-                    <div class="col-3">
-                        <img class="seventh_block-img" src="{{asset('img/seventh_block-15_min.png')}}">
-                    </div>
-                    <div class="col-8">
-                        <p class="seventh_block_paragraph">Предложения поступят в течении 15 минут</p>
-                    </div>
-                </div>
-                <div class="row align-items-center  seventh_block-item">
-                    <div class="col-3">
-                        <img class="seventh_block-img" src="{{asset('img/seventh_block-slider.png')}}">
-                    </div>
-                    <div class="col-8">
-                        <p class="seventh_block_paragraph">Выберите исполнителя по цене, рейтингу или примерам работ</p>
-                    </div>
-                </div>
-                <div class="row align-items-center  seventh_block-item">
-                    <div class="col-3">
-                        <img class="seventh_block-img" src="{{asset('img/seventh_block-phone.png')}}">
-                    </div>
-                    <div class="col-8">
-                        <p class="seventh_block_paragraph">Связывайтесь напрямую. Оплачивайте наличными или картой через
-                            <span style="color: #2195f3">безопасную сделку</span></p>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-12 col-sm-3 offset-sm-0">
-                <form class="seventh_block-form">
-                    <div class="row input_field_div">
-                        <div class="col-12">
-                            <input class="input_field" type="text" placeholder="Ваше имя">
-                        </div>
-                    </div>
-                    <div class="row input_field_div">
-                        <div class="col-12">
-                            <input class="input_field" type="email" placeholder="Ваш e-mail">
-                        </div>
-                    </div>
-                    <div class="row input_field_div">
-                        <div class="col-12">
-                            <textarea class="input_field" rows="5"
-                                      placeholder="Что требуется сделать? Например, покрасить балкон 12 кв м синей краской."></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-10 offset-1">
-                            <button class="seventh_block-button" type="submit">Зарегистрироваться</button>
-                            <br>
-                            <label class="seventh_block-label">и получить предложения</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="eighth_block">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="eighth_block-header">Каждый отзыв - это реальный опыт заказчиков</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <h3 class="eighth_block-subheader1">Ежедневно мы связываемся с пользователями Aladdin и запрашиваем<br>объективные отзывы, чтобы помочь будущим заказчикам сделать выбор</h3>
-            </div>
-        </div>
-        <div class="row"> <!--otzyv-->
-            <div class="col-10 offset-1 col-lg-8 offset-lg-2 eighth_block-full_report">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 align-self-center">
-                                <img class="eighth_block-avatar" src="{{asset('img/panda.png')}}">
-                            </div>
-                            <div class="col-10 align-self-start eighth_block-name_service">
-                                <p class="eighth_block-name">Валентин Кимаров</p>
-                                <p class="eighth_block-service"><span style="color: #2195f3">Мелкий ремонт</span><br
-                                            class="eighth_block-br">Замена стеклопакета в комнате</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-9 offset-md-2 eighth_block_report">
-                        <p>Мастер <span style="color: #2195f3">Роман Халлопович</span> сделал всё как надо, оперативно приехал, сделал замеры, съездил за
-                            окном и поставил его на место. И всё это за один день! Спасибо!</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 col-md-9 offset-md-2 eighth_block-date_deal">
-                        <p class="eighth_block-date">12.03.2017</p>
-                        <p class="eighth_block-deal"><img class="eighth_block-img_check"
-                                                          src="{{asset('img/galochka.png')}}"><span style="color: #2195f3">Безопасная сделка</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row"> <!--otzyv-->
-            <div class="col-10 offset-1 col-lg-8 offset-lg-2 eighth_block-full_report">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 align-self-center">
-                                <img class="eighth_block-avatar" src="{{asset('img/cat_Z3FDfBn.png')}}">
-                            </div>
-                            <div class="col-10 align-self-start eighth_block-name_service">
-                                <p class="eighth_block-name">Мария Рожкова</p>
-                                <p class="eighth_block-service"><span style="color: #2195f3">Услуги курьера</span><br
-                                            class="eighth_block-br">Купить лекарство и привезти на адрес</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-9 offset-md-2 eighth_block_report">
-                        <p>Осталась довольна. Исполнитель <span style="color: #2195f3">Игорь Морозов</span> был очень вежлив, купил препарат на свои деньги
-                            и привёз всё быстро. Мне оставалось только заплатить за доставку и чек.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 col-md-9 offset-md-2 eighth_block-date_deal">
-                        <p class="eighth_block-date">12.03.2017</p>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row"> <!--otzyv-->
-            <div class="col-10 offset-1 col-lg-8 offset-lg-2 eighth_block-full_report">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2 align-self-center">
-                                <img class="eighth_block-avatar" src="{{asset('img/man.png')}}">
-                            </div>
-                            <div class="col-10 align-self-start eighth_block-name_service">
-                                <p class="eighth_block-name">Юрий Абрамов</p>
-                                <p class="eighth_block-service"><span style="color: #2195f3">Уборка</span><br
-                                            class="eighth_block-br">Влажная уборка двух комнат</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-9 offset-md-2 eighth_block_report">
-                        <p>Клинер <span style="color: #2195f3">Запад Ронялова</span> прекрасно справилась с уборкой. Помыла 2 комнаты, а также выполнила все
-                            мои просьбы. Буду обращаться снова!</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-10 offset-1 col-md-9 offset-md-2 eighth_block-date_deal">
-                        <p class="eighth_block-date">12.03.2017</p>
-                        <p class="eighth_block-deal"><img class="eighth_block-img_check"
-                                                          src="{{asset('img/galochka.png')}}"><span style="color: #2195f3">Безопасная сделка</span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <button class="eighth_block-button">Все отзывы</button>
-            </div>
-        </div>
-    </div>
-    <div class="ninth_block">
-        <div class="row">
-            <div class="col-12 ninth_block-header">Aladdin в СМИ</div>
-        </div>
-        <div class="row ninth_block-imgs-div">
-            <div class="col-6 col-sm-5 offset-sm-1 col-lg-3 offset-lg-0 ninth_block-one_img">
-                <img class="ninth_block-img" src="{{asset('img\rusbase.png')}}">
-            </div>
-            <div class="col-6 col-sm-5 offset-sm-0 col-lg-3 ninth_block-one_img">
-                <img class="ninth_block-img" src="{{asset('img\spark.png')}}">
-            </div>
-            <div class="col-6 col-sm-5 offset-sm-1 col-lg-3 offset-lg-0 ninth_block-one_img">
-                <img class="ninth_block-img" src="{{asset('img\delpet.png')}}">
-            </div>
-            <div class="col-6 col-sm-5 offset-sm-0 col-lg-3 ninth_block-one_img">
-                <img class="ninth_block-img" src="{{asset('img\cossa.png')}}">
-            </div>
-        </div>
-    </div>--}}
 @endsection
