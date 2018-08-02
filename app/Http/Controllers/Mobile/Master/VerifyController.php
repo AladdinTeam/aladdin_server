@@ -170,6 +170,7 @@ class VerifyController extends Controller
             ]);
             if($master->verification_status == 3){
                 $master->increment('verification_status');
+                $master->increment('verification_status');
             }
             return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
         } else {
@@ -179,7 +180,6 @@ class VerifyController extends Controller
 
     public function aboutPriceSale(Request $request){
         $services = $request->services;
-//        return response()->json(ErrorCode::sendStatus(ErrorCode::CODE_1));
         if($services != null){
             for($i = 0; $i < count($services); $i++) {
 

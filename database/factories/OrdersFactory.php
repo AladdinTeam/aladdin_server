@@ -34,7 +34,7 @@ $factory->define(App\Order::class, function (Faker $faker) {
         $clientSafeCrowID = \App\Client::where('id', $clientID)->first()->sc_id;
         $masterSafeCrowID = \App\Master::where('id', $wm)->first()->sc_id;
         $safeCrowBody = json_decode(App\Libraries\SafeCrow\SafeCrow::createDeal($clientSafeCrowID, $masterSafeCrowID, ($amount * 100), $header));
-        $safeCrowID = $safeCrowBody->id;
+        $safeCrowID = 0;//$safeCrowBody->id;
     } else {
         $wm = null;
     }
