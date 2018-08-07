@@ -1,6 +1,3 @@
-<?php
-    use Illuminate\Support\Facades\Request;
-?>
 @extends('layouts.app')
 @section('title', 'Поиск')
 @section('styles')
@@ -170,8 +167,10 @@
             <div class="row">
                 <div class="col-12 col-md-5 order-form">
                     <div id="container">
-                        <h1 id="0" class="order-form__header">Что требуется убрать?</h1>
-                        <label class="form__container form__container--without-margin">Квартира
+                        {!! $form_template !!}
+                        {{--<h1 id="0" class="order-form__header">Что требуется убрать?</h1>
+                        <textarea class="form__input-field" name="add_info" placeholder="Есть ли что либо, что мы не спросили?" rows="3"></textarea>--}}
+                        {{--<label class="form__container form__container--without-margin">Квартира
                             <input type="radio" name="set" value="Квартира">
                             <span class="form__checkmark form__checkmark--radio"></span>
                         </label>
@@ -186,7 +185,7 @@
                         <label class="form__container form__container--without-margin">Нежилое помещение
                             <input type="radio" name="set" value="Нежилое помещение     ">
                             <span class="form__checkmark form__checkmark--radio"></span>
-                        </label>
+                        </label>--}}
                     </div>
                     <div class="row" style="margin-bottom: 10px">
                         <div class="col-6 col-md-4">
@@ -587,7 +586,7 @@
 @endsection
 @section('scripts')
     <script>
-        let stack = {};
+        /*let stack = {};
         let file;
         $('#categories').change(function () {
             file = $(this).val();
@@ -599,6 +598,72 @@
                     
                 }
             });
-        })
+        })*/
+    </script>
+    <script>
+        let stack = {};
+        let custom = false;
+        $('#next').click(function (evt) {
+            //console.log($('input:checked').val());
+            let inputs = $('input:checked, input[type=text], input[type=file], textarea, select');
+            let service = $('#service_file').val();
+            let name = $('[name = header]').html();
+            let id = $('[name = header]').attr('id');
+            let value = {};
+            $.each(inputs, function (key, value1) {
+                value[$(value1).attr('name')] = $(value1).val();
+            });
+
+            stack[id] = value;
+
+            console.log(stack);
+            
+            if(!custom) {
+                $.ajax({
+                    method: 'GET',
+                    url: '/next_step',
+                    data: {name: name, step: value, service: service},
+                    success: function (html) {
+                        if (html === "custom end") {
+                            custom = true;
+                            $('#container').html('<h1 id="100" name="header" class="order-form__header">Дополнительные пожелания</h1>\n' +
+                                '                 <textarea class="form__input-field" name="add_info" placeholder="Есть ли что либо, что мы не спросили?" rows="3"></textarea>');
+                        } else {
+                            $('#container').html(html);
+                        }
+                    }
+                })
+            } else {
+                switch (id) {
+                    case "100":
+                        $('#container').html('<h1 id="101" name="header" class="order-form__header">Дополнительные фото:</h1>\n' +
+                                             '<input type="file" class="form__input-field" name="files" placeholder="Выберите файлы">');
+                        break;
+                    case "101":
+                        $('#container').html('<h1 id="102" name="header" class="order-form__header">Станция метро:</h1>\n'+
+                            '{!! $subways !!}');
+                        $('#next').attr('id', 'create');
+                        $('#next').html('Создать');
+                        break;
+                }
+            }
+        });
+
+        $('#back').click(function(){
+            let length = Object.keys(stack).length;
+            let value = stack[length - 1];
+            let stack_key = Object.keys(stack);
+            delete stack[length-1];
+            //console.log(stack);
+            //console.log(value)
+            $.ajax({
+                method: 'GET',
+                url: '/prev_step',
+                data: {id: stack_key[length - 1], step: value},
+                success: function (html) {
+                    $('#container').html(html);
+                }
+            })
+        });
     </script>
 @endsection

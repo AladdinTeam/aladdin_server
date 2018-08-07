@@ -44,267 +44,322 @@ class SearchController extends Controller
                 }
             }
         }
-        $categories = Category::get();
-        $subways = Subway::get();
-        if((isset($request->subcategory)) or (isset($request->page))){
-            if(isset($request->subcategory)) {
-                if($request->category == 0){
-                    $category_id = Subcategory::find($request->subcategory)->category->id;
-                    session([
-                        "category" => $category_id,
-                        "subcategory" => $request->subcategory,
-                        "subway" => $request->subway,
-                        "safety" => $request->safety
-                    ]);
-                } else {
-                    session([
-                        "category" => $request->category,
-                        "subcategory" => $request->subcategory,
-                        "subway" => $request->subway,
-                        "safety" => $request->safety
-                    ]);
-                }
+
+        $template = '<input type="hidden" id="service_file" value="'.$request->service.'">
+                     <h1 name="header" id="%d" class="order-form__header">%s</h1>';
+
+        $radioAndCheckbox = '<label class="form__container">%s
+                    <input type="%s" name="%s" value="%s">
+                    <span class="form__checkmark %s"></span>
+                  </label>';
+
+        $sub = Subway::get();
+        $subways = '<select id="subways" name="subway" class="form__input-field form__select">'.
+                   '<option value="-1" selected disabled>Выберите метро</option>';
+
+        foreach ($sub as $s){
+            $subways .= '<option value="'.$s->id.'">'.$s->name.'</option>';
+        }
+        $subways .= '</select>';
+
+        if($request->service == 1){
+            $xml = simplexml_load_string(Storage::get('Order\order_'.$request->service.'.xml')) or die ("Error: Cannot create object");
+
+            $template = sprintf($template, $xml->step[0]['number'], $xml->step[0]->name);
+
+            foreach ($xml->step[0]->variant as $variant){
+                $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
+                $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
             }
-            $local_category = $request->session()->get('category');
-            $local_subcategory = $request->session()->get('subcategory');
-            $local_subway = $request->session()->get('subway');
-            $local_safety = $request->session()->get('safety');
-            //echo $local_safety.' '.$local_subway.' '.$local_subcategory.' '.$local_category;
 
-            if(($local_category != 0 ) and ($local_subcategory == 0)
-                and ($local_subway == 0)){
-
-                $subcategories = Category::find($local_category)->subcategories;
-                $subcategories_id = [];
-                foreach ($subcategories as $subcategory){
-                    $subcategories_id[] = $subcategory->id;
-                }
-                if(isset($local_safety)) {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subcategories", function ($query) use ($subcategories_id) {
-                            $query->whereIn('subcategories.id', $subcategories_id);
-                        })->whereHas('master_info', function ($query) {
-                            $query->where('master_info.card_id', '<>', null);
-                        })->simplePaginate(5);
-                } else {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subcategories", function ($query) use ($subcategories_id) {
-                            $query->whereIn('subcategories.id', $subcategories_id);
-                        })->has('master_info')->simplePaginate(5);
-                }
-
-                foreach ($masters as $master) {
-                    $count = $master->work_orders()->where('status', 3)->count();
-                    $master->count = $count;
-                    if ($master->master_info->card_id != null) {
-                        $master->safety = 1;
-                    } else {
-                        $master->safety = 0;
-                    }
-                    $master->about = $master->master_info->about;
-                }
-                if(isset($name)){
-                    return view('search')->with([
-                        "name" => $name,
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subways" => $subways,
-                        "safety" => $local_safety
-                    ]);
-                } else {
-                    return view('search')->with([
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subways" => $subways,
-                        "safety" => $local_safety
-                    ]);
-                }
-            } elseif(($local_category != 0 ) and ($local_subcategory != 0)
-                and ($local_subway == 0)) {
-
-                $subcategories = Category::find($local_category)->subcategories;
-
-                if(isset($local_safety)) {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subcategories", function ($query) use ($local_subcategory) {
-                            $query->where('subcategories.id', $local_subcategory);
-                        })->whereHas('master_info', function ($query) {
-                            $query->where('master_info.card_id', '<>', null);
-                        })->simplePaginate(5);
-                } else {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subcategories", function ($query) use ($local_subcategory) {
-                            $query->where('subcategories.id', $local_subcategory);
-                        })->has('master_info')->simplePaginate(5);
-                }
-
-                foreach ($masters as $master) {
-                    $count = $master->work_orders()->where('status', 3)->count();
-                    $master->count = $count;
-                    if ($master->master_info->card_id != null) {
-                        $master->safety = 1;
-                    } else {
-                        $master->safety = 0;
-                    }
-                    $master->about = $master->master_info->about;
-                }
-                if(isset($name)){
-                    return view('search')->with([
-                        "name" => $name,
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subcategory" => $local_subcategory,
-                        "subways" => $subways,
-                        "safety" => $local_safety
-                    ]);
-                } else {
-                    return view('search')->with([
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subcategory" => $local_subcategory,
-                        "subways" => $subways,
-                        "safety" => $local_safety
-                    ]);
-                }
-            } elseif(($local_category != 0 ) and ($local_subcategory != 0)
-                and ($local_subway != 0)) {
-
-                $subcategories = Category::find($local_category)->subcategories;
-
-                if(isset($local_safety)) {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subways", function ($query) use ($local_subway) {
-                            $query->where('subways.id', $local_subway);
-                        })->whereHas("subcategories", function ($query) use ($local_subcategory) {
-                            $query->where('subcategories.id', $local_subcategory);
-                        })->whereHas('master_info', function ($query) {
-                            $query->where('master_info.card_id', '<>', null);
-                        })->simplePaginate(5);
-                } else {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subways", function ($query) use ($local_subway) {
-                            $query->where('subways.id', $local_subway);
-                        })->whereHas("subcategories", function ($query) use ($local_subcategory) {
-                            $query->where('subcategories.id', $local_subcategory);
-                        })->has('master_info')->simplePaginate(5);
-                }
-
-                foreach ($masters as $master) {
-                    $count = $master->work_orders()->where('status', 3)->count();
-                    $master->count = $count;
-                    if ($master->master_info->card_id != null) {
-                        $master->safety = 1;
-                    } else {
-                        $master->safety = 0;
-                    }
-                    $master->about = $master->master_info->about;
-                }
-                if(isset($name)){
-                    return view('search')->with([
-                        "name" => $name,
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subcategory" => $local_subcategory,
-                        "subways" => $subways,
-                        "subway" => $local_subway,
-                        "safety" => $local_safety
-                    ]);
-                } else {
-                    return view('search')->with([
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subcategory" => $local_subcategory,
-                        "subways" => $subways,
-                        "subway" => $local_subway,
-                        "safety" => $local_safety
-                    ]);
-                }
-            } elseif(($local_category != 0 ) and ($local_subcategory == 0)
-                and ($local_subway != 0)) {
-
-                $subcategories = Category::find($local_category)->subcategories;
-                $subcategories_id = [];
-                foreach ($subcategories as $subcategory){
-                    $subcategories_id[] = $subcategory->id;
-                }
-                if(isset($local_safety)) {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subways", function ($query) use ($local_subway) {
-                            $query->where('subways.id', $local_subway);
-                        })->whereHas("subcategories", function ($query) use ($subcategories_id) {
-                            $query->whereIn('subcategories.id', $subcategories_id);
-                        })->whereHas('master_info', function ($query) {
-                            $query->where('master_info.card_id', '<>', null);
-                        })->simplePaginate(5);
-                } else {
-                    $masters = Master::select('id', 'first_name', 'last_name')
-                        ->whereHas("subways", function ($query) use ($local_subway) {
-                            $query->where('subways.id', $local_subway);
-                        })->whereHas("subcategories", function ($query) use ($subcategories_id) {
-                            $query->whereIn('subcategories.id', $subcategories_id);
-                        })->has('master_info')->simplePaginate(5);
-                }
-
-                foreach ($masters as $master) {
-                    $count = $master->work_orders()->where('status', 3)->count();
-                    $master->count = $count;
-                    if ($master->master_info->card_id != null) {
-                        $master->safety = 1;
-                    } else {
-                        $master->safety = 0;
-                    }
-                    $master->about = $master->master_info->about;
-                }
-                if(isset($name)){
-                    return view('search')->with([
-                        "name" => $name,
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subways" => $subways,
-                        "subway" => $local_subway,
-                        "safety" => $local_safety
-                    ]);
-                } else {
-                    return view('search')->with([
-                        "masters" => $masters,
-                        "categories" => $categories,
-                        "category" => $local_category,
-                        "subcategories" => $subcategories,
-                        "subways" => $subways,
-                        "subway" => $local_subway,
-                        "safety" => $local_safety
-                    ]);
-                }
-            } else {
-                $error = 'Уточните, пожалуйста, запрос!';
-                if(isset($name)){
-                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error, "name" => $name]);
-                } else {
-                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error]);
-                }
-            }
-        } else {
-            if(isset($name)){
-                return view('search', ["categories" => $categories, "subways" => $subways, "name" => $name]);
-            }else {
-                return view('search', ["categories" => $categories, "subways" => $subways]);
-            }
+            return view("search",
+                [
+                    'form_template' => $template,
+                    'subways' => $subways
+                ]
+            );
         }
     }
+//    public function index(Request $request){
+//        if(session()->has("auth")){
+//            if(Crypt::decryptString(session()->get('user_type')) == 0){
+//                $user = Client::find(Crypt::decryptString(session()->get('id')));
+//            } else {
+//                $user = Master::find(Crypt::decryptString(session()->get('id')));
+//            }
+//            if($user == null){
+//                session()->forget('auth');
+//                session()->forget('user_type');
+//                session()->forget('id');
+//            } else {
+//                if ($user->last_name != null) {
+//                    $name = $user->last_name;
+//                } else {
+//                    $name = 'Пользователь';
+//                }
+//            }
+//        }
+//        $categories = Category::get();
+//        $subways = Subway::get();
+//        if((isset($request->subcategory)) or (isset($request->page))){
+//            if(isset($request->subcategory)) {
+//                if($request->category == 0){
+//                    $category_id = Subcategory::find($request->subcategory)->category->id;
+//                    session([
+//                        "category" => $category_id,
+//                        "subcategory" => $request->subcategory,
+//                        "subway" => $request->subway,
+//                        "safety" => $request->safety
+//                    ]);
+//                } else {
+//                    session([
+//                        "category" => $request->category,
+//                        "subcategory" => $request->subcategory,
+//                        "subway" => $request->subway,
+//                        "safety" => $request->safety
+//                    ]);
+//                }
+//            }
+//            $local_category = $request->session()->get('category');
+//            $local_subcategory = $request->session()->get('subcategory');
+//            $local_subway = $request->session()->get('subway');
+//            $local_safety = $request->session()->get('safety');
+//            //echo $local_safety.' '.$local_subway.' '.$local_subcategory.' '.$local_category;
+//
+//            if(($local_category != 0 ) and ($local_subcategory == 0)
+//                and ($local_subway == 0)){
+//
+//                $subcategories = Category::find($local_category)->subcategories;
+//                $subcategories_id = [];
+//                foreach ($subcategories as $subcategory){
+//                    $subcategories_id[] = $subcategory->id;
+//                }
+//                if(isset($local_safety)) {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subcategories", function ($query) use ($subcategories_id) {
+//                            $query->whereIn('subcategories.id', $subcategories_id);
+//                        })->whereHas('master_info', function ($query) {
+//                            $query->where('master_info.card_id', '<>', null);
+//                        })->simplePaginate(5);
+//                } else {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subcategories", function ($query) use ($subcategories_id) {
+//                            $query->whereIn('subcategories.id', $subcategories_id);
+//                        })->has('master_info')->simplePaginate(5);
+//                }
+//
+//                foreach ($masters as $master) {
+//                    $count = $master->work_orders()->where('status', 3)->count();
+//                    $master->count = $count;
+//                    if ($master->master_info->card_id != null) {
+//                        $master->safety = 1;
+//                    } else {
+//                        $master->safety = 0;
+//                    }
+//                    $master->about = $master->master_info->about;
+//                }
+//                if(isset($name)){
+//                    return view('search')->with([
+//                        "name" => $name,
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subways" => $subways,
+//                        "safety" => $local_safety
+//                    ]);
+//                } else {
+//                    return view('search')->with([
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subways" => $subways,
+//                        "safety" => $local_safety
+//                    ]);
+//                }
+//            } elseif(($local_category != 0 ) and ($local_subcategory != 0)
+//                and ($local_subway == 0)) {
+//
+//                $subcategories = Category::find($local_category)->subcategories;
+//
+//                if(isset($local_safety)) {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subcategories", function ($query) use ($local_subcategory) {
+//                            $query->where('subcategories.id', $local_subcategory);
+//                        })->whereHas('master_info', function ($query) {
+//                            $query->where('master_info.card_id', '<>', null);
+//                        })->simplePaginate(5);
+//                } else {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subcategories", function ($query) use ($local_subcategory) {
+//                            $query->where('subcategories.id', $local_subcategory);
+//                        })->has('master_info')->simplePaginate(5);
+//                }
+//
+//                foreach ($masters as $master) {
+//                    $count = $master->work_orders()->where('status', 3)->count();
+//                    $master->count = $count;
+//                    if ($master->master_info->card_id != null) {
+//                        $master->safety = 1;
+//                    } else {
+//                        $master->safety = 0;
+//                    }
+//                    $master->about = $master->master_info->about;
+//                }
+//                if(isset($name)){
+//                    return view('search')->with([
+//                        "name" => $name,
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subcategory" => $local_subcategory,
+//                        "subways" => $subways,
+//                        "safety" => $local_safety
+//                    ]);
+//                } else {
+//                    return view('search')->with([
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subcategory" => $local_subcategory,
+//                        "subways" => $subways,
+//                        "safety" => $local_safety
+//                    ]);
+//                }
+//            } elseif(($local_category != 0 ) and ($local_subcategory != 0)
+//                and ($local_subway != 0)) {
+//
+//                $subcategories = Category::find($local_category)->subcategories;
+//
+//                if(isset($local_safety)) {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subways", function ($query) use ($local_subway) {
+//                            $query->where('subways.id', $local_subway);
+//                        })->whereHas("subcategories", function ($query) use ($local_subcategory) {
+//                            $query->where('subcategories.id', $local_subcategory);
+//                        })->whereHas('master_info', function ($query) {
+//                            $query->where('master_info.card_id', '<>', null);
+//                        })->simplePaginate(5);
+//                } else {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subways", function ($query) use ($local_subway) {
+//                            $query->where('subways.id', $local_subway);
+//                        })->whereHas("subcategories", function ($query) use ($local_subcategory) {
+//                            $query->where('subcategories.id', $local_subcategory);
+//                        })->has('master_info')->simplePaginate(5);
+//                }
+//
+//                foreach ($masters as $master) {
+//                    $count = $master->work_orders()->where('status', 3)->count();
+//                    $master->count = $count;
+//                    if ($master->master_info->card_id != null) {
+//                        $master->safety = 1;
+//                    } else {
+//                        $master->safety = 0;
+//                    }
+//                    $master->about = $master->master_info->about;
+//                }
+//                if(isset($name)){
+//                    return view('search')->with([
+//                        "name" => $name,
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subcategory" => $local_subcategory,
+//                        "subways" => $subways,
+//                        "subway" => $local_subway,
+//                        "safety" => $local_safety
+//                    ]);
+//                } else {
+//                    return view('search')->with([
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subcategory" => $local_subcategory,
+//                        "subways" => $subways,
+//                        "subway" => $local_subway,
+//                        "safety" => $local_safety
+//                    ]);
+//                }
+//            } elseif(($local_category != 0 ) and ($local_subcategory == 0)
+//                and ($local_subway != 0)) {
+//
+//                $subcategories = Category::find($local_category)->subcategories;
+//                $subcategories_id = [];
+//                foreach ($subcategories as $subcategory){
+//                    $subcategories_id[] = $subcategory->id;
+//                }
+//                if(isset($local_safety)) {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subways", function ($query) use ($local_subway) {
+//                            $query->where('subways.id', $local_subway);
+//                        })->whereHas("subcategories", function ($query) use ($subcategories_id) {
+//                            $query->whereIn('subcategories.id', $subcategories_id);
+//                        })->whereHas('master_info', function ($query) {
+//                            $query->where('master_info.card_id', '<>', null);
+//                        })->simplePaginate(5);
+//                } else {
+//                    $masters = Master::select('id', 'first_name', 'last_name')
+//                        ->whereHas("subways", function ($query) use ($local_subway) {
+//                            $query->where('subways.id', $local_subway);
+//                        })->whereHas("subcategories", function ($query) use ($subcategories_id) {
+//                            $query->whereIn('subcategories.id', $subcategories_id);
+//                        })->has('master_info')->simplePaginate(5);
+//                }
+//
+//                foreach ($masters as $master) {
+//                    $count = $master->work_orders()->where('status', 3)->count();
+//                    $master->count = $count;
+//                    if ($master->master_info->card_id != null) {
+//                        $master->safety = 1;
+//                    } else {
+//                        $master->safety = 0;
+//                    }
+//                    $master->about = $master->master_info->about;
+//                }
+//                if(isset($name)){
+//                    return view('search')->with([
+//                        "name" => $name,
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subways" => $subways,
+//                        "subway" => $local_subway,
+//                        "safety" => $local_safety
+//                    ]);
+//                } else {
+//                    return view('search')->with([
+//                        "masters" => $masters,
+//                        "categories" => $categories,
+//                        "category" => $local_category,
+//                        "subcategories" => $subcategories,
+//                        "subways" => $subways,
+//                        "subway" => $local_subway,
+//                        "safety" => $local_safety
+//                    ]);
+//                }
+//            } else {
+//                $error = 'Уточните, пожалуйста, запрос!';
+//                if(isset($name)){
+//                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error, "name" => $name]);
+//                } else {
+//                    return view('search', ["categories" => $categories, "subways" => $subways, "error" => $error]);
+//                }
+//            }
+//        } else {
+//            if(isset($name)){
+//                return view('search', ["categories" => $categories, "subways" => $subways, "name" => $name]);
+//            }else {
+//                return view('search', ["categories" => $categories, "subways" => $subways]);
+//            }
+//        }
+//    }
 
     public function getSubcategories(Request $request){
         $subcategories = Subcategory::select('id', 'name')->where("category_id", "=", $request->category)->get();
@@ -627,16 +682,11 @@ class SearchController extends Controller
 
         $input = '<input class="form__input-field" name="%s" placeholder="%s">';
 
-        $template = '<p style="display: none;">Сантехника</p>'.
-                    '        <h1 id="%d" style="font-size: 1.3rem; color: #2f2e2e;padding-left: 10px">%s</h1>';
+        $template = '<input type="hidden" id="service_file" value="'.$request->service.'">
+                     <h1 name="header" id="%d" class="order-form__header">%s</h1>';
 
-        $f = Storage::get('Order\\'.$request->file.'.xml');
-        $xml = simplexml_load_string($f) or die ("Error: Cannot create object");
+        $xml = simplexml_load_string(Storage::get('Order\order_'.$request->service.'.xml')) or die ("Error: Cannot create object");
 
-        if($request->begin){
-            $xml->step[0]->name;
-        }
-        /*$xml = simplexml_load_string($f) or die ("Error: Cannot create object");
         $i = 0;
 
         if(!isset($request->name)){
@@ -659,7 +709,7 @@ class SearchController extends Controller
             //dd($request->step);
             foreach ($xml->step[$i]->conditions->children() as $condition){
                 $name = $condition->name;
-                $val = explode('/', $condition->value);
+                $val = $condition->value;
                 foreach ($request->step as $key=>$value){
                    if($name == $key){
                        foreach ($val as $v){
@@ -674,15 +724,18 @@ class SearchController extends Controller
         }
 
         //echo $xml->step[(int)$nextStep]->name;
+        if($nextStep == 100){
+            echo "custom end";
+        } else {
+            $template = sprintf($template, $xml->step[$nextStep]['number'], $xml->step[$nextStep]->name);
 
-        $template = sprintf($template, $xml->step[$nextStep]['number'], $xml->step[$nextStep]->name);
+            foreach ($xml->step[$nextStep]->variant as $variant) {
+                $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
+                $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
+            }
 
-        foreach ($xml->step[$nextStep]->variant as $variant){
-            $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
-            $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
+            echo $template;
         }
-
-        echo $template;
 
 
 
@@ -772,11 +825,10 @@ class SearchController extends Controller
 
         $input = '<input class="form__input-field" name="%s" placeholder="%s">';
 
-        $template = '<p style="display: none;">Сантехника</p>'.
-            '        <h1 id="%d" style="font-size: 1.3rem; color: #2f2e2e;padding-left: 10px">%s</h1>';
+        $template = '<input type="hidden" id="service_file" value="'.$request->service.'">
+                     <h1 name="header" id="%d" class="order-form__header">%s</h1>';
 
-        $f = Storage::get('Order\order_clean.xml');
-        $xml = simplexml_load_string($f) or die ("Error: Cannot create object");
+        $xml = simplexml_load_string(Storage::get('Order\order_'.$request->service.'.xml')) or die ("Error: Cannot create object");
         $i = 0;
 
         if(!isset($request->id)) {
@@ -791,7 +843,7 @@ class SearchController extends Controller
         }
 
 
-        /*$nextStep = $i+1;
+        $nextStep = $i+1;
         //echo $xml->step[$i]->name;
         if($xml->step[$i]->conditions == '') {
             $nextStep = (int)($xml->step[$i]->next);
@@ -811,7 +863,7 @@ class SearchController extends Controller
                     }
                 }
             }
-        }*/
+        }
 
         //echo $xml->step[(int)$nextStep]->name;
 

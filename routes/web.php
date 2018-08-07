@@ -21,7 +21,7 @@ Route::group(["prefix" => "search"], function (){
     Route::get('/repair', function (){
         return view('search_repair');
     });
-    Route::get('/', 'SearchController@index');
+    Route::get('/{service}', 'SearchController@index');
     //Route::post('/best_price', 'SearchController@bestPrice')->name('best_price');
     Route::get('/save_order', 'SearchController@saveOrder');
     Route::post('/save_full_order', 'SearchController@saveFullOrder')->name('save_full_order');
