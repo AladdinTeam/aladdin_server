@@ -28,7 +28,12 @@ class ChatController extends Controller
             $client = Client::find($channel->client_id);
             if ($client != null) {
                 $clientName = $client->first_name . " " . $client->last_name;
-                $avatarUrl = asset(Storage::url($master->photos()->where('is_avatar', 1)->first()->name));
+                $avatarUrl = null;
+                $avatarPhoto = $master->photos()->where('is_avatar', 1)->first();
+                if ($avatarPhoto != null) {
+                    $avatarUrl = asset(Storage::url($avatarPhoto->name));
+                }
+//                $avatarUrl = asset(Storage::url($master->photos()->where('is_avatar', 1)->first()->name));
             }
             $retChannels[] = [
                 "order_theme" => $orderTheme,

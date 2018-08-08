@@ -165,7 +165,12 @@ class AuthorizationController extends Controller
                     "token_until" => date('Y-m-d H:i:s', (strtotime(date("Y-m-d H:i:s")) + 86400 * 5))]);
 
                 if ($request->user_type == 1) {
-                    $avatar_url = asset(Storage::url($user->photos()->where('is_avatar', 1)->first()->name));
+                    $avatar_url = null;
+                    $avatarPhoto = $user->photos()->where('is_avatar', 1)->first();
+                    if ($avatarPhoto != null) {
+                        $avatar_url = asset(Storage::url($avatarPhoto->name));
+                    }
+//                    $avatar_url = asset(Storage::url($user->photos()->where('is_avatar', 1)->first()->name));
                     $subcategories = $user->subcategories()->select('name', 'image_url')->get()->toArray();
                     $masterSubways = $user->subways()->get();
                     $masterServices = $user->services()->get();
