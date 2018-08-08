@@ -12,7 +12,7 @@
             {{--<h3 class="first-block__subheader">Обращайтесь к услугам профессиональных исполнителей Aladdin.</h3>--}}
             <div class="row tiles tiles--min-margin">
                 <div class="col-6 col-md-3">
-                    <a href="{{url('/search/repair')}}">
+                    <a href="{{url('/search/1')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/master-hour.jpg')}}">
@@ -22,7 +22,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search/repair')}}">
+                    <a href="{{url('search/2')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/santechnic.jpg')}}">
@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search/repair')}}">
+                    <a href="{{url('search/3')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/electrician.jpg')}}">
@@ -42,7 +42,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search/repair')}}">
+                    <a href="{{url('search/4')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/furniture-assembly.jpg')}}">
@@ -52,7 +52,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search/repair')}}">
+                    <a href="{{url('search/5')}}">
                         <div class="tiles--item tiles--item--last">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/otdelochnye-raboty.jpg')}}">
@@ -62,7 +62,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search/repair')}}">
+                    <a href="{{url('search/6')}}">
                         <div class="tiles--item tiles--item--last">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/bytovue_uslugi.jpg')}}">
@@ -80,7 +80,7 @@
             {{--<h3 class="first-block__subheader">Обращайтесь к услугам профессиональных исполнителей Aladdin.</h3>--}}
             <div class="row tiles tiles--min-margin">
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search')}}">
+                    <a href="{{url('search/7')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/apartment-cleaning.jpg')}}">
@@ -90,7 +90,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search')}}">
+                    <a href="{{url('search/8')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/clean-home.jpg')}}">
@@ -100,7 +100,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search')}}">
+                    <a href="{{url('search/9')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/office.jpg')}}">
@@ -110,7 +110,7 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="{{url('search')}}">
+                    <a href="{{url('search/10')}}">
                         <div class="tiles--item">
                             <div class="category">
                                 <img class="category--img" src="{{asset('img/other-clean.jpg')}}">

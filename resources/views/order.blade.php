@@ -88,7 +88,10 @@
             <div id="search">
                 <div class="hint-list hint-list--border-bottom" style="border-top: 1px solid #b7b7b7;">
                     <h1 class="hint-list__header" style="color: #00b0ff">{{$order->header}}</h1>
-                    <p style="font-size: 0.9rem; color: #605e5e;padding: 5px">{{$order->description}}</p>
+                    <?php
+/*                        $description = str_replace('\r\n', '<br>', $order->description);
+                    */?>
+                    <p style="font-size: 0.9rem; color: #605e5e;padding: 5px">{!! $order->description !!}</p>
                     <ul style="padding: 5px">
                         <li class="hint-list__item">Метро: {{$order->subway->name}}</li>
                         <li class="hint-list__item">Бюджет: {{$order->amount}} руб.</li>
@@ -189,19 +192,11 @@
                         $st_master = $order->masters()->where('master_id', $order->master_id)->first();
                     ?>
                     @if($st_master != null) <!--Если откликнулся прямой мастер-->
-                        <div class="row profile">
-                            <div class="col-6 col-md-8" style="padding-bottom: 10px">
-                                <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>
+                        <div class="row profile tiles--item">
+                            <div class="col-12">
+                                <p class="profile__name profile__name--min">{{$order->master->first_name}} {{$order->master->last_name}}</p>
                             </div>
-                            <div class="col-6 col-md-4">
-                                {{--<form method="post" action="{{route('acceptOffer')}}">
-                                    {{csrf_field()}}
-                                    <input type="hidden" name="master" value="{{$order->master->id}}">
-                                    <input type="hidden" name="order" value="{{$order->id}}">--}}
-                                    <button {{--type="submit"--}} onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
-                                {{--</form>--}}
-                            </div>
-                            <div class="col-4 col-sm-2 col-md-3 col-lg-3">
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3">
                                 <?php
                                 $photo = $order->master->photos()->where('is_avatar', 1)->first();
                                 ?>
@@ -211,59 +206,144 @@
                                     <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
                                 @endif
                             </div>
-                            <div class="col-8 col-sm-10 col-md-9 col-lg-9">
+                            <div class="col-12 mobile">
+                                <div class="master__rating">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                <div class="col-12 profile__name__div">
+                                    <p class="profile__name profile__name--max">{{$order->master->first_name}} {{$order->master->last_name}}</p>
+                                </div>
+                                <div class="col-12 master__rating master__rating--left-align desktop">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
                                 <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/complete-order.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">Выполненных заданий: {{$order->master->work_orders()->count()}}</p>
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Выполненных заданий - {{$order->master->work_orders()->count()}}</p>
                                     </div>
                                 </div>
                                 <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/positive-report.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">92% положительных отзывов</p>
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Положительных отзывов - 92%</p>
                                     </div>
                                 </div>
-                                @if($order->master->master_info->card_id != null)
+                                @if(($order->master->master_info->card_id != 1) or ($$order->master->master_info->card_id != null))
                                     <div class="row profile__qualities">
-                                        <div class="col-2">
-                                            <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
-                                        </div>
-                                        <div class="col-10 align-self-center">
+                                        {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
+                                        {{--</div>--}}
+                                        <div class="col-12 align-self-center">
                                             <p class="profile__quality">Работает через безопасную сделку</p>
                                         </div>
                                     </div>
                                 @endif
                             </div>
-                            <div class="col-12">
-                                <p class="profile__about">{{$order->master->master_info->about}}</p>
+                            <div class="row flex-row-reverse">
+                                <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                    <p class="profile__about">"{{$order->master->master_info->about}}"</p>
+                                </div>
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                                    {{--<button class="button button--grey button--price" --}}{{--onclick="location.href = '/profile/{{$master->id}}'"--}}{{-->Связь с мастером</button>--}}
+                                    <button {{--type="submit"--}} onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--grey button--price">Выбрать</button>
+                                    <button {{--type="submit"--}} onclick="location.href = '/create_chat?master={{$order->master->id}}&order={{$order->id}}'" class="button button--grey button--price">Написать</button>
+                                </div>
                             </div>
-                            <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
-                                <p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$st_master->pivot->price}}</p>
-                                <p style="padding: 5px; font-size: 0.9rem">Дата выполнения:
-                                    <?php
-                                    $date = new DateTime($st_master->pivot->date);
-                                    echo $date->format('d.m.Y');
-                                    ?>
-                                </p>
-                                <p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$st_master->pivot->commentary}}</p>
+                            <div class="row">
+                                <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
+                                    <p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$st_master->pivot->price}}</p>
+                                    <p style="padding: 5px; font-size: 0.9rem">Дата выполнения:
+                                        <?php
+                                        $date = new DateTime($st_master->pivot->date);
+                                        echo $date->format('d.m.Y');
+                                        ?>
+                                    </p>
+                                    <p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$st_master->pivot->commentary}}</p>
+                                </div>
                             </div>
                         </div>
-                    @else <!--Если не откликнулся прямой мастер-->
-                        <div class="row profile">
-                            <div class="col-6 col-md-8" style="padding-bottom: 10px">
-                                <a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                {{--<button --}}{{--type="submit"--}}{{-- onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
-                            </div>
-                            <div class="col-4 col-sm-2 col-md-3 col-lg-3">
+                        {{--<div class="row profile">--}}
+                            {{--<div class="col-6 col-md-8" style="padding-bottom: 10px">--}}
+                                {{--<a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-6 col-md-4">--}}
+                                    {{--<button type="submit" onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
+                                    {{--<button type="submit" onclick="location.href = '/create_chat?master={{$order->master->id}}&order={{$order->id}}'" class="button button--blue button--full-container">Написать</button>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-4 col-sm-2 col-md-3 col-lg-3">--}}
                                 <?php
-                                    $photo = $order->master->photos()->where('is_avatar', 1)->first();
+/*                                $photo = $order->master->photos()->where('is_avatar', 1)->first();
+                                */?>
+                                {{--@if($photo != null)--}}
+                                    {{--<img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">--}}
+                                {{--@else--}}
+                                    {{--<img class="profile__avatar" src="{{asset('img/no_photo.png')}}">--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                            {{--<div class="col-8 col-sm-10 col-md-9 col-lg-9">--}}
+                                {{--<div class="row profile__qualities">--}}
+                                    {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10 align-self-center">--}}
+                                        {{--<p class="profile__quality">Выполненных заданий: {{$order->master->work_orders()->count()}}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="row profile__qualities">--}}
+                                    {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10 align-self-center">--}}
+                                        {{--<p class="profile__quality">92% положительных отзывов</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--@if($order->master->master_info->card_id != null)--}}
+                                    {{--<div class="row profile__qualities">--}}
+                                        {{--<div class="col-2">--}}
+                                            {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-10 align-self-center">--}}
+                                            {{--<p class="profile__quality">Работает через безопасную сделку</p>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                            {{--<div class="col-12">--}}
+                                {{--<p class="profile__about">{{$order->master->master_info->about}}</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">--}}
+                                {{--<p style="padding: 5px; font-size: 0.9rem">Моя цена: {{$st_master->pivot->price}}</p>--}}
+                                {{--<p style="padding: 5px; font-size: 0.9rem">Дата выполнения:--}}
+<!--                                    --><?php
+//                                    $date = new DateTime($st_master->pivot->date);
+//                                    echo $date->format('d.m.Y');
+//                                    ?>
+                                {{--</p>--}}
+                                {{--<p style="padding: 5px; font-size: 0.9rem">Комментарий: {{$st_master->pivot->commentary}}</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    @else <!--Если не откликнулся прямой мастер-->
+                        <div class="row profile tiles--item">
+                            <div class="col-12">
+                                <p class="profile__name profile__name--min">{{$order->master->first_name}} {{$order->master->last_name}}</p>
+                            </div>
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                                <?php
+                                $photo = $order->master->photos()->where('is_avatar', 1)->first();
                                 ?>
                                 @if($photo != null)
                                     <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
@@ -271,41 +351,121 @@
                                     <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
                                 @endif
                             </div>
-                            <div class="col-8 col-sm-10 col-md-9 col-lg-9">
+                            <div class="col-12 mobile">
+                                <div class="master__rating">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                <div class="col-12 profile__name__div">
+                                    <p class="profile__name profile__name--max">{{$order->master->first_name}} {{$order->master->last_name}}</p>
+                                </div>
+                                <div class="col-12 master__rating master__rating--left-align desktop">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
                                 <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/complete-order.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">Выполненных заданий: {{$order->master->work_orders()->count()}}</p>
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Выполненных заданий - {{$order->master->work_orders()->count()}}</p>
                                     </div>
                                 </div>
                                 <div class="row profile__qualities">
-                                    <div class="col-2">
-                                        <img class="profile__img" src="{{asset('img/positive-report.png')}}">
-                                    </div>
-                                    <div class="col-10 align-self-center">
-                                        <p class="profile__quality">92% положительных отзывов</p>
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Положительных отзывов - 92%</p>
                                     </div>
                                 </div>
-                                @if($order->master->master_info->card_id != null)
+                                @if(($order->master->master_info->card_id != 1) or ($$order->master->master_info->card_id != null))
                                     <div class="row profile__qualities">
-                                        <div class="col-2">
-                                            <img class="profile__img" src="{{asset('img/safety-deal.png')}}">
-                                        </div>
-                                        <div class="col-10 align-self-center">
+                                        {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
+                                        {{--</div>--}}
+                                        <div class="col-12 align-self-center">
                                             <p class="profile__quality">Работает через безопасную сделку</p>
                                         </div>
                                     </div>
                                 @endif
                             </div>
-                            <div class="col-12">
-                                <p class="profile__about">{{$order->master->master_info->about}}</p>
+                            <div class="row flex-row-reverse">
+                                <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                    <p class="profile__about">"{{$order->master->master_info->about}}"</p>
+                                </div>
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                                    {{--<button class="button button--grey button--price" --}}{{--onclick="location.href = '/profile/{{$master->id}}'"--}}{{-->Связь с мастером</button>--}}
+                                    <button {{--type="submit"--}} onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--grey button--price">Выбрать</button>
+                                    <button {{--type="submit"--}} onclick="location.href = '/create_chat?master={{$order->master->id}}&order={{$order->id}}'" class="button button--grey button--price">Написать</button>
+                                </div>
                             </div>
-                            <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
-                                <p style="padding: 5px; font-size: 0.9rem">Этот мастер пока не выдвинул свое предложение</p>
+                            <div class="row">
+                                <div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">
+                                    <p style="padding: 5px; font-size: 0.9rem">Этот мастер пока не выдвинул свое предложение</p>
+                                </div>
                             </div>
                         </div>
+                        {{--<div class="row profile">--}}
+                            {{--<div class="col-6 col-md-8" style="padding-bottom: 10px">--}}
+                                {{--<a href="/profile/{{$order->master->id}}" class="profile__name--link">{{$order->master->first_name}} {{$order->master->last_name}}</a>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-6 col-md-4">--}}
+                                {{--<button type="submit" onclick="alert_modal({{$order->master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-4 col-sm-2 col-md-3 col-lg-3">--}}
+<!--                                --><?php
+//                                    $photo = $order->master->photos()->where('is_avatar', 1)->first();
+//                                ?>
+                                {{--@if($photo != null)--}}
+                                    {{--<img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">--}}
+                                {{--@else--}}
+                                    {{--<img class="profile__avatar" src="{{asset('img/no_photo.png')}}">--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                            {{--<div class="col-8 col-sm-10 col-md-9 col-lg-9">--}}
+                                {{--<div class="row profile__qualities">--}}
+                                    {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10 align-self-center">--}}
+                                        {{--<p class="profile__quality">Выполненных заданий: {{$order->master->work_orders()->count()}}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="row profile__qualities">--}}
+                                    {{--<div class="col-2">--}}
+                                        {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
+                                    {{--</div>--}}
+                                    {{--<div class="col-10 align-self-center">--}}
+                                        {{--<p class="profile__quality">92% положительных отзывов</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--@if($order->master->master_info->card_id != null)--}}
+                                    {{--<div class="row profile__qualities">--}}
+                                        {{--<div class="col-2">--}}
+                                            {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-10 align-self-center">--}}
+                                            {{--<p class="profile__quality">Работает через безопасную сделку</p>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--@endif--}}
+                            {{--</div>--}}
+                            {{--<div class="col-12">--}}
+                                {{--<p class="profile__about">{{$order->master->master_info->about}}</p>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-12" style="margin-top: 10px;border-top: 1px solid #a0a09f">--}}
+                                {{--<p style="padding: 5px; font-size: 0.9rem">Этот мастер пока не выдвинул свое предложение</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
                     @endif
                     <div class="col-12" style="text-align: center; text-align: -moz-center; margin-bottom: 10px">
                         <h3 style="font-size: 1rem; font-weight: 600; color: #605e5e">Посмотрите предложения других мастеров</h3>
@@ -345,7 +505,8 @@
                                 <a href="/profile/{{$master->id}}" class="profile__name--link">{{$master->first_name}} {{$master->last_name}}</a>
                             </div>
                             <div class="col-6 col-md-4">
-                                <button {{--type="submit"--}} onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>
+                                {{--<button --}}{{--type="submit"--}}{{-- onclick="alert_modal({{$master->id}}, {{$order->id}})" class="button button--blue button--full-container">Выбрать</button>--}}
+                                <button {{--type="submit"--}} onclick="location.href = '/create_chat?master={{$master->id}}&order={{$order->id}}'" class="button button--grey button--price">Написать</button>
                             </div>
                             <div class="col-4 col-sm-2 col-md-3 col-lg-3">
                                 <?php

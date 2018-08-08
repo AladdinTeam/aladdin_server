@@ -23,11 +23,7 @@ Route::group(["prefix" => "search"], function (){
     });
     Route::get('/{service}', 'SearchController@index');
     //Route::post('/best_price', 'SearchController@bestPrice')->name('best_price');
-    Route::get('/save_order', 'SearchController@saveOrder');
-    Route::post('/save_full_order', 'SearchController@saveFullOrder')->name('save_full_order');
-    Route::get('/get_categories', 'SearchController@getCategories');
-    Route::get('/get_subcategories', 'SearchController@getSubcategories');
-    Route::post('/mini_order', 'SearchController@miniOrder')->name('miniOrder');
+
 });
 
 Route::get('/best_price', 'BestPriceController@index');
@@ -70,6 +66,8 @@ Route::get('/customers', function (){
     return view('for_customers');
 });
 
+Route::post('/save_new_order', 'SearchController@saveNewOrder')->name('saveNewOrder');
+
 
 
 
@@ -77,12 +75,20 @@ Route::get('/create', function (){
     return view('order_test');
 });
 
+Route::get('/save_order', 'SearchController@saveOrder');
+Route::post('/save_full_order', 'SearchController@saveFullOrder')->name('save_full_order');
+Route::get('/get_categories', 'SearchController@getCategories');
+Route::get('/get_subcategories', 'SearchController@getSubcategories');
+Route::post('/mini_order', 'SearchController@miniOrder')->name('miniOrder');
+
+
 
 Route::get('/next_step', 'SearchController@nextStepOrder');
 Route::get('/prev_step', 'SearchController@prevStepOrder');
 Route::get('/test_pubnub', 'TestPubnubController@index');
 
 Route::get('/chat', 'ChatController@showPage');
+Route::get('/create_chat', 'ChatController@createChannel');
 Route::post('/upload_chat_file', 'ChatController@uploadFile');
 
 //Route::get('/master', 'SearchController@getMasters');

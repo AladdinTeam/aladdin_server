@@ -63,7 +63,7 @@ function showSlides(n) {
 }
 
 function checkStatus(order, status) {
-    console.log('gg huli');
+    //console.log('gg huli');
     let csrf_token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         type: "get",

@@ -11,7 +11,7 @@
         <div class="first-block--container" style="position:relative;z-index: 0;">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="first-block__header">Профессиональные исполнители по уборке в Санкт-Петербурге</h3>
+                    <h3 class="first-block__header">Профессиональные исполнители по {{$category}} в Санкт-Петербурге</h3>
                     <h3 class="first-block__subheader desktop">Обращайтесь к услугам профессиональных исполнителей Tasker.</h3>
                 </div>
             </div>
@@ -19,7 +19,7 @@
         <div class="first-block--container first-block--container--search" style="position:absolute; top:0; left:0;z-index: 2">
             <div class="row">
                 <div class="offset-9 col-3">
-                    <img style="width: 100%" src="{{asset('img/location-cleaning-hand.png')}}">
+                    <img style="width: 100%" src="{{asset($image)}}">
                 </div>
             </div>
         </div>
@@ -29,14 +29,14 @@
             <div class="first-block--container first-block--container--search">
                 <div class="row">
                     <div class="col-5 offset-7">
-                        <img style="width: 100%" src="{{asset('img/location-cleaning-hand.png')}}">
+                        <img style="width: 100%" src="{{asset($image)}}">
                     </div>
                 </div>
             </div>
             <div class="first-block--container">
                 <div class="row">
                     <div class="col-12" style="margin-top: -60px">
-                        <h3 class="first-block__header" style="font-size: 1.4rem; padding-right: 25px">Профессиональные исполнители по уборке в Санкт-Петербурге</h3>
+                        <h3 class="first-block__header" style="font-size: 1.4rem; padding-right: 25px">Профессиональные исполнители по {{$category}} в Санкт-Петербурге</h3>
                         <h3 class="first-block__subheader desktop">Обращайтесь к услугам профессиональных исполнителей Tasker.</h3>
                     </div>
                 </div>
@@ -195,72 +195,96 @@
                             <button class="button button--white button--full-container" id="back">Назад</button>
                         </div>
                     </div>
+                    <form style="display: none" action="{{route('miniOrder')}}" method="post" enctype="multipart/form-data">
+                        {{csrf_field()}}
+                        <input type="text" name="service" id="service" value="{{$service}}">
+                        <?php
+                            $subcategory = \App\Subcategory::find($service);
+                        ?>
+                        <input type="text" name="header" value="{{$subcategory->category->name}}. {{$subcategory->name}}">
+                        <input type="text" id="description" name="description" value="">
+                        <input type="file" id="file" multiple name="files">
+                        <input type="number" name="amount" id="amount" value="">
+                        <input type="text" id="subway" name="subway">
+                        <input type="number" id="master_id" name="master_id" value="">
+                        <input type="text" id="end_date" name="date" value="">
+                        <input type="submit" id="submit">
+                    </form>
                 </div>
                 <div class="col-12 col-md-7 profile__container desktop--block">
-                    <div class="row profile tiles--item">
-                        <div class="col-12">
-                            <p class="profile__name profile__name--min">Иван Иванов</p>
-                        </div>
-                        <div class="col-12 col-sm-3 col-md-3 col-lg-3">
-                            <img class="profile__avatar" src="{{asset('img/photo_2017-08-29_16-33-07.jpg')}}">
-                        </div>
-                        <div class="col-12 mobile">
-                            <div class="master__rating">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-9 col-md-9 col-lg-9">
-                            <div class="col-12 profile__name__div">
-                                <p class="profile__name profile__name--max">Иван Иванов</p>
-                            </div>
-                            <div class="col-12 master__rating master__rating--left-align desktop">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                                <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
-                            </div>
-                            <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
-                                {{--</div>--}}
-                                <div class="col-12 align-self-center">
-                                    <p class="profile__quality">Выполненных заданий - 34</p>
-                                </div>
-                            </div>
-                            <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
-                                {{--</div>--}}
-                                <div class="col-12 align-self-center">
-                                    <p class="profile__quality">Положительных отзывов - 92%</p>
-                                </div>
-                            </div>
-                            {{--@if($master->safety == 1)--}}
-                            <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
-                                {{--</div>--}}
-                                <div class="col-12 align-self-center">
-                                    <p class="profile__quality">Работает через безопасную сделку</p>
-                                </div>
-                            </div>
-                            {{--@endif--}}
-                        </div>
-                        <div class="row flex-row-reverse">
-                            <div class="col-12 col-sm-9 col-md-9 col-lg-9">
-                                <p class="profile__about">"Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!"</p>
+                    @foreach($masters as $master)
+                        <div class="row profile tiles--item">
+                            <div class="col-12">
+                                <p class="profile__name profile__name--min">{{$master->first_name}} {{$master->last_name}}</p>
                             </div>
                             <div class="col-12 col-sm-3 col-md-3 col-lg-3">
-                                <button class="button button--grey button--price" {{--onclick="location.href = '/profile/{{$master->id}}'"--}}>Связь с мастером</button>
+                                <?php
+                                $photo = $master->photos()->where('is_avatar', 1)->first();
+                                ?>
+                                @if($photo != null)
+                                    <img class="profile__avatar" src="{{asset(Illuminate\Support\Facades\Storage::url($photo->name))}}">
+                                @else
+                                    <img class="profile__avatar" src="{{asset('img/no_photo.png')}}">
+                                @endif
+                            </div>
+                            <div class="col-12 mobile">
+                                <div class="master__rating">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                <div class="col-12 profile__name__div">
+                                    <p class="profile__name profile__name--max">{{$master->first_name}} {{$master->last_name}}</p>
+                                </div>
+                                <div class="col-12 master__rating master__rating--left-align desktop">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                    <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
+                                </div>
+                                <div class="row profile__qualities">
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Выполненных заданий - {{$master->work_orders()->where('status', 3)->count()}}</p>
+                                    </div>
+                                </div>
+                                <div class="row profile__qualities">
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Положительных отзывов - 92%</p>
+                                    </div>
+                                </div>
+                                @if(($master->master_info->card_id != 1) or ($master->master_info->card_id != null))
+                                <div class="row profile__qualities">
+                                    {{--<div class="col-2">--}}
+                                    {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
+                                    {{--</div>--}}
+                                    <div class="col-12 align-self-center">
+                                        <p class="profile__quality">Работает через безопасную сделку</p>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="row flex-row-reverse">
+                                <div class="col-12 col-sm-9 col-md-9 col-lg-9">
+                                    <p class="profile__about">"{{$master->master_info->about}}"</p>
+                                </div>
+                                <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+                                    <button class="button button--grey button--price" onclick="choose_master({{$master->id}})">Связь с мастером</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row profile tiles--item">
+                    @endforeach
+                    {{--<div class="row profile tiles--item">
                         <div class="col-12">
                             <p class="profile__name profile__name--min">Владимир Петров</p>
                         </div>
@@ -288,38 +312,38 @@
                                 <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
                             </div>
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Выполненных заданий - 34</p>
                                 </div>
                             </div>
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Положительных отзывов - 92%</p>
                                 </div>
                             </div>
-                            {{--@if($master->safety == 1)--}}
+                            --}}{{--@if($master->safety == 1)--}}{{--
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Работает через безопасную сделку</p>
                                 </div>
                             </div>
-                            {{--@endif--}}
+                            --}}{{--@endif--}}{{--
                         </div>
                         <div class="row flex-row-reverse">
                             <div class="col-12 col-sm-9 col-md-9 col-lg-9">
                                 <p class="profile__about">"Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!"</p>
                             </div>
                             <div class="col-12 col-sm-3 col-md-3 col-lg-3">
-                                <button class="button button--grey button--price" {{--onclick="location.href = '/profile/{{$master->id}}'"--}}>Связь с мастером</button>
+                                <button class="button button--grey button--price" --}}{{--onclick="location.href = '/profile/{{$master->id}}'"--}}{{-->Связь с мастером</button>
                             </div>
                         </div>
                     </div>
@@ -351,41 +375,41 @@
                                 <img class="rating-star rating-star--big" src="{{asset('img/star.png')}}">
                             </div>
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/complete-order.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Выполненный задания - 34</p>
                                 </div>
                             </div>
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/positive-report.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Положительных отзывов - 92%</p>
                                 </div>
                             </div>
-                            {{--@if($master->safety == 1)--}}
+                            --}}{{--@if($master->safety == 1)--}}{{--
                             <div class="row profile__qualities">
-                                {{--<div class="col-2">--}}
-                                {{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}
-                                {{--</div>--}}
+                                --}}{{--<div class="col-2">--}}{{--
+                                --}}{{--<img class="profile__img" src="{{asset('img/safety-deal.png')}}">--}}{{--
+                                --}}{{--</div>--}}{{--
                                 <div class="col-12 align-self-center">
                                     <p class="profile__quality">Работает через безопасную сделку</p>
                                 </div>
                             </div>
-                            {{--@endif--}}
+                            --}}{{--@endif--}}{{--
                         </div>
                         <div class="row flex-row-reverse">
                             <div class="col-12 col-sm-9 col-md-9 col-lg-9">
                                 <p class="profile__about">"Последние 15 лет своей жизни я посвятил сантехнике и всему, что с ней связано. За все эти годы я всегда успешно справлялся с поставленными задачами. Обращайтесь, буду рад помочь!"</p>
                             </div>
                             <div class="col-12 col-sm-3 col-md-3 col-lg-3">
-                                <button class="button button--grey button--price" {{--onclick="location.href = '/profile/{{$master->id}}'"--}}>Связь с мастером</button>
+                                <button class="button button--grey button--price" --}}{{--onclick="location.href = '/profile/{{$master->id}}'"--}}{{-->Связь с мастером</button>
                             </div>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>
@@ -601,7 +625,116 @@
         })*/
     </script>
     <script>
+        $('input[type=file]').click(function () {
+            $('#file').trigger('click');
+        });
         let stack = {};
+        let custom = false;
+        $('#next').click(function (evt) {
+            let inputs = $('input:checked, input[type=text], input[type=number], textarea, select').not('form > input');
+            console.log(inputs);
+            let service = $('#service_file').val();
+            $('service').val(service);
+            let name = $('[name = header]').html();
+            let id = $('[name = header]').attr('id');
+            let value = {};
+            let desc = $('#description');
+            if(id !== "102" && id !== "103" && id !== "104"){
+                desc.val(desc.val() + '\r\n' + name + ': ')
+            }
+            $.each(inputs, function (key, value1) {
+                if(id === "102") {
+                    $('#subway').val($(value1).val());
+                } else if(id === "103"){
+                    $('#end_date').val($(value1).val());
+                } else if(id === "104"){
+                    $('#amount').val(($(value1).val()));
+                    $('#submit').trigger('click');
+                } else {
+                    //let desc = $('#description');
+                    desc.val(desc.val() + $(value1).val() + '; ');
+                }
+                //console.log(desc.val());
+                if($(value1).attr('type') === 'file'){
+                    value[$(value1).attr('name')] = $(value1).prop('files')[0];
+                } else {
+                    value[$(value1).attr('name')] = $(value1).val();
+                }
+            });
+
+            stack[id] = value;
+
+            //console.log(stack);
+
+            if(!custom) {
+                $.ajax({
+                    method: 'GET',
+                    url: '/next_step',
+                    data: {name: name, step: value, service: service},
+                    success: function (html) {
+                        if (html === "custom end") {
+                            custom = true;
+                            $('#container').html('<h1 id="100" name="header" class="order-form__header">Дополнительные пожелания</h1>\n' +
+                                '                 <textarea class="form__input-field" name="add_info" placeholder="Есть ли что либо, что мы не спросили?" rows="3"></textarea>');
+                        } else {
+                            $('#container').html(html);
+                        }
+                    }
+                })
+            } else {
+                switch (id) {
+                    case "100":
+                        $('#container').html('<h1 id="101" name="header" class="order-form__header">Дополнительные фото:</h1>\n' +
+                            '<input type="file" class="form__input-field" name="files" placeholder="Выберите файлы">');
+                        break;
+                    case "101":
+                        $('#container').html('<h1 id="102" name="header" class="order-form__header">Станция метро:</h1>\n'+
+                            '{!! $subways !!}');
+                        $('#next').html('Отправить');
+                        break;
+                    case "102":
+                        $('#container').html('<h1 id="103" name="header" class="order-form__header">Дата акутальности</h1>\n' +
+                            '<input type="text" id="date" class="form__input-field" name="amount" placeholder="Введите дату">');
+                        break;
+                    case "103":
+                        $('#container').html('<h1 id="104" name="header" class="order-form__header">Предпологаемый бюджет:</h1>\n' +
+                            '<input type="number" class="form__input-field" name="amount" placeholder="Введите сумму">');
+                        break;
+                    //case "103":
+
+                        /*let formData = new FormData();
+
+                        $.each(stack, function (key, value) {
+                            for (let i in value){
+                                if(value.hasOwnProperty(i)) {
+                                    let key1 = i;
+                                    let value1 = value[i];
+                                    formData.append(key1, value1);
+                                }
+                            }
+                        });*/
+
+                        /*let request = new XMLHttpRequest();
+                        request.open("GET", "/search/save_new_order");
+                        request.send(formData);*/
+                        /*formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                        $.ajax({
+                            method: "Get",
+                            url: "/save_new_order",
+                            //dataType: 'json',
+                            data: formData,
+                            processData: false,  // tell jQuery not to process the data
+                            contentType: 'multipart/form-data',
+                            success: function (html) {
+                                $('#container').html(html);
+                            }
+                        });
+                        break;*/
+                }
+            }
+        });
+        /*let stack = {};
         let custom = false;
         $('#next').click(function (evt) {
             //console.log($('input:checked').val());
@@ -611,12 +744,16 @@
             let id = $('[name = header]').attr('id');
             let value = {};
             $.each(inputs, function (key, value1) {
-                value[$(value1).attr('name')] = $(value1).val();
+                if($(value1).attr('type') === 'file'){
+                    value[$(value1).attr('name')] = $(value1).prop('files')[0];
+                } else {
+                    value[$(value1).attr('name')] = $(value1).val();
+                }
             });
 
             stack[id] = value;
 
-            console.log(stack);
+            //console.log(stack);
             
             if(!custom) {
                 $.ajax({
@@ -642,12 +779,41 @@
                     case "101":
                         $('#container').html('<h1 id="102" name="header" class="order-form__header">Станция метро:</h1>\n'+
                             '{!! $subways !!}');
-                        $('#next').attr('id', 'create');
-                        $('#next').html('Создать');
+                        $('#next').html('Отправить');
+                        break;
+                    case "102":
+                        let formData = new FormData();
+
+                        $.each(stack, function (key, value) {
+                            for (let i in value){
+                                if(value.hasOwnProperty(i)) {
+                                    let key1 = i;
+                                    let value1 = value[i];
+                                    formData.append(key1, value1);
+                                }
+                            }
+                        });
+
+                        /!*let request = new XMLHttpRequest();
+                        request.open("GET", "/search/save_new_order");
+                        request.send(formData);*!/
+                        formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                        $.ajax({
+                            method: "Get",
+                            url: "/save_new_order",
+                            //dataType: 'json',
+                            data: formData,
+                            processData: false,  // tell jQuery not to process the data
+                            contentType: 'multipart/form-data',
+                            success: function (html) {
+                                $('#container').html(html);
+                            }
+                        });
                         break;
                 }
             }
-        });
+        });*/
 
         $('#back').click(function(){
             let length = Object.keys(stack).length;
@@ -665,5 +831,10 @@
                 }
             })
         });
+
+        function choose_master(id) {
+            $('#master_id').val(id);
+            $('#submit').trigger('click');
+        }
     </script>
 @endsection

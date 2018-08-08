@@ -22,7 +22,7 @@ class SearchController extends Controller
 
     public function __construct()
     {
-          //$this->middleware("client_auth")->only("saveOrder");
+          $this->middleware("client_auth")->only("saveOrder");
     }
 
     public function index(Request $request){
@@ -62,23 +62,40 @@ class SearchController extends Controller
         }
         $subways .= '</select>';
 
-        if($request->service == 1){
-            $xml = simplexml_load_string(Storage::get('Order\order_'.$request->service.'.xml')) or die ("Error: Cannot create object");
-
-            $template = sprintf($template, $xml->step[0]['number'], $xml->step[0]->name);
-
-            foreach ($xml->step[0]->variant as $variant){
-                $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
-                $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
-            }
-
-            return view("search",
-                [
-                    'form_template' => $template,
-                    'subways' => $subways
-                ]
-            );
+        if($request->service < 7){
+            $category = "мелкому ремонту";
+            $image = 'img/hand-2620237_960_720.png';
+        } else {
+            $category = "уборке";
+            $image = 'img/location-cleaning-hand.png';
         }
+
+        $xml = simplexml_load_string(Storage::get('Order\order_'.$request->service.'.xml')) or die ("Error: Cannot create object");
+
+        $template = sprintf($template, $xml->step[0]['number'], $xml->step[0]->name);
+
+        foreach ($xml->step[0]->variant as $variant){
+            $class = ($variant['type'] == 'radio') ? 'form__checkmark--radio' : "";
+            $template .= sprintf($radioAndCheckbox, $variant, $variant["type"], $variant["name"], $variant, $class);
+        }
+
+        $subcategory = $request->service;
+
+        $masters = Master::select('id', 'first_name', 'last_name')
+            ->whereHas("subcategories", function ($query) use ($subcategory) {
+                $query->where('subcategories.id', $subcategory);
+            })->get();
+
+        return view("search",
+            [
+                'form_template' => $template,
+                'subways' => $subways,
+                'image' => $image,
+                'category' => $category,
+                'masters' => $masters,
+                'service' => $request->service
+            ]
+        );
     }
 //    public function index(Request $request){
 //        if(session()->has("auth")){
@@ -372,26 +389,28 @@ class SearchController extends Controller
     }
 
     public function miniOrder(Request $request){
-        $validator = Validator::make($request->all(),
+        /*$validator = Validator::make($request->all(),
             [
-                'category' => "required|numeric|min:1",
-                'subcategory' => "required|numeric|min:1",
+                //'category' => "required|numeric|min:1",
+                'service' => "required|numeric|min:1",
                 'subway' => "numeric|min:1",
-                'phone' => 'required|min:17|max:17',
+                //'phone' => 'required|min:17|max:17',
                 //'price' => "required|numeric|min:1",
-                'header' => "required",
+                //'header' => "required",
+                'description' => "required",
                 'amount' => "required|numeric|min:100"
             ],
             [
-                'category.required' => "Выберите категорию",
-                'category.min' => "Выберите категорию",
-                'subcategory.required' => "Выберите подкатегорию",
-                'subcategory.min' => "Выберите подкатегорию",
+                //'category.required' => "Выберите категорию",
+                //'category.min' => "Выберите категорию",
+                'service.required' => "Выберите подкатегорию",
+                'service.min' => "Выберите подкатегорию",
                 'subway.min' => "Выберите подкатегорию",
                 'header.required' => "Введите, что требуется сделать",
-                'phone.required' => 'Введите корректный номер телефона',
-                'phone.min' => 'Введите корректный номер телефона',
-                'phone.max' => 'Введите корректный номер телефона',
+                'description.required' =>
+                //'phone.required' => 'Введите корректный номер телефона',
+                //'phone.min' => 'Введите корректный номер телефона',
+                //'phone.max' => 'Введите корректный номер телефона',
                 'amount.required' => "Введите сумму",
                 'amount.numeric' => 'Введите число',
                 'amount.min' => 'Сумма должна быть больше 100 рублей'
@@ -412,18 +431,25 @@ class SearchController extends Controller
                     ->withInput()
                     ->with('modal_state', 'open');
             }
-        }
+        }*/
         //$data = $request->all();
         $data = $request->except('_token');
         //print_r($data);
         session(
             [
-                'phone' => $request->phone,
+                //'phone' => $request->phone,
                 //'login_target' => $request->path(),
                 'login_data' => serialize($data)
             ]
         );
+        //print_r($request->all());
         return redirect()->action('SearchController@saveOrder');
+    }
+
+    public function saveNewOrder(Request $request){
+       //print_r($request);
+        print_r($request->all()
+        );
     }
 
     public function saveFullOrder(UploadPhotoRequest $request){
@@ -515,30 +541,38 @@ class SearchController extends Controller
         //echo "This is SaveOrder";
         $data = unserialize(session()->get('login_data'));
         session()->forget("login_data");
+        //print_r($data);
         if(isset($data['master_id'])){
             $master_id = $data['master_id'];
         } else {
             $master_id = null;
         }
-        if(isset($data['subway'])){
-            Order::create(
-                [
-                    'sc_id' => 1,
-                    'master_id' => $master_id,
-                    "client_id" => Crypt::decryptString(session()->get("id")),
-                    "category_id" => $data["category"],
-                    "subcategory_id" => $data["subcategory"],
-                    "subway_id" => $data["subway"],
-                    //"price" => $data["price"],
-                    "header" => $data["header"],
-                    //"description" => $data["description"],
-                    //"address" => $data['address'],
-                    //"date" => $data['date'],
-                    "amount" => $data["amount"],
-                    "safety" => (isset($data["safety"])) ? 1 : 0,
-                    "status" => -1
+        //echo $master_id;
+        print_r($data['master_id']);
+        $subcategory = Subcategory::find($data['service']);
+        //print_r($data);
+         $date = new DateTime($data['date']);
+         //echo $date->format('Y-m-d');
+        Order::create(
+            [
+                'sc_id' => 1,
+                'master_id' => "1",
+                "client_id" => Crypt::decryptString(session()->get("id")),
+                "category_id" => $subcategory->category->id,
+                "subcategory_id" => $subcategory->id,
+                "subway_id" => $data["subway"],
+                //"price" => $data["price"],
+                "header" => $data["header"],
+                "description" => $data["description"],
+                //"address" => $data['address'],
+                "end_date" => $date->format('Y-m-d'),
+                "amount" => $data["amount"],
+                "safety" => (isset($data["safety"])) ? 1 : 0,
+                "status" => 0
 //                "free" => (isset($data["free"])) ? 1 : 0,
-                ]);
+            ]);
+        /*if(isset($data['subway'])){
+
         }else {
             Order::create(
                 [
@@ -558,8 +592,8 @@ class SearchController extends Controller
                     "status" => -1
 //                "free" => (isset($data["free"])) ? 1 : 0,
                 ]);
-        }
-        return redirect('/orders');
+        }*/
+        //return redirect('/orders');
     }
 
 

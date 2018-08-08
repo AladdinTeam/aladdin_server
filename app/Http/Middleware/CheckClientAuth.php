@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\Crypt;
 class CheckClientAuth
 {
 
-    private function code_generation($count = 6){
+    /*private function code_generation($count = 6){
         $code = "";
         for($i = 0; $i < $count; $i++) {
             $digit = random_int(0, 9);
             $code .= $digit;
         }
         return $code;
-    }
+    }*/
 
-    public function sendSms($phone){
+    /*public function sendSms($phone){
         $phone = str_replace(['+', '(', ')', '-', ' '], [], $phone);
         $user = Client::firstOrCreate(['phone' => $phone]);
         $code = $this->code_generation();
@@ -29,7 +29,7 @@ class CheckClientAuth
         SmsWrapper::SenderSMS($phone, "You code for Aladdin auth is: ".$code, "Aladdin");
         session(['id' => Crypt::encryptString($user->id)]);
         session(['user_type' => Crypt::encryptString(0)]);
-    }
+    }*/
     /**
      * Handle an incoming request.
      *
@@ -53,33 +53,33 @@ class CheckClientAuth
                         return redirect('/noaccess');
                     }
                 } else {
-                    if($request->session()->has("phone")){
+                    /*if($request->session()->has("phone")){
                         $this->sendSms($request->session()->get('phone'));
                         $request->session()->forget("phone");
                         return redirect('/confirm');
-                    }
+                    }*/
                     $request->session()->forget('id');
                     $request->session()->forget('auth');
                     $request->session()->forget('user_type');
                     return redirect('/login')->with("unsuccess", "Требуется авторизация");
                 }
             } else {
-                if($request->session()->has("phone")){
+                /*if($request->session()->has("phone")){
                     $this->sendSms($request->session()->get('phone'));
                     $request->session()->forget("phone");
                     return redirect('/confirm');
-                }
+                }*/
                 $request->session()->forget('id');
                 $request->session()->forget('auth');
                 $request->session()->forget('user_type');
                 return redirect('/login')->with("unsuccess", "Требуется авторизация");
             }
         } else {
-            if($request->session()->has("phone")){
+            /*if($request->session()->has("phone")){
                 $this->sendSms($request->session()->get('phone'));
                 $request->session()->forget("phone");
                 return redirect('/confirm');
-            }
+            }*/
             $request->session()->forget('id');
             $request->session()->forget('auth');
             $request->session()->forget('user_type');

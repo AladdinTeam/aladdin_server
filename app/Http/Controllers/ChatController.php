@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
+    public function createChannel(Request $request){
+        Channel::create([
+            'master_id' => $request->master,
+            'client_id' => Crypt::decryptString(session()->get("id")),
+            'order_id' => $request->order,
+            'channel' => 'channel_'.$request->order
+        ]);
+        return redirect('/chat');
+    }
+
     public function showPage(){
         $channels = Channel::where('client_id', Crypt::decryptString(session('id')))->get();
 
